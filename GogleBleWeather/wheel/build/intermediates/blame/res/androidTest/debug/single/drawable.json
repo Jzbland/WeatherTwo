@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\WeatherSecond\\GogleBleWeather\\wheel\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wheel_bg.xml",
+        "source": "D:\\WeatherSecond\\GogleBleWeather\\wheel\\build\\intermediates\\bundles\\debug\\res\\drawable\\wheel_bg.xml"
+    },
+    {
+        "merged": "D:\\WeatherSecond\\GogleBleWeather\\wheel\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wheel_val.xml",
+        "source": "D:\\WeatherSecond\\GogleBleWeather\\wheel\\build\\intermediates\\bundles\\debug\\res\\drawable\\wheel_val.xml"
+    }
+]
