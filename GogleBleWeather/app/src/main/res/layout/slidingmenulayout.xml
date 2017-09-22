@@ -4,316 +4,388 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorSlidingMenu">
+    android:background="@mipmap/sliding_background">
 
     <com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         >
-
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <!--头像——————————————-->
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/sliding_line"
+                />
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_heightPercent="30%h">
+                android:layout_height="match_parent"
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher"
-
-                    />
-
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <!--登录注册=以及登录之后的界面转换-->
-            <!--未登录-->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/isNoLogin"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_heightPercent="50%h"
-
-                android:weightSum="1">
-                <!--android:visibility="gone"-->
-
-                <View
+                android:orientation="vertical">
+                <!--头像——————————————-->
+                <com.zhy.android.percent.support.PercentRelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#efefef" />
+                    android:layout_height="0dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:id="@+id/set_icon_sliding"
+                    app:layout_heightPercent="20%h">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@mipmap/head_coin_back"
+                        android:id="@+id/imageView4"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/head_coin_off"
+                        android:scaleType="fitCenter"
+                        android:id="@+id/image_icoin"
+                        android:layout_alignBottom="@+id/imageView4"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="7dp" />
+
+
+                </com.zhy.android.percent.support.PercentRelativeLayout>
+                <com.zhy.android.percent.support.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="登录账号记录自己的随身气象站信息吧"
-                    android:textColor="#000"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:id="@+id/usernameView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/edit_text"
-                    android:hint="请输入您的用户名"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/colorSlidingMenu" />
-                <!--定义输入密码的文本编辑框  -->
-                <EditText
-                    android:id="@+id/passwordView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/usernameView"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/edit_text"
-                    android:hint="请输入您的密码"
-                    android:inputType="textPassword"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/colorSlidingMenu" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    app:layout_heightPercent="8%h"
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="未登录"
+                        android:id="@+id/usernametext"
+                        />
+                </com.zhy.android.percent.support.PercentRelativeLayout>
+                <!--登录注册=以及登录之后的界面转换-->
+                <!--未登录-->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/isNoLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_heightPercent="52%h"
+                    android:visibility="gone"
+                    android:weightSum="1">
+                    <!--android:visibility="gone"-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="12%h"
+                        android:background="#2f4780"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="登录账号记录自己的随身气象站信息吧"
+                            android:textColor="#5972ae"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+
+                    <EditText
+                        android:id="@+id/usernameView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="15%h"
+                        android:layout_alignParentLeft="true"
                         android:layout_alignParentRight="true"
-                        android:text="忘记密码" />
-                </RelativeLayout>
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/edit_text"
+                        android:hint="请输入您的用户名"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/textcolor" />
+                    <!--定义输入密码的文本编辑框  -->
+                    <EditText
+                        android:id="@+id/passwordView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="15%h"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/usernameView"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/edit_text"
+                        android:hint="请输入您的密码"
+                        android:inputType="textPassword"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/textcolor" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="30dp"
+                            android:text="忘记密码?" />
+                    </RelativeLayout>
 
 
-                <Button
-                    android:id="@+id/login"
+                    <Button
+                        android:id="@+id/login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="15%h"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/textcolor"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textSize="18sp"
+                        android:text="登录" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="8%h"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/register"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="没有账号？去注册"
+                            android:id="@+id/noID"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+
+                            />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@id/noID"
+                            android:src="@mipmap/sliding_turn"
+
+                            />
+                    </RelativeLayout>
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+                <!--登录之后-->
+                <com.zhy.android.percent.support.PercentLinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="登录" />
-                <RelativeLayout
+                    android:layout_height="0dp"
+                    android:id="@+id/isLogin"
+                    android:orientation="vertical"
+
+                    app:layout_heightPercent="52%h">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/viewline" />
+
+                    <RelativeLayout
+                        android:id="@+id/nodisturb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_heightPercent="13%h">
+
+                        <ImageView
+                            android:id="@+id/i1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:src="@mipmap/dontdisme_coin"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:text="勿扰设置"
+                            android:textSize="16sp"
+                            android:layout_toEndOf="@+id/i1"
+                            android:layout_alignTop="@+id/i1" />
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/viewline" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="13%h"
+                        android:id="@+id/setMusic"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/i2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:src="@mipmap/music_coin"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:text="响铃设置"
+                            android:textSize="16sp"
+                            android:layout_toEndOf="@+id/i2"
+                            android:layout_alignTop="@+id/i2" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/viewline" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="13%h"
+                        android:id="@+id/aboutUs"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/i3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:src="@mipmap/aboutus_coin"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:text="关于我们"
+                            android:textSize="16sp"
+                            android:layout_toEndOf="@+id/i3"
+                            android:layout_alignTop="@+id/i3" />
+
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/viewline" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_heightPercent="13%h"
+                        android:id="@+id/update"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/i4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:src="@mipmap/updata_coin"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginLeft="66dp"
+                            android:text="版本更新"
+                            android:textSize="16sp"
+                            android:layout_toEndOf="@+id/i4"
+                            android:layout_alignTop="@+id/i4" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/viewline" />
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+                <!---  ===========    定时勿扰选择按钮-->
+                <com.zhy.android.percent.support.PercentRelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:orientation="horizontal"
-                    android:id="@+id/register"
+                    app:layout_heightPercent="15%h"
+                    android:id="@+id/settingdis_button"
                     >
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="退出登录"
+                        android:id="@+id/quit"
+                        android:textColor="@color/colorActionbar"
+                        android:layout_marginLeft="30dp"
+                        android:background="@color/colorMainbackground"
+                        android:layout_marginRight="20dp"
+                        android:layout_alignBaseline="@+id/switch1"
+                        />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="没有账号？去注册"
-                       android:layout_toLeftOf="@+id/noID"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center"
-
+                        android:layout_marginTop="30dp"
+                        android:id="@+id/donotLook"
+                        android:text="定时勿扰"
+                        android:textSize="14sp"
+                        android:layout_toLeftOf="@+id/switch1"
+                        android:layout_alignBaseline="@+id/switch1"
                         />
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:id="@+id/noID"
-                        android:layout_marginEnd="10dp"
+
+                    <Switch
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@color/textcolor2"
                         android:layout_alignParentEnd="true"
-                        android:src="@mipmap/ic_launcher_round"
-
                         />
-                </RelativeLayout>
+                </com.zhy.android.percent.support.PercentRelativeLayout>
+
 
             </com.zhy.android.percent.support.PercentLinearLayout>
-            <!--登录之后-->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:id="@+id/isLogin"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_heightPercent="50%h">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#efefef" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/nodisturb"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/ic_launcher_round" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:text="勿扰设置"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#efefef" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/setMusic"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/ic_launcher_round" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:text="响铃设置"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#efefef" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/aboutUs"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/ic_launcher_round" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:text="关于我们"
-                        android:textColor="@android:color/black" />
-
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#efefef" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/update"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/ic_launcher_round" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:text="版本更新"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#efefef" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-            <!---  ===========    定时勿扰选择按钮-->
-            <com.zhy.android.percent.support.PercentRelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                app:layout_heightPercent="20%h"
-                >
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="退出登录"
-                    android:id="@+id/quit"
-                    android:textColor="@color/colorActionbar"
-                    android:layout_marginLeft="30dp"
-                    android:background="@color/colorMainbackground"
-                    android:layout_marginRight="20dp"
-                    android:layout_alignBaseline="@+id/switch1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:id="@+id/donotLook"
-                    android:text="定时勿扰"
-                    android:textColor="#000"
-                    android:layout_toLeftOf="@+id/switch1"
-                    android:layout_alignBaseline="@+id/switch1"
-                    />
-
-                <Switch
-                    android:id="@+id/switch1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="30dp"
-                    android:background="#efefef"
-                    android:layout_alignParentEnd="true"
-                    />
-            </com.zhy.android.percent.support.PercentRelativeLayout>
-
-
-        </com.zhy.android.percent.support.PercentLinearLayout>
-
-
+        </RelativeLayout>
     </com.jeremyfeinstein.slidingmenu.lib.SlidingMenu>
 
 </LinearLayout>

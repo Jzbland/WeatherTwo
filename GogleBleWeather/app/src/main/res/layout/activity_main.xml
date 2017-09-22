@@ -1,134 +1,394 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorActionbar"
     tools:context="com.beestar.jzb.goglebleweather.ui.MainActivity">
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_heightPercent="10%h"
+        android:id="@+id/main_relative_title"
         android:background="@color/colorActionbar">
 
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/homesetting_sel"
             android:onClick="ShowSlidingMenu"
             android:layout_alignParentLeft="true"
-            app:layout_widthPercent="10%w"
+            android:layout_margin="5dp"
+            android:clickable="true"
             android:id="@+id/imageView" />
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="随身气象站"
-            app:layout_widthPercent="80%w"
+            android:layout_toLeftOf="@+id/imageView"
             android:gravity="center"
             android:layout_toEndOf="@+id/imageView"
             android:layout_toStartOf="@+id/imageView2" />
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_widthPercent="10%w"
-            android:src="@mipmap/ic_launcher"
+            android:clickable="true"
             android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/homeedit_sel"
             android:id="@+id/imageView2" />
-    </com.zhy.android.percent.support.PercentLinearLayout>
-    <!--中间部分-->
-    <com.zhy.android.percent.support.PercentLinearLayout
+    </RelativeLayout>
+    <!--=========================================================================-->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorMainbackground"
-        android:orientation="vertical"
-        app:layout_heightPercent="90%h">
-
-        <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_height="match_parent">
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_heightPercent="75%h">
+            android:layout_height="match_parent"
+            android:alpha="0.45"
+            android:id="@+id/imageView_bac1"
+            android:scaleType="fitXY"
+            android:src="@mipmap/homedefaultbg"
+            />
 
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text"
-                android:onClick="binding"
-                app:layout_widthPercent="60%w">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="没有防丢信息"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    app:layout_widthPercent="75%w" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/ic_launcher" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
-                <com.zhy.android.percent.support.PercentLinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    >
-                    <com.beestar.jzb.goglebleweather.view.OptionCircle
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
-                        android:id="@+id/tem"
-                        />
-                </com.zhy.android.percent.support.PercentLinearLayout>
-                <com.zhy.android.percent.support.PercentLinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    >
-
-                </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-        </com.zhy.android.percent.support.PercentLinearLayout>
-
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_heightPercent="25%h">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_margin="10dp"
-                android:background="#efefef" />
-
-            <TextView
-                android:id="@+id/addressLocation"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:id="@+id/imageView_bac2"
+            android:src="@mipmap/homebgcover" />
+        <ScrollView
+            android:id="@+id/scrollView_my"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:fillViewport="true">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
-        </com.zhy.android.percent.support.PercentLinearLayout>
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/main_relative_mid_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   >
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:alpha="0.45"-->
+                    <!--android:id="@+id/imageView_bac1"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:src="@mipmap/homedefaultbg"-->
+                    <!--/>-->
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:id="@+id/imageView_bac2"-->
+                    <!--android:src="@mipmap/homebgcover" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/main_all_con"
+                        android:orientation="vertical"
+                        >
+                        <!--蓝牙连接状态-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:id="@+id/bluetooth_stu"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="蓝牙未连接"
+                                android:gravity="center"
+                                android:textSize="14sp"
+                                android:layout_gravity="center"
+                                />
+                        </LinearLayout>
+                        <!--蓝牙连接状态-->
+                        <!--添加蓝牙设备-->
+                        <LinearLayout
+                            android:layout_width="300dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/addBlutooth"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_text2"
+                            android:onClick="binding"
+                            android:alpha="0.65"
+                            android:orientation="vertical"
+                            >
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:orientation="horizontal"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="没有防丢信息"
+                                    android:textColor="#9cb9ff"
+                                    android:textSize="14sp"
+                                    android:layout_marginLeft="90dp"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/homeunbind_sel"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="20dp"/>
+                            </RelativeLayout>
+                        </LinearLayout>
+                        <!--添加蓝牙设备-->
+                        <!--球  球-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/qiuqiu"
+                            android:orientation="horizontal"
+                            android:weightSum="2"
+                            >
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                >
+                                <ImageButton
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:background="@drawable/hometemp_sel"
+                                    android:id="@+id/tem"
+                                    />
+                                <ImageButton
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:layout_below="@+id/tem"
+                                    android:background="@drawable/homepm25_sel"
+                                    android:id="@+id/pm_2.5"
+                                    />
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                >
+                                <ImageButton
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:background="@drawable/hometemp_sel"
+                                    android:id="@+id/hum"
+                                    />
+                                <ImageButton
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:layout_below="@+id/hum"
+                                    android:background="@drawable/homepm25_sel"
+                                    android:id="@+id/per"
+                                    />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+                        <!--球  球-->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#9cb9ff"
+                            android:alpha="0.3"
+                            />
+                        <!--地址====-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal"
+                            >
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@mipmap/homeiconaddress"
+                                android:layout_marginTop="5dp"
+                                />
+                            <TextView
+                                android:id="@+id/addressLocation"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="20dp"
+                                android:textColor="#9cb8ff"
+                                android:gravity="center"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                        <!--地址====-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/temp_and_tianqi"
+                            android:orientation="horizontal"
+                            android:layout_weight="5"
+                            >
+                            <!--温度-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="24℃"
+                                    android:textSize="38sp"
+                                    android:id="@+id/data_temp"
+                                    android:gravity="top"
+                                    android:textColor="@color/textcolor"
+                                    android:layout_marginLeft="20dp"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="最高27℃"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/textcolor"
+                                        android:gravity="center"
+                                        />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="最低27℃"
+                                        android:textColor="@color/textcolor"
+                                        android:textSize="14sp"
+                                        android:gravity="center"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <!--温度-->
+                            <!--PM图标-->
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/homeiconpm25bad"
+                                android:layout_gravity="center"
+
+                                android:layout_weight="1"
+                                />
+                            <!--PM图标-->
+                            <!--天气-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="2"
+                                android:orientation="horizontal"
+                                android:weightSum="3"
+
+                                >
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:layout_gravity="center_vertical"
+                                        android:text="多云"
+                                        android:textSize="18sp"
+                                        android:textColor="@color/textcolor"
+                                        />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@mipmap/homeiconcioud"
+
+                                        android:layout_marginLeft="5dp"
+                                        />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="风力3级"
+                                        android:layout_gravity="center_vertical"
+                                        android:textColor="@color/textcolor"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <!--天气-->
+                        </LinearLayout>
+                        <!--三角符号-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/sanjiao"
+                            android:onClick="pull_down"
+                            android:orientation="vertical"
+                            >
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/homeuparrowpressed"
+                                />
+
+                        </LinearLayout>
+                        <!--三角符号-->
+                    </LinearLayout>
+                </RelativeLayout>
+                <!--第二屏-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#9cb9ff"
+                    android:alpha="0.3"
+                    android:id="@+id/second_screen"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/homebgcover" />
+
+                </RelativeLayout>
+                <!--第二屏-->
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-</com.zhy.android.percent.support.PercentLinearLayout>
+</LinearLayout>

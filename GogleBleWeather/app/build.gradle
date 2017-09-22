@@ -36,6 +36,7 @@ dependencies {
     })
     compile files('libs/slidingmenulibary.jar')
     compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/AndroidPicker-1.3.5.jar')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.dfqin:grantor:2.1.0'
@@ -43,6 +44,7 @@ dependencies {
     compile 'org.greenrobot:greendao-generator:3.0.0'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.zhy:percent-support-extends:1.1.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.zcw:togglebutton-library:1.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('libs/AndroidPicker-1.3.5.jar')
 }

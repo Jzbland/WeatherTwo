@@ -1,9 +1,20 @@
 package com.beestar.jzb.goglebleweather.ui;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,10 +29,14 @@ import com.beestar.jzb.goglebleweather.ui.haveLogin.AboutUsActivity;
 import com.beestar.jzb.goglebleweather.ui.haveLogin.NoDisturbActivity;
 import com.beestar.jzb.goglebleweather.ui.haveLogin.SetMusicActivity;
 import com.beestar.jzb.goglebleweather.ui.haveLogin.UpDateActivity;
+import com.beestar.jzb.goglebleweather.ui.register.RegisterActivity_step_one;
+import com.beestar.jzb.goglebleweather.ui.setting.MyHomeSettingActivity;
 import com.beestar.jzb.goglebleweather.utils.L;
 import com.beestar.jzb.goglebleweather.utils.SPUtils;
 import com.beestar.jzb.goglebleweather.view.OptionCircle;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.zhy.android.percent.support.PercentRelativeLayout;
+
 public class MainActivity extends BaseActivity {
     private SlidingMenu mSlidingMenu;
     private View login;
@@ -37,120 +52,24 @@ public class MainActivity extends BaseActivity {
     private View update;
     private View setMusic;
     private OptionCircle tem_circle;
-//    public static final int circle0_r = 33;
-//
-//    private static final int SLEEPING_PERIOD = 100; // 刷新UI间隔时间
-//    private static final int UPDATE_ALL_CIRCLE = 99;
-//    int circleCenter_r;
-//    int circle1_r;
-//    boolean circle0Clicked = false;
-//    boolean circle1Clicked = false;
-//
-//    OptionCircle centerCircle;
-//    OptionCircle circle0;
-//    OptionCircle circle1;
-//    OptionCircle circle2;
-//
-//    CircleHandler handler = new CircleHandler(this);
-//
-//    /**
-//     * Handler : 用于更新UI
-//     */
-//    static class CircleHandler extends Handler {
-//        MainActivity activity;
-//        boolean zoomDir = true;
-//        boolean circle2Shaking = false;
-//        int r = circle0_r;
-//        int moveDir = 0;  // 浮动方向
-//        int circle1_x = 0;// 偏移量的值
-//        int circle1_y = 0;
-//        int circle2_x = 0;
-//        int circle2ShakeTime = 0;
-//        int circle2Offsets[] = {10, 15, -6, 12, 0};// 抖动偏移量坐标
-//
-//        CircleHandler(MainActivity a) {
-//            activity = a;
-//        }
-//
-//        @Override
-//        public void handleMessage(Message msg) {
-//            switch (msg.what) {
-//                case UPDATE_ALL_CIRCLE: {
-//                    if (zoomDir) {// 用简单的办法实现半径变化
-//                        r++;
-//                        if (r >= 44) zoomDir = false;
-//                    } else {
-//                        r--;
-//                        if (r <= circle0_r) zoomDir = true;
-//                    }
-//                    activity.circle0.invalidate();
-//                    activity.circle0.setRadius(r);
-//                    calOffsetX();// 计算圆心偏移量
-//                    activity.circle1.invalidate();
-//                    activity.circle1.setCenterOffset(circle1_x, circle1_y);
-//
-//                    if (circle2Shaking) {
-//                        if (circle2ShakeTime < circle2Offsets.length - 1) {
-//                            circle2ShakeTime++;
-//                        } else {
-//                            circle2Shaking = false;
-//                            circle2ShakeTime = 0;
-//                        }
-//                        activity.circle2.invalidate();
-//                        activity.circle2.setCenterOffset(circle2Offsets[circle2ShakeTime], 0);
-//                    }
-//                }
-//            }
-//        }
-//        // 计算circle1圆心偏移量；共有4个浮动方向
-//        private void calOffsetX() {
-//            if (moveDir == 0) {
-//                circle1_x--;
-//                circle1_y++;
-//                if (circle1_x <= -6) moveDir = 1;
-//            }
-//            if (moveDir == 1) {
-//                circle1_x++;
-//                circle1_y++;
-//                if (circle1_x >= 0) moveDir = 2;
-//            }
-//            if (moveDir == 2) {
-//                circle1_x++;
-//                circle1_y--;
-//                if (circle1_x >= 6) moveDir = 3;
-//            }
-//            if (moveDir == 3) {
-//                circle1_x--;
-//                circle1_y--;
-//                if (circle1_x <= 0) moveDir = 0;
-//            }
-//        }
-//    }
-//
-//    class UpdateCircles implements Runnable {
-//
-//        @Override
-//        public void run() {
-//            while (true) {// 配合Handler，循环刷新UI
-//                Message message = new Message();
-//                message.what = UPDATE_ALL_CIRCLE;
-//                handler.sendEmptyMessage(message.what);
-//                try {
-//                    Thread.sleep(SLEEPING_PERIOD); // 暂停
-//                } catch (InterruptedException e) {
-//                    Thread.currentThread().interrupt();
-//                }
-//            }
-//        }
-//    }
-
-
+    private RelativeLayout main_relative_title;
+    private RelativeLayout main_relative_mid_all;
+    private View swtich_button;
+    private ImageView image_icoin;
+    private TextView userNameText;
+    private LinearLayout sanjiao;
+    Handler handler=new Handler();
+    private ScrollView scrollView_my;
+    float x1,x2,y1,y2;
+    private PercentRelativeLayout setIconSliding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createOptionCircle();
+        setLayoutHeight(getScreenHeight(this));
+//        createOptionCircle();
+        initView();
         startService(new Intent(MainActivity.this, BluetoothLeService.class));
         mSlidingMenu = new SlidingMenu(MyApp.getContext());
         mSlidingMenu.setMode(SlidingMenu.LEFT);     //设置从左弹出/滑出SlidingMenu
@@ -160,7 +79,7 @@ public class MainActivity extends BaseActivity {
         mSlidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);       //设置SlidingMenu所占的偏移
         initSlidingMenuView();
         onClickView();
-        initView();
+
         //===========定位功能=======================================
         mLocationClient = new LocationClient(MyApp.getContext());
         //声明LocationClient类
@@ -171,10 +90,10 @@ public class MainActivity extends BaseActivity {
         //===============定位开启===================================
     }
 
-    private void createOptionCircle() {
-        tem_circle = ((OptionCircle) findViewById(R.id.tem));
-
-    }
+//    private void createOptionCircle() {
+//        tem_circle = ((OptionCircle) findViewById(R.id.tem));
+//
+//    }
 
     @Override
     protected void onResume() {
@@ -184,6 +103,54 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         locationText = ((TextView) findViewById(R.id.addressLocation));
+        scrollView_my = ((ScrollView) findViewById(R.id.scrollView_my));
+
+        scrollView_my.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        y1 = event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        x2 = event.getX();
+                        y2 = event.getY();
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (y2 - y1 > 0
+                                && (Math.abs(y2 - y1 ) > 25)) {
+                            //向下滑動
+                            L.i("------------------向下-------");
+                            sanjiao.setVisibility(View.VISIBLE);
+
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scrollView_my.fullScroll(ScrollView.FOCUS_UP);
+                                }
+                            });
+                        } else if (y2 - y1  < 0
+                                && (Math.abs(y2 - y1 ) > 25)) {
+                            //向上滑动
+                            L.i("--------------向上-----------");
+                            sanjiao.setVisibility(View.GONE);
+
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scrollView_my.fullScroll(ScrollView.FOCUS_DOWN);
+                                }
+                            });
+                        }
+
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     private void onClickView() {
@@ -199,7 +166,7 @@ public class MainActivity extends BaseActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,RegisterActivity.class));
+                startActivity(new Intent(MainActivity.this,RegisterActivity_step_one.class));
             }
         });
         //退出登录
@@ -238,6 +205,22 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(MainActivity.this,UpDateActivity.class));
             }
         });
+        //个人设置
+        setIconSliding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SPUtils.contains(MyApp.getContext(),"isLogin")){
+                    if ((Boolean) SPUtils.get(MyApp.getContext(),"isLogin",false)){
+                        startActivity(new Intent(MainActivity.this,MyHomeSettingActivity.class));
+                    }else {
+                        Toast.makeText(MyApp.getContext(),"您尚未登录",Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(MyApp.getContext(),"您尚未登录",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
     }
 
     private void initSlidingMenuView() {
@@ -251,6 +234,10 @@ public class MainActivity extends BaseActivity {
         aboutUs = mSlidingMenu.findViewById(R.id.aboutUs);
         update = mSlidingMenu.findViewById(R.id.update);
         setMusic = mSlidingMenu.findViewById(R.id.setMusic);
+        swtich_button = findViewById(R.id.settingdis_button);
+        image_icoin = ((ImageView) findViewById(R.id.image_icoin));//头像
+        userNameText = ((TextView) findViewById(R.id.usernametext));
+        setIconSliding = ((PercentRelativeLayout) findViewById(R.id.set_icon_sliding));
     }
 
     public void ShowSlidingMenu(View view) {
@@ -259,16 +246,19 @@ public class MainActivity extends BaseActivity {
 
                 isLogin_layout.setVisibility(View.VISIBLE);
                 isNoLogin_layout.setVisibility(View.GONE);
-                quit.setVisibility(View.VISIBLE);
+                swtich_button.setVisibility(View.VISIBLE);
+//                quit.setVisibility(View.VISIBLE);
             }else {
                 isLogin_layout.setVisibility(View.GONE);
                 isNoLogin_layout.setVisibility(View.VISIBLE);
-                quit.setVisibility(View.GONE);
+//                quit.setVisibility(View.GONE);
+                swtich_button.setVisibility(View.GONE);
             }
         }else {
             isLogin_layout.setVisibility(View.GONE);
             isNoLogin_layout.setVisibility(View.VISIBLE);
-            quit.setVisibility(View.GONE);
+//            quit.setVisibility(View.GONE);
+            swtich_button.setVisibility(View.GONE);
         }
         mSlidingMenu.toggle(true);
     }
@@ -317,7 +307,18 @@ public class MainActivity extends BaseActivity {
     }
 
     public void binding(View view) {
-        startActivity(new Intent(MainActivity.this,BindingActivity.class));
+        startActivity(new Intent(MainActivity.this,AntiLostActivity.class));
+    }
+    //三角下拉
+    public void pull_down(View view) {
+        sanjiao.setVisibility(View.GONE);
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView_my.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
     }
 
     private class MyLocationListener extends BDAbstractLocationListener {
@@ -332,5 +333,61 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MyApp.getContext(),"定位失败请检查GPS以及手机网络",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    //设置各位置高度
+    private void setLayoutHeight(int i) {
+        main_relative_title = ((RelativeLayout) findViewById(R.id.main_relative_title));
+        main_relative_mid_all = ((RelativeLayout) findViewById(R.id.main_relative_mid_all));
+        ((LinearLayout) findViewById(R.id.bluetooth_stu)).getLayoutParams().height=(int)(i*0.08);
+        ((LinearLayout) findViewById(R.id.addBlutooth)).getLayoutParams().height=(int)(i*0.09);
+        ((LinearLayout) findViewById(R.id.qiuqiu)).getLayoutParams().height=(int)(i*0.58);
+        ((LinearLayout) findViewById(R.id.temp_and_tianqi)).getLayoutParams().height=(int)(i*0.08);
+        sanjiao = ((LinearLayout) findViewById(R.id.sanjiao));
+        ((RelativeLayout) findViewById(R.id.second_screen)).getLayoutParams().height=(int)(i*0.761);
+
+        //设置标题栏高度
+        main_relative_title.getLayoutParams().height=(int)(i*0.1);
+       //设置中间部分高度
+        main_relative_mid_all.getLayoutParams().height=(int)(i*1);
+        //三角下拉
+        sanjiao.getLayoutParams().height=(int)(i*0.07);
+    }
+
+    public static int getScreenHeight(Activity context){
+        int i = getDeviceHeight(context);
+        int j = getStatusBarHeight(context)/2;
+        int k = getNavigationBarHeight(context);
+        int g= i-k;
+        Log.i("info",i+"------"+j+"----"+k+""+g);
+        return g;
+    }
+    /**获取屏幕的高*/
+    public static int getDeviceHeight(Activity context){
+        Display display = context.getWindowManager().getDefaultDisplay();
+        Point p = new Point();
+        display.getSize(p);
+        return p.y;
+    }
+    /**
+     * 获取顶部状态栏
+     * @param context
+     * @return
+     */
+    public static int getStatusBarHeight(Activity context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        Log.v("dbw", "Status height:" + height);
+        return height;
+    }
+    /**
+     * 获取底部导航栏高度
+     */
+    public static int getNavigationBarHeight(Activity context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height","dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        Log.v("dbw", "Navi height:" + height);
+        return height;
     }
 }

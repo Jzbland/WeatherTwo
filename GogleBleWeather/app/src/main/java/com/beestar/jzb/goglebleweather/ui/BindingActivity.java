@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.beestar.jzb.goglebleweather.DialogFragment.MyFragementDialog;
+import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentConnDialog_False;
 import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.Service.BluetoothLeService;
 import com.beestar.jzb.goglebleweather.Service.MyBlueToothInterface;
@@ -35,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BindingActivity extends BaseActivity {
+public class BindingActivity extends BaseActivity implements MyFragementDialog.OnMyFragmentDialogLister,MyFragmentConnDialog_False.OnMyFragmentConnFalseLister{
 
     private static final int REQUEST_ENABLE_BT = 1;
     private static final long SCAN_PERIOD = 10000;
@@ -71,7 +74,7 @@ public class BindingActivity extends BaseActivity {
         boolBluetooth();
         OnSlcanDevice();
         OnConnectAndService();
-
+        slcan_btn();
     }
 
     private void initTelphoneMga() {
@@ -165,14 +168,17 @@ public class BindingActivity extends BaseActivity {
                             mService.setCharacteristicNotification(gatt.getDevice().getAddress(),readCharacteristic, true);
 
                         }
+
                         getBleData();
+                        binding();
                     }
                 });
                 mService.setOnConnectionStateChange(new MyBlueToothInterface.OnConnectionStateChangeListener() {
                     @Override  //状态信息发生改变
                     public void OnConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-
-
+                        if (newState == BluetoothProfile.STATE_CONNECTED){
+                                L.i("连接成功");
+                        }
                     }
                 });
             }
@@ -190,7 +196,7 @@ public class BindingActivity extends BaseActivity {
         unbindLocal();
     }
 
-    public void Slcan_btn(View view) {//点击开始扫描
+    public void slcan_btn() {//点击开始扫描
         list.clear();
         myDeviceListAdapter.clear();
         myBluetoothScan.scanLeDevice(true);
@@ -198,11 +204,9 @@ public class BindingActivity extends BaseActivity {
     public void Discon_btn(View view) {//断开连接
         L.i("点击断开");
         sendData(mac,"CC");
-
-
     }
     //绑定
-    public void Binding(View view) {
+    public void binding() {
         //sendDataToBle(mac,m_szImei);
         sendData(mac,"FF");
     }
@@ -345,5 +349,28 @@ public class BindingActivity extends BaseActivity {
         intent.putExtra("data",data);
         sendBroadcast(intent);
 
+    }
+
+    public void showDialog(View view) {
+//        MyFragementDialog myFragementDialog = new MyFragementDialog();
+//        myFragementDialog.show(getFragmentManager(),"bindingDialog");
+        MyFragmentConnDialog_False connDialog_false=new MyFragmentConnDialog_False();
+        connDialog_false.show(getFragmentManager(),"conn_false");
+    }
+
+
+    @Override
+    public void onFragmentDialogCancelLister(String s) {
+        L.i("我点了取消");
+    }
+
+    @Override
+    public void onFragmentConnFalseCancel(String s) {
+        L.i("我点了取消");
+    }
+
+    @Override
+    public void onFragmentConnFalseNext(String s) {
+        L.i("重新开始");
     }
 }

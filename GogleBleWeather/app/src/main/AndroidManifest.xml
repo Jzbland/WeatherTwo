@@ -71,12 +71,18 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="KSW8zmOC4N9KkRv1hKn3EeDGGHME9N2G" /> <!-- //key:开发者申请的Key -->
         <activity android:name=".ui.LoginActivity" />
-
-        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.register.RegisterActivity_step_one" />
         <activity android:name=".ui.haveLogin.NoDisturbActivity" />
         <activity android:name=".ui.haveLogin.AboutUsActivity" />
         <activity android:name=".ui.haveLogin.SetMusicActivity" />
-        <activity android:name=".ui.haveLogin.UpDateActivity"></activity>
+        <activity android:name=".ui.haveLogin.UpDateActivity" />
+        <activity android:name=".ui.Main2Activity" />
+        <activity android:name=".ui.AntiLostActivity" />
+        <activity android:name=".ui.register.RegistertwoActivity" />
+        <activity android:name=".ui.register.RegisterThreeActivity" />
+        <activity android:name=".ui.setting.MyHomeSettingActivity" />
+        <activity android:name=".ui.setting.UnbindActivity" />
+        <activity android:name=".ui.setting.ChangePwdActivity"></activity>
     </application>
 
 </manifest>

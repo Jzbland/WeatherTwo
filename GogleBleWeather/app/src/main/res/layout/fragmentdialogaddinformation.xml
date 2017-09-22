@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:id="@+id/cancel_addinformation"
+            android:src="@mipmap/close_cot"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:textColor="#898989"
+            android:textSize="20sp"
+            android:hint="输入防丢信息"
+            android:id="@+id/information"
+            android:textColorHint="#898989"
+            android:background="@drawable/edit_text3"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/key"
+            android:background="@drawable/button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#898989"
+            android:text="钥匙" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/money"
+            android:background="@drawable/button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#898989"
+            android:text="钱包" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/computer"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button"
+            android:layout_marginTop="10dp"
+            android:textColor="#898989"
+            android:text="笔记本" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="雨伞"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button"
+            android:layout_marginTop="10dp"
+            android:textColor="#898989"
+            android:id="@+id/umbar"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="背包"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button"
+            android:layout_marginTop="10dp"
+            android:textColor="#898989"
+            android:id="@+id/pack"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="其他"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button"
+            android:layout_marginTop="10dp"
+            android:textColor="#898989"
+            android:id="@+id/other"
+            />
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="开启看管"
+        android:id="@+id/begin_watch"
+        android:background="@android:color/holo_blue_dark"
+        />
+</LinearLayout>

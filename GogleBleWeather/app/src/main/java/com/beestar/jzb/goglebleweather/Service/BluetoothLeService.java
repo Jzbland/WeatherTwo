@@ -94,13 +94,13 @@ public class BluetoothLeService extends Service {
             L.i("-----------------连接设备地址-----"+tmpAddress);
             if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
-                //连接失败
+                L.i("连接失败+Service");
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction, tmpAddress);
                 close(tmpAddress);
             }
              else if (newState == BluetoothProfile.STATE_CONNECTED) {
-                //连接成功
+                L.i("连接成功+Service");
                 mConnectedAddressList.add(tmpAddress);
                 intentAction = ACTION_GATT_CONNECTED;
                 broadcastUpdate(intentAction, tmpAddress);

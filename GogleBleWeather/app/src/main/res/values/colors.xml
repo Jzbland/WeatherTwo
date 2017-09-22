@@ -4,7 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorActionbar">#408080</color>
+    <color name="colorActionbar">#111f44</color>
     <color name="colorMainbackground">#FFFFE0</color>
-    <color name="colorSlidingMenu">#e1e1e1</color>
+    <color name="colorSlidingMenu">#efefef</color>
+    <color name="textcolor">#9cb9ff</color>
+    <color name="textcolor2">#5872ae</color>
+    <color name="viewline">#85a1e5</color>
+    <color name="textsetting">#FFFFFF</color>
 </resources>

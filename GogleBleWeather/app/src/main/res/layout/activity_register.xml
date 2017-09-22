@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.beestar.jzb.goglebleweather.ui.RegisterActivity">
+    tools:context="com.beestar.jzb.goglebleweather.ui.register.RegisterActivity_step_one">
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             app:layout_widthPercent="15%w"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@drawable/back"
             android:id="@+id/back"
             />
         <TextView
@@ -35,10 +35,93 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_heightPercent="92%h"
-        android:background="@color/colorSlidingMenu"
+        android:background="#efefef"
+        android:orientation="vertical"
         >
-
-
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_text3"
+            android:layout_marginTop="73dp"
+            android:hint="请输入您的手机号码"
+            android:id="@+id/tel_register"
+            android:textColor="@android:color/black"
+            android:textColorHint="#898989"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_text3"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:id="@+id/pwd"
+            android:textColorHint="#898989"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_text3"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:hint="再次输入密码"
+            android:inputType="textPassword"
+            android:id="@+id/pwd_next"
+            android:textColorHint="#898989"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/edit_text3"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/black"
+                android:hint="验证码"
+                android:id="@+id/sms_code"
+                android:textColorHint="#898989"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="获取验证码"
+                android:id="@+id/get_sms_code"
+                android:layout_alignBaseline="@id/sms_code"
+                android:layout_marginRight="40dp"
+                android:background="@null"
+                android:textColor="#007aff"
+                />
+        </RelativeLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="50dp"
+            android:background="@android:color/holo_blue_dark"
+            android:text="注册"
+            android:id="@+id/register_button"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册即同意《用户协议》和《版权声明》"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            />
     </com.zhy.android.percent.support.PercentLinearLayout>
 
 

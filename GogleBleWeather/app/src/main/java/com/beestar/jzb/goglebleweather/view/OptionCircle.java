@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /**
  * Created by jzb on 2017/8/14.
@@ -36,8 +35,8 @@ public class OptionCircle extends android.support.v7.widget.AppCompatImageView {
         this.paint = new Paint();
         this.paint.setAntiAlias(true);
         this.paint.setStyle(Paint.Style.STROKE);
-        colorCircle = Color.argb(205, 245, 2, 51);// 默认颜色
-        colorText = colorCircle;      // 字体颜色默认与圈圈颜色保持一致
+//        colorCircle = Color.argb(205, 245, 2, 51);// 默认颜色
+        colorText = Color.argb(205, 245, 2, 51);      // 字体颜色默认与圈圈颜色保持一致
         colorBackground = colorCircle;// 设定默认参数
     }
     // 属性设置方法
