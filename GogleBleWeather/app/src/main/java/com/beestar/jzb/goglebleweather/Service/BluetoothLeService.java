@@ -36,6 +36,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.beestar.jzb.goglebleweather.MyApp;
+import com.beestar.jzb.goglebleweather.bean.DeviceBean;
+import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
 import com.beestar.jzb.goglebleweather.utils.L;
 import com.beestar.jzb.goglebleweather.utils.SampleGattAttributes;
 
@@ -167,6 +170,7 @@ public class BluetoothLeService extends Service {
             broadcastUpdate(ACTION_DATA_AVAILABLE,gatt, characteristic);
         }
     };
+    private DeviceBeanDao deviceBeanDao;
 
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
@@ -240,6 +244,7 @@ public class BluetoothLeService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         initialize();
         registerReceiver(mReceiver,getFilter());
     }
@@ -457,6 +462,10 @@ public class BluetoothLeService extends Service {
             try {
                 Thread.sleep(3000);
                 disconnect(address);
+                List<DeviceBean> deviceBeanList = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.Mac.eq(address)).build().list();
+                for (DeviceBean deviceBean:deviceBeanList){
+                    deviceBeanDao.delete(deviceBean);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

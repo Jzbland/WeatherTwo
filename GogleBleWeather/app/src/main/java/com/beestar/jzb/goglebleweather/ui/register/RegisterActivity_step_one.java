@@ -7,8 +7,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
+import com.beestar.jzb.goglebleweather.bean.ReturnBean;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
+import com.beestar.jzb.goglebleweather.utils.L;
+import com.beestar.jzb.goglebleweather.utils.URL;
+import com.google.gson.Gson;
+import com.tsy.sdk.myokhttp.response.RawResponseHandler;
 
 public class RegisterActivity_step_one extends BaseActivity implements View.OnClickListener {
 
@@ -66,10 +72,42 @@ public class RegisterActivity_step_one extends BaseActivity implements View.OnCl
                 RegisterActivity_step_one.this.finish();
                 break;
             case R.id.get_sms_code:
+                getSms();
                 break;
             case R.id.register_button:
-                startActivity(new Intent(RegisterActivity_step_one.this,RegistertwoActivity.class));
+                Intent intent = new Intent(RegisterActivity_step_one.this,RegistertwoActivity.class);
+                intent.putExtra("phone",mTelRegister.getText().toString().trim());
+                intent.putExtra("pwd",mPwd.getText().toString().trim());
+                intent.putExtra("confirm",mPwdNext.getText().toString().trim());
+                intent.putExtra("code",mSmsCode.getText().toString().trim());
+                startActivity(intent);
                 break;
         }
+    }
+
+    /**
+     * 获取短信验证码
+     */
+    private void getSms(){
+        MyApp.getContext().getMyOkHttp().get()
+                .url(URL.url+URL.url_sms)
+                .addParam("phone",mTelRegister.getText().toString().trim())
+                .tag(this)
+                .enqueue(new RawResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, String response) {
+                        ReturnBean returnBean = new Gson().fromJson(response, ReturnBean.class);
+                        if (returnBean.getRtn_code()==0){
+                            L.i(returnBean.getMsg().toString());
+                        }else {
+                            L.i(returnBean.getMsg().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                });
     }
 }

@@ -41,7 +41,6 @@
             android:id="@+id/setIcon"
             android:background="@android:color/white"
             android:layout_marginTop="32dp"
-
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -61,13 +60,16 @@
                 android:layout_marginRight="10dp"
                 android:id="@+id/turn_pic_1"
                 />
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_toLeftOf="@+id/turn_pic_1"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
+                android:id="@+id/setIcon_SimLeDraweeView"
                 android:src="@mipmap/head_coin_off"
+                app:riv_oval="true"
+                android:scaleType="fitXY"
                 />
         </RelativeLayout>
         <View

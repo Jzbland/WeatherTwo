@@ -25,6 +25,7 @@ import com.baidu.location.LocationClientOption;
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.Service.BluetoothLeService;
+import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
 import com.beestar.jzb.goglebleweather.ui.haveLogin.AboutUsActivity;
 import com.beestar.jzb.goglebleweather.ui.haveLogin.NoDisturbActivity;
 import com.beestar.jzb.goglebleweather.ui.haveLogin.SetMusicActivity;
@@ -62,6 +63,7 @@ public class MainActivity extends BaseActivity {
     private ScrollView scrollView_my;
     float x1,x2,y1,y2;
     private PercentRelativeLayout setIconSliding;
+    private DeviceBeanDao deviceBeanDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         setLayoutHeight(getScreenHeight(this));
 //        createOptionCircle();
+        deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         initView();
         startService(new Intent(MainActivity.this, BluetoothLeService.class));
         mSlidingMenu = new SlidingMenu(MyApp.getContext());

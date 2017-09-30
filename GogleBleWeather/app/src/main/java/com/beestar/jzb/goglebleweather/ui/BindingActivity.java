@@ -25,12 +25,14 @@ import android.widget.Toast;
 
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragementDialog;
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentConnDialog_False;
+import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.Service.BluetoothLeService;
 import com.beestar.jzb.goglebleweather.Service.MyBlueToothInterface;
 import com.beestar.jzb.goglebleweather.Service.MyBluetoothScan;
 import com.beestar.jzb.goglebleweather.adapter.MyDeviceListAdapter;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
+import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
 import com.beestar.jzb.goglebleweather.utils.Keyparameter;
 import com.beestar.jzb.goglebleweather.utils.L;
 
@@ -63,10 +65,13 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
 
     private String m_szImei;
     private String mac;
+    private DeviceBeanDao deviceBeanDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binding);
+        deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         initTelphoneMga();
         bindLocal();
         initView();
@@ -130,7 +135,16 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
                 }else if (data.contains("f2")||data.contains("F2")){
                     sendData(gatt.getDevice().getAddress(),m_szImei);
                 }else if (data.contains("ef")||data.contains("EF")){
-
+                    //绑定成功
+                    deviceBeanDao.insert(new DeviceBean(gatt.getDevice().getName(),gatt.getDevice().getAddress(),true,true));
+                    DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                    if (deviceBean==null){
+                        L.i("没有符合条件的对象");
+                    }else {
+                        L.i("you符合条件的对象"+deviceBean.getName());
+                        deviceBean.setIsChoose(false);
+                        deviceBeanDao.update(deviceBean);
+                    }
                 }
             }
         });
@@ -217,8 +231,8 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
             @Override
             public void OnSlcanGetDeviceSuccess(BluetoothDevice device, int rssi, byte[] scanRecord) {
                 Log.i("info","------main--------设备名称-----------"+device.getName());
-                myDeviceListAdapter.addItem(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false));
-                list.add(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false));
+                myDeviceListAdapter.addItem(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false,false));
+                list.add(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false,false));
             }
         });
     }

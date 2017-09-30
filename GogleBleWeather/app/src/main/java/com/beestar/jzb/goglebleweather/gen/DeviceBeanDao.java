@@ -27,7 +27,8 @@ public class DeviceBeanDao extends AbstractDao<DeviceBean, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Mac = new Property(2, String.class, "mac", false, "MAC");
-        public final static Property Flg = new Property(3, boolean.class, "flg", false, "FLG");
+        public final static Property IsConn = new Property(3, boolean.class, "isConn", false, "IS_CONN");
+        public final static Property IsChoose = new Property(4, boolean.class, "isChoose", false, "IS_CHOOSE");
     };
 
 
@@ -46,7 +47,8 @@ public class DeviceBeanDao extends AbstractDao<DeviceBean, Long> {
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"NAME\" TEXT," + // 1: name
                 "\"MAC\" TEXT," + // 2: mac
-                "\"FLG\" INTEGER NOT NULL );"); // 3: flg
+                "\"IS_CONN\" INTEGER NOT NULL ," + // 3: isConn
+                "\"IS_CHOOSE\" INTEGER NOT NULL );"); // 4: isChoose
     }
 
     /** Drops the underlying database table. */
@@ -73,7 +75,8 @@ public class DeviceBeanDao extends AbstractDao<DeviceBean, Long> {
         if (mac != null) {
             stmt.bindString(3, mac);
         }
-        stmt.bindLong(4, entity.getFlg() ? 1L: 0L);
+        stmt.bindLong(4, entity.getIsConn() ? 1L: 0L);
+        stmt.bindLong(5, entity.getIsChoose() ? 1L: 0L);
     }
 
     @Override
@@ -94,7 +97,8 @@ public class DeviceBeanDao extends AbstractDao<DeviceBean, Long> {
         if (mac != null) {
             stmt.bindString(3, mac);
         }
-        stmt.bindLong(4, entity.getFlg() ? 1L: 0L);
+        stmt.bindLong(4, entity.getIsConn() ? 1L: 0L);
+        stmt.bindLong(5, entity.getIsChoose() ? 1L: 0L);
     }
 
     @Override
@@ -108,7 +112,8 @@ public class DeviceBeanDao extends AbstractDao<DeviceBean, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mac
-            cursor.getShort(offset + 3) != 0 // flg
+            cursor.getShort(offset + 3) != 0, // isConn
+            cursor.getShort(offset + 4) != 0 // isChoose
         );
         return entity;
     }
@@ -118,7 +123,8 @@ public class DeviceBeanDao extends AbstractDao<DeviceBean, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setMac(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setFlg(cursor.getShort(offset + 3) != 0);
+        entity.setIsConn(cursor.getShort(offset + 3) != 0);
+        entity.setIsChoose(cursor.getShort(offset + 4) != 0);
      }
     
     @Override
