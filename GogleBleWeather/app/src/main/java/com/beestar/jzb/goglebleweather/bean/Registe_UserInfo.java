@@ -20,9 +20,16 @@ public class Registe_UserInfo {
     private String pwd;
     private String confirm;
     private String sex;
-    private String code;
+    private String newpwd;
+    //忘记密码
+    public Registe_UserInfo(String phone, String confirm, String newpwd, String code) {
+        this.phone = phone;
+        this.confirm = confirm;
+        this.newpwd = newpwd;
+        this.code = code;
+    }
 
-
+    //注册--json
     public Registe_UserInfo(String phone, String name, String pwd, String confirm, String sex, String code) {
         this.phone = phone;
         this.name = name;
@@ -30,6 +37,19 @@ public class Registe_UserInfo {
         this.confirm = confirm;
         this.sex = sex;
         this.code = code;
+    }
+    public String getNewpwd() {
+        return newpwd;
+    }
+
+    public void setNewpwd(String newpwd) {
+        this.newpwd = newpwd;
+    }
+
+    private String code;
+    public Registe_UserInfo(String phone, String pwd) {
+        this.phone = phone;
+        this.pwd = pwd;
     }
 
     public String getPhone() {

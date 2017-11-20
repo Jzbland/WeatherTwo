@@ -11,4 +11,7 @@
     <color name="textcolor2">#5872ae</color>
     <color name="viewline">#85a1e5</color>
     <color name="textsetting">#FFFFFF</color>
+
+
+    <color name="bindtext">#708dd3</color>
 </resources>

@@ -16,4 +16,9 @@ public class Keyparameter {
     public static final String ACTTION_BLE_SEND_DATA="com.beestar.jzb.goglebleweather.acction.ble.send.data";
     public static final String ACTTION_BLE_DISCONNECT="com.beestar.jzb.goglebleweather.acction.ble.disconnect";
     public static final String BLUTOOTH_DEVICE="com.beestar.jzb.goglebleweather.device";//
+
+
+    public static final String ACTTION_UPDATAUI="com.beestar.jzb.goglebleweather.updataui";
+
+
 }

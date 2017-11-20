@@ -14,6 +14,25 @@ public class DeviceBean implements Serializable {
     @Id
     private Long id;
     private String name;
+    private String secondName;
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public DeviceBean(String name, String secondName, String mac, boolean isConn, boolean isChoose) {
+
+        this.name = name;
+        this.secondName = secondName;
+        this.mac = mac;
+        this.isConn = isConn;
+        this.isChoose = isChoose;
+    }
+
     private String mac;
     private boolean isConn;
     private boolean isChoose;
@@ -47,11 +66,12 @@ public class DeviceBean implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 148863758)
-    public DeviceBean(Long id, String name, String mac, boolean isConn,
+    @Generated(hash = 1579701203)
+    public DeviceBean(Long id, String name, String secondName, String mac, boolean isConn,
             boolean isChoose) {
         this.id = id;
         this.name = name;
+        this.secondName = secondName;
         this.mac = mac;
         this.isConn = isConn;
         this.isChoose = isChoose;
@@ -67,6 +87,4 @@ public class DeviceBean implements Serializable {
     @Generated(hash = 74682814)
     public DeviceBean() {
     }
-   
-
 }

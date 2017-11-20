@@ -107,6 +107,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="蓝牙未连接"
+                                android:id="@+id/blue_status_text"
                                 android:gravity="center"
                                 android:textSize="14sp"
                                 android:layout_gravity="center"
@@ -136,6 +137,7 @@
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:text="没有防丢信息"
+                                    android:id="@+id/addBluetooth_text"
                                     android:textColor="#9cb9ff"
                                     android:textSize="14sp"
                                     android:layout_marginLeft="90dp"
@@ -163,18 +165,20 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 >
-                                <ImageButton
+                                <com.beestar.jzb.goglebleweather.view.OptionCircle
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
+                                    android:layout_margin="30dp"
                                     android:background="@drawable/hometemp_sel"
                                     android:id="@+id/tem"
                                     />
-                                <ImageButton
+                                <com.beestar.jzb.goglebleweather.view.OptionCircle
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
+                                    android:layout_margin="30dp"
                                     android:layout_below="@+id/tem"
                                     android:background="@drawable/homepm25_sel"
-                                    android:id="@+id/pm_2.5"
+                                    android:id="@+id/pm_2_5"
                                     />
                             </RelativeLayout>
                             <RelativeLayout
@@ -182,18 +186,20 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 >
-                                <ImageButton
+                                <com.beestar.jzb.goglebleweather.view.OptionCircle
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
+                                    android:layout_margin="30dp"
                                     android:background="@drawable/hometemp_sel"
                                     android:id="@+id/hum"
                                     />
-                                <ImageButton
+                                <com.beestar.jzb.goglebleweather.view.OptionCircle
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
+                                    android:layout_margin="30dp"
                                     android:layout_below="@+id/hum"
-                                    android:background="@drawable/homepm25_sel"
-                                    android:id="@+id/per"
+                                    android:background="@drawable/homepress_sel"
+                                    android:id="@+id/airpress"
                                     />
 
                             </RelativeLayout>
@@ -226,7 +232,8 @@
                                 android:layout_marginRight="20dp"
                                 android:textColor="#9cb8ff"
                                 android:gravity="center"
-                                android:textSize="14sp" />
+                                android:layout_marginTop="5dp"
+                                android:textSize="12sp" />
                         </LinearLayout>
                         <!--地址====-->
                         <LinearLayout
@@ -267,6 +274,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:text="最高27℃"
+                                        android:id="@+id/tem_heigh"
                                         android:textSize="14sp"
                                         android:textColor="@color/textcolor"
                                         android:gravity="center"
@@ -276,6 +284,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:text="最低27℃"
+                                        android:id="@+id/tem_low"
                                         android:textColor="@color/textcolor"
                                         android:textSize="14sp"
                                         android:gravity="center"
@@ -315,6 +324,7 @@
 
                                         android:layout_gravity="center_vertical"
                                         android:text="多云"
+                                        android:id="@+id/weather_text"
                                         android:textSize="18sp"
                                         android:textColor="@color/textcolor"
                                         />
@@ -343,6 +353,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="风力3级"
+                                        android:id="@+id/weather_windpower"
                                         android:layout_gravity="center_vertical"
                                         android:textColor="@color/textcolor"
                                         />
@@ -360,7 +371,7 @@
                             >
                             <ImageView
                                 android:layout_width="wrap_content"
-                                android:layout_height="20dp"
+                                android:layout_height="10dp"
                                 android:layout_gravity="center_horizontal"
                                 android:background="@drawable/homeuparrowpressed"
                                 />
@@ -373,19 +384,259 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#9cb9ff"
-                    android:alpha="0.3"
+                    android:background="@color/colorActionbar"
                     android:id="@+id/second_screen"
+                    android:alpha="0.45"
                     >
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@mipmap/homebgcover" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/second_screen_address_andtem"
+                        >
+                       <!--第二屏地址-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal"
+                            >
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@mipmap/homeiconaddress"
+                                android:layout_marginTop="5dp"
+                                />
+                            <TextView
+                                android:id="@+id/addressLocation2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="20dp"
+                                android:textColor="#9cb8ff"
+                                android:gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                        <!--第二屏地址-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/temp_and_tianqi2"
+                            android:orientation="horizontal"
+                            android:layout_weight="5"
+                            >
+                            <!--温度-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="24℃"
+                                    android:textSize="38sp"
+                                    android:id="@+id/data_temp2"
+                                    android:gravity="top"
+                                    android:textColor="@color/textcolor"
+                                    android:layout_marginLeft="20dp"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="最高27℃"
+                                        android:id="@+id/tem_heigh2"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/textcolor"
+                                        android:gravity="center"
+                                        />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="最低27℃"
+                                        android:id="@+id/tem_low2"
+                                        android:textColor="@color/textcolor"
+                                        android:textSize="14sp"
+                                        android:gravity="center"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <!--温度-->
+                            <!--PM图标-->
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/homeiconpm25bad"
+                                android:layout_gravity="center"
 
+                                android:layout_weight="1"
+                                />
+                            <!--PM图标-->
+                            <!--天气-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="2"
+                                android:orientation="horizontal"
+                                android:weightSum="3"
+
+                                >
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:layout_gravity="center_vertical"
+                                        android:text="多云"
+                                        android:id="@+id/weather_text2"
+                                        android:textSize="18sp"
+                                        android:textColor="@color/textcolor"
+                                        />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@mipmap/homeiconcioud"
+
+                                        android:layout_marginLeft="5dp"
+                                        />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="风力3级"
+                                        android:id="@+id/weather_windpower2"
+                                        android:layout_gravity="center_vertical"
+                                        android:textColor="@color/textcolor"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <!--天气-->
+                        </LinearLayout>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="#efefef"
+                        android:layout_below="@id/second_screen_address_andtem"
+                        android:id="@+id/viewN"
+                        />
+                    <!--k 线图-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/k_line"
+                        android:orientation="vertical"
+                        android:layout_below="@id/viewN"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="24小时预报"
+                            android:layout_gravity="center_horizontal"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="50dp"
+                            android:background="@android:color/white"
+                            />
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:id="@+id/linechart"
+                            />
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:id="@+id/viewN1"
+                        android:layout_below="@id/k_line"
+                        android:background="#efefef"
+                        />
+                    <!--日   期-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_below="@id/viewN1"
+                        android:id="@+id/card"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1月1日 星期三"
+                            android:layout_gravity="center_horizontal"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="50dp"
+                            android:background="@android:color/white"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+
+                            >
+                             <com.facebook.drawee.view.SimpleDraweeView
+                                android:layout_width="100dp"
+                                android:layout_height="200dp"
+                                 android:layout_weight="1"
+                                android:id="@+id/card_1"
+                                 android:src="@mipmap/ic_launcher"
+                                />
+                            <com.facebook.drawee.view.SimpleDraweeView
+                                android:layout_width="100dp"
+                                android:layout_height="200dp"
+                                android:layout_weight="1"
+                                android:id="@+id/card_2"
+                                android:src="@mipmap/ic_launcher"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
                 </RelativeLayout>
                 <!--第二屏-->
-
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.beestar.jzb.goglebleweather.ui.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 
 import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
+import com.beestar.jzb.goglebleweather.ui.MainActivity;
 
 public class RegisterThreeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -35,8 +37,11 @@ public class RegisterThreeActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_regist_two:
+                finish();
                 break;
             case R.id.turn_login:
+                Intent intent = new Intent(RegisterThreeActivity.this, MainActivity.class);
+                startActivity(intent);
                 break;
         }
     }

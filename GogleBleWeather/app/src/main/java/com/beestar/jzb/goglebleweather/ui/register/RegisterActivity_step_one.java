@@ -2,10 +2,12 @@ package com.beestar.jzb.goglebleweather.ui.register;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
@@ -75,12 +77,26 @@ public class RegisterActivity_step_one extends BaseActivity implements View.OnCl
                 getSms();
                 break;
             case R.id.register_button:
-                Intent intent = new Intent(RegisterActivity_step_one.this,RegistertwoActivity.class);
-                intent.putExtra("phone",mTelRegister.getText().toString().trim());
-                intent.putExtra("pwd",mPwd.getText().toString().trim());
-                intent.putExtra("confirm",mPwdNext.getText().toString().trim());
-                intent.putExtra("code",mSmsCode.getText().toString().trim());
-                startActivity(intent);
+                if (!TextUtils.isEmpty(mTelRegister.getText())
+                        &&!TextUtils.isEmpty(mPwd.getText())
+                        &&!TextUtils.isEmpty(mPwdNext.getText())
+                        &&!TextUtils.isEmpty(mSmsCode.getText())
+                        ){
+                    if (mPwd.getText().toString().trim().equals(mPwdNext.getText().toString().trim())){
+                        Intent intent = new Intent(RegisterActivity_step_one.this,RegistertwoActivity.class);
+                        intent.putExtra("phone",mTelRegister.getText().toString().trim());
+                        intent.putExtra("pwd",mPwd.getText().toString().trim());
+                        intent.putExtra("confirm",mPwdNext.getText().toString().trim());
+                        intent.putExtra("code",mSmsCode.getText().toString().trim());
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(MyApp.getContext().getApplicationContext(),"两次密码不一致",Toast.LENGTH_SHORT).show();
+                    }
+
+                }else {
+                    Toast.makeText(MyApp.getContext().getApplicationContext(),"请输入完整信息",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
@@ -89,6 +105,7 @@ public class RegisterActivity_step_one extends BaseActivity implements View.OnCl
      * 获取短信验证码
      */
     private void getSms(){
+        L.i(mTelRegister.getText().toString().trim()+"----tel---");
         MyApp.getContext().getMyOkHttp().get()
                 .url(URL.url+URL.url_sms)
                 .addParam("phone",mTelRegister.getText().toString().trim())

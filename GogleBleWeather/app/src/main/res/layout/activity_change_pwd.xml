@@ -48,9 +48,9 @@
             />
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="@drawable/edit_text3"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:hint="请输入旧密码"
             android:textColor="#898989"
             android:textColorHint="#898989"
@@ -77,9 +77,9 @@
             />
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="@drawable/edit_text3"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:hint="请输入密码"
             android:id="@+id/new_pwd"
             android:textColor="#898989"
@@ -105,9 +105,9 @@
             />
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="@drawable/edit_text3"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:hint="请确认密码"
             android:id="@+id/new_pwd_next"
             android:textColor="#898989"

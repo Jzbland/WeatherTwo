@@ -16,7 +16,6 @@ import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.bean.Registe_UserInfo;
 import com.beestar.jzb.goglebleweather.bean.ReturnBean;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
-import com.beestar.jzb.goglebleweather.utils.L;
 import com.beestar.jzb.goglebleweather.utils.URL;
 import com.google.gson.Gson;
 import com.tsy.sdk.myokhttp.response.RawResponseHandler;
@@ -95,12 +94,6 @@ public class RegistertwoActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.submit_data:
-                L.i(getintent.getStringExtra("phone")+"--"+
-                        mRegisterName.getText().toString().trim()+"--"+
-                        getintent.getStringExtra("pwd")+"--"+
-                        getintent.getStringExtra("confirm")+"--"+
-                        sex+"--"+
-                        getintent.getStringExtra("code"));
                 if (!TextUtils.isEmpty(mRegisterName.getText())){
                     sendRegister(new Gson().toJson(new Registe_UserInfo(getintent.getStringExtra("phone"),
                                                                         mRegisterName.getText().toString().trim(),
@@ -124,6 +117,7 @@ public class RegistertwoActivity extends BaseActivity implements View.OnClickLis
                         ReturnBean returnBean = new Gson().fromJson(response, ReturnBean.class);
                         if (returnBean.getRtn_code()==0){
                             startActivity(new Intent(RegistertwoActivity.this,RegisterThreeActivity.class));
+                            Toast.makeText(RegistertwoActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(RegistertwoActivity.this,returnBean.getMsg(),Toast.LENGTH_SHORT).show();
                         }

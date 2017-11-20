@@ -5,17 +5,32 @@ package com.beestar.jzb.goglebleweather.utils;
  */
 
 public class URL {
+
+    final public static String url_weather="https://way.jd.com/jisuapi/weather";
+
     final public static String url="http://123.207.173.111/PWS";
     /**
      * /获取短信验证码
      */
-
-    final public static String url_sms="/v2/user/login/sms?";
+    final public static String url_sms="/v2/user/login/sms";
     /**
      * 注册
      */
     final public static String url_register="/v2/user/register";
     /**
-     *
+     *登录
      */
+    final public  static String url_login="/v2/user/login";
+    /**
+     * 忘记密码
+     */
+    final public static String url_forgot="/v2/user/forgot";
+    /**
+     * 修改密码
+     */
+    final public static String url_change="/v2/user/change";
+    /**
+     * PM2.5
+     */
+    final public static String url_PM="/v2/weather/query/PM25";
 }

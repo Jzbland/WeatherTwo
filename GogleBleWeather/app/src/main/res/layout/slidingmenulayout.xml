@@ -23,7 +23,6 @@
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:orientation="vertical">
                 <!--头像——————————————-->
                 <com.zhy.android.percent.support.PercentRelativeLayout
@@ -33,7 +32,6 @@
                     android:orientation="vertical"
                     android:id="@+id/set_icon_sliding"
                     app:layout_heightPercent="20%h">
-
                     <ImageView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
@@ -41,13 +39,14 @@
                         android:id="@+id/imageView4"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:src="@mipmap/head_coin_off"
-                        android:scaleType="fitCenter"
+                        android:scaleType="fitXY"
                         android:id="@+id/image_icoin"
                         android:layout_alignBottom="@+id/imageView4"
+                        app:riv_oval="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="7dp" />
 
@@ -74,7 +73,7 @@
                     android:layout_height="0dp"
                     android:orientation="vertical"
                     app:layout_heightPercent="52%h"
-                    android:visibility="gone"
+
                     android:weightSum="1">
                     <!--android:visibility="gone"-->
 
@@ -98,7 +97,7 @@
 
 
                     <EditText
-                        android:id="@+id/usernameView"
+                        android:id="@+id/usernameView1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_heightPercent="15%h"
@@ -114,7 +113,7 @@
                         android:textColorHint="@color/textcolor" />
                     <!--定义输入密码的文本编辑框  -->
                     <EditText
-                        android:id="@+id/passwordView"
+                        android:id="@+id/passwordView1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_heightPercent="15%h"
@@ -134,6 +133,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:id="@+id/rememberPwd"
                         >
                         <TextView
                             android:layout_width="wrap_content"
@@ -189,7 +189,7 @@
                     android:layout_height="0dp"
                     android:id="@+id/isLogin"
                     android:orientation="vertical"
-
+                    android:visibility="gone"
                     app:layout_heightPercent="52%h">
 
                     <View
@@ -346,45 +346,43 @@
                     android:orientation="horizontal"
                     app:layout_heightPercent="15%h"
                     android:id="@+id/settingdis_button"
+                    android:visibility="gone"
                     >
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="退出登录"
-                        android:id="@+id/quit"
-                        android:textColor="@color/colorActionbar"
-                        android:layout_marginLeft="30dp"
-                        android:background="@color/colorMainbackground"
-                        android:layout_marginRight="20dp"
-                        android:layout_alignBaseline="@+id/switch1"
-                        />
+                    <!--<Button-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="退出登录"-->
+                        <!--android:id="@+id/quit"-->
+                        <!--android:textColor="@color/colorActionbar"-->
+                        <!--android:layout_marginLeft="30dp"-->
+                        <!--android:background="@color/colorMainbackground"-->
+                        <!--android:layout_marginRight="20dp"-->
+                        <!--android:layout_alignBaseline="@+id/switch1"-->
+                        <!--/>-->
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="40dp"
                         android:id="@+id/donotLook"
                         android:text="定时勿扰"
                         android:textSize="14sp"
                         android:layout_toLeftOf="@+id/switch1"
                         android:layout_alignBaseline="@+id/switch1"
                         />
-
-                    <Switch
+                    <com.zcw.togglebutton.ToggleButton
                         android:id="@+id/switch1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="30dp"
-                        android:background="@color/textcolor2"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
                         />
                 </com.zhy.android.percent.support.PercentRelativeLayout>
-
-
             </com.zhy.android.percent.support.PercentLinearLayout>
-
         </RelativeLayout>
     </com.jeremyfeinstein.slidingmenu.lib.SlidingMenu>
 

@@ -34,7 +34,6 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
@@ -44,6 +43,7 @@ import com.beestar.jzb.goglebleweather.utils.SampleGattAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -77,7 +77,7 @@ public class BluetoothLeService extends Service {
     public final static String ACTION_DATA_AVAILABLE           = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
     public final static String EXTRA_DATA                      = "com.example.bluetooth.le.EXTRA_DATA";
     public final static String SEND_DATA                       ="com.example.bluetooth.le.SEND_DATA";
-
+    public final static String MY_DATA                         ="com.example.bluetooth.le.MY_DATA";
     public final static UUID UUID_HEART_RATE_MEASUREMENT       = UUID.fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT);
     private boolean bool;
     MyBlueToothInterface.OnConnectionStateChangeListener mOnConnectionStateChange;
@@ -93,9 +93,11 @@ public class BluetoothLeService extends Service {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             mOnConnectionStateChange.OnConnectionStateChange(gatt,status,newState);
             String intentAction;
+            L.i("------当前状态码---"+status+"---"+newState);
             String tmpAddress=gatt.getDevice().getAddress();
             L.i("-----------------连接设备地址-----"+tmpAddress);
             if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                L.d("Ble连接失败");
                 intentAction = ACTION_GATT_DISCONNECTED;
                 L.i("连接失败+Service");
                 Log.i(TAG, "Disconnected from GATT server.");
@@ -103,6 +105,7 @@ public class BluetoothLeService extends Service {
                 close(tmpAddress);
             }
              else if (newState == BluetoothProfile.STATE_CONNECTED) {
+                L.d("Ble已连接");
                 L.i("连接成功+Service");
                 mConnectedAddressList.add(tmpAddress);
                 intentAction = ACTION_GATT_CONNECTED;
@@ -112,33 +115,16 @@ public class BluetoothLeService extends Service {
                 Log.i(TAG, "Attempting to start service discovery:" +
                         mBluetoothGattMap.get(tmpAddress).discoverServices());
             } else if (newState == BluetoothProfile.STATE_DISCONNECTING) {
-                //断开连接中
+                L.d("Ble正在断开连接");
                 mConnectedAddressList.remove(tmpAddress);
                 intentAction = ACTION_GATT_DISCONNECTING;
                 Log.i(TAG, "Disconnecting from GATT server.");
                 broadcastUpdate(intentAction, tmpAddress);
             }
-//            if (newState == BluetoothProfile.STATE_CONNECTED) {
-//                intentAction = ACTION_GATT_CONNECTED;
-//                mConnectionState = STATE_CONNECTED;
-//                broadcastUpdate(intentAction);
-//                Log.i(TAG, "Connected to GATT server.");
-//                // Attempts to discover services after successful connection.
-//                Log.i(TAG, "Attempting to start service discovery:" +
-//                        mBluetoothGattMap.get(tmpAddress).discoverServices());
-//                L.i("已连接===================================");
-//            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-//                intentAction = ACTION_GATT_DISCONNECTED;
-//                mConnectionState = STATE_DISCONNECTED;
-//                Log.i(TAG, "Disconnected from GATT server.");
-//                broadcastUpdate(intentAction);
-//                L.i("已断开===================================");
-//                if (mBluetoothGattMap.get(tmpAddress) == null) {
-//                    return;
-//                }
-//                mBluetoothGattMap.get(tmpAddress).close();
-//                mBluetoothGattMap.remove(tmpAddress);
-//            }
+            else if (newState == BluetoothProfile.STATE_CONNECTING) {
+                L.d("Ble正在连接");
+            }
+
         }
 
         @Override
@@ -228,7 +214,7 @@ public class BluetoothLeService extends Service {
         // After using a given device, you should make sure that BluetoothGatt.close() is called
         // such that resources are cleaned up properly.  In this particular example, close() is
         // invoked when the UI is disconnected from the Service.
-        close();
+        //close();
         return super.onUnbind(intent);
     }
 
@@ -358,6 +344,14 @@ public class BluetoothLeService extends Service {
         if (mBluetoothAdapter == null || mBluetoothGattMap.get(address) == null) {
             Log.e(TAG, "BluetoothAdapter not initialized.2");
             return;
+        }
+        Iterator<String> it = mConnectedAddressList.iterator();
+        while(it.hasNext())
+        {
+            if(it.next().equals(address))
+            {
+                it.remove();
+            }
         }
         mBluetoothGattMap.get(address).disconnect();
     }
@@ -517,6 +511,7 @@ public class BluetoothLeService extends Service {
     private IntentFilter getFilter() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SEND_DATA);
+        intentFilter.addAction(MY_DATA);
         return intentFilter;
     }
     @Override
@@ -530,8 +525,8 @@ public class BluetoothLeService extends Service {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(SEND_DATA)){
                 Log.i("info","-----------------发送数据------------"+intent.getStringExtra("data")+intent.getStringExtra("address"));
-                Toast.makeText(getApplicationContext(),"发送成功",Toast.LENGTH_LONG).show();
-                writeValue(intent.getStringExtra("address"),"ffe5", "ffe9", hexStringToBytes(intent.getStringExtra("data")));
+                //Toast.makeText(getApplicationContext(),"发送成功",Toast.LENGTH_LONG).show();
+                writeValue(intent.getStringExtra("address"),"ffe5", "ffe9", hexStringToBytes(intent.getStringExtra("data").toString()));
             }
         }
     };
@@ -595,5 +590,13 @@ public class BluetoothLeService extends Service {
             stringBuilder.append(hv);
         }
         return stringBuilder.toString();
+    }
+    public void sendData(String address,String data){
+        Intent intent=new Intent();
+        intent.setAction(BluetoothLeService.SEND_DATA);
+        intent.putExtra("address",address);
+        intent.putExtra("data",data);
+        sendBroadcast(intent);
+
     }
 }

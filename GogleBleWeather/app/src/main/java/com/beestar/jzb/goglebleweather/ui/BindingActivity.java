@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragementDialog;
+import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentAddInforDilog;
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentConnDialog_False;
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
@@ -40,7 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BindingActivity extends BaseActivity implements MyFragementDialog.OnMyFragmentDialogLister,MyFragmentConnDialog_False.OnMyFragmentConnFalseLister{
+public class BindingActivity extends BaseActivity implements MyFragementDialog.OnMyFragmentDialogLister,MyFragmentConnDialog_False.OnMyFragmentConnFalseLister
+,MyFragmentAddInforDilog.OnMyFragmentAddInfroListener
+{
 
     private static final int REQUEST_ENABLE_BT = 1;
     private static final long SCAN_PERIOD = 10000;
@@ -66,7 +69,9 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     private String m_szImei;
     private String mac;
     private DeviceBeanDao deviceBeanDao;
-
+    private MyFragementDialog myFragementDialog;
+    private MyFragmentAddInforDilog myFragmentAddInforDilog;
+    private  MyFragmentConnDialog_False connDialog_false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,20 +136,40 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
                 L.i(gatt.getDevice().getName()+"=======================================获得的数据是"+data);
                 if (data.contains("ff")||data.contains("FF")){
                     sendData(gatt.getDevice().getAddress(),m_szImei);
-
                 }else if (data.contains("f2")||data.contains("F2")){
                     sendData(gatt.getDevice().getAddress(),m_szImei);
+                }else if(data.contains("CD")||data.contains("cd")){
+                    showDialog();
+                }else if (data.contains("bb")||data.contains("BB")){
+                    mService.disconnect(mac);
                 }else if (data.contains("ef")||data.contains("EF")){
                     //绑定成功
-                    deviceBeanDao.insert(new DeviceBean(gatt.getDevice().getName(),gatt.getDevice().getAddress(),true,true));
-                    DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                    sendData(gatt.getDevice().getAddress(),"01");
+                    DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.Mac.eq(gatt.getDevice().getAddress())).build().unique();
+                    DeviceBean deviceBean2 = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                    if (deviceBean2==null){
+
+                    }else {
+                        deviceBean2.setIsChoose(false);
+                        deviceBeanDao.update(deviceBean2);
+                    }
                     if (deviceBean==null){
                         L.i("没有符合条件的对象");
+                        deviceBeanDao.insert(new DeviceBean(gatt.getDevice().getName(),null,gatt.getDevice().getAddress(),true,true));
                     }else {
                         L.i("you符合条件的对象"+deviceBean.getName());
-                        deviceBean.setIsChoose(false);
+                        deviceBean.setIsChoose(true);
                         deviceBeanDao.update(deviceBean);
                     }
+                    myFragementDialog.close();
+                    showDialog3();
+
+                }else if (data.length()>8){
+                    L.i("----------数据转换---------"+new String(hexStringToBytes(data)));
+                    //L.i("-------测试转换2b020306080100010909-----"+new String(hexStringToBytes("2b020306080100010909")));
+                    Intent intent = new Intent(BluetoothLeService.MY_DATA);
+                    intent.putExtra(BluetoothLeService.MY_DATA,new String(hexStringToBytes(data)));
+                    sendBroadcast(intent);
                 }
             }
         });
@@ -155,8 +180,6 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
      */
     private void OnConnectAndService() {
         myDeviceListAdapter.setOnItemClickListener(new MyDeviceListAdapter.OnItemClickListener() {
-
-
             @Override
             public void onItemClick(View view, int position) {
                 Log.i("info",list.get(position).getName()+"---点击的item---");
@@ -223,6 +246,12 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     public void binding() {
         //sendDataToBle(mac,m_szImei);
         sendData(mac,"FF");
+        showDialog2();
+    }
+    //获取温湿度PM2.5
+    public void getTemAndHumi(){
+        L.i("---------获取温湿度");
+        sendData(mac,"01");
     }
 
     //设备扫描
@@ -301,6 +330,7 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
             }
         };
         bindService(bind,connection, Context.BIND_AUTO_CREATE);
+
     }
     /**
      * 解绑蓝牙服务
@@ -345,7 +375,6 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
         }
         return d;
     }
-
     /**
      * Convert char to byte
      *
@@ -364,27 +393,57 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
         sendBroadcast(intent);
 
     }
-
-    public void showDialog(View view) {
-//        MyFragementDialog myFragementDialog = new MyFragementDialog();
-//        myFragementDialog.show(getFragmentManager(),"bindingDialog");
-        MyFragmentConnDialog_False connDialog_false=new MyFragmentConnDialog_False();
+    //重新开始弹出框
+    public void showDialog() {
+         connDialog_false=new MyFragmentConnDialog_False();
         connDialog_false.show(getFragmentManager(),"conn_false");
     }
-
-
+    //绑定弹出框
+    public void showDialog2(){
+        myFragementDialog = new MyFragementDialog();
+        myFragementDialog.show(getFragmentManager(),"bindingDialog");
+    }
+    //改名字弹出框
+    public void showDialog3(){
+        myFragmentAddInforDilog = new MyFragmentAddInforDilog();
+        myFragmentAddInforDilog.show(getFragmentManager(),"addinfor");
+    }
     @Override
     public void onFragmentDialogCancelLister(String s) {
-        L.i("我点了取消");
+        L.i("我点了取消1");
+        mService.disconnect(mac);
     }
 
     @Override
     public void onFragmentConnFalseCancel(String s) {
-        L.i("我点了取消");
+        L.i("我点了取消2");
+        mService.disconnect(mac);
     }
 
     @Override
     public void onFragmentConnFalseNext(String s) {
         L.i("重新开始");
+        sendData(mac,m_szImei);
+    }
+
+    //添加信息取消
+    @Override
+    public void onMyFragmentAddInfroCancel() {
+        finish();
+    }
+    //添加信息开始看管
+    @Override
+    public void onMyFragmentAddInfroBeginWatch(String addinfor) {
+        DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+        if (!(deviceBean==null)){
+            sendData(deviceBean.getMac(),"F1");
+            deviceBean.setSecondName(addinfor);
+            deviceBeanDao.update(deviceBean);
+        }
+        finish();
+    }
+
+    public void back(View view) {
+        finish();
     }
 }

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             app:layout_widthPercent="15%w"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@drawable/back_sel"
             android:id="@+id/back"
             />
         <TextView

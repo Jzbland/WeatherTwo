@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.beestar.jzb.goglebleweather.gen.DaoMaster;
 import com.beestar.jzb.goglebleweather.gen.DaoSession;
+
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tsy.sdk.myokhttp.MyOkHttp;
 
@@ -28,8 +29,8 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        Fresco.initialize(getApplicationContext());
         setDataBase();
+        Fresco.initialize(getContext());
         myOkHttp = new MyOkHttp();
     }
 

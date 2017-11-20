@@ -230,11 +230,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:text="道具库"
                 android:gravity="center"
                 android:textColor="#1d2088"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:id="@+id/device_Name"
                 />
             <TextView
@@ -244,7 +244,7 @@
                 android:textColor="#e4007f"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:textSize="36sp"
+                android:textSize="28sp"
                 android:layout_below="@id/device_Name"
                 android:id="@+id/goods_Name"
                 />
@@ -277,14 +277,23 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:background="@color/colorActionbar"
+            android:orientation="vertical"
             >
-            <ListView
+
+            <com.beestar.jzb.goglebleweather.view.MyListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:id="@+id/device_list"
                 />
+            <TextView
+                android:gravity="center"
+                android:textSize="18sp"
+                android:id="@+id/emptyView"
+                android:textColor="#000000"
+                android:text="当前无设备连接点击右上角添加设备"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </com.zhy.android.percent.support.PercentLinearLayout>
     </com.zhy.android.percent.support.PercentRelativeLayout>
-
 </com.zhy.android.percent.support.PercentLinearLayout>

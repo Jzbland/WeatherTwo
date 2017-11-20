@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,8 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
+import com.beestar.jzb.goglebleweather.utils.Keyparameter;
+import com.beestar.jzb.goglebleweather.utils.SPUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.BufferedOutputStream;
@@ -36,7 +40,7 @@ import java.io.IOException;
 public class MyHomeSettingActivity extends BaseActivity implements View.OnClickListener {
     //调用系统相册-选择图片
     private static final int IMAGE = 1;
-    private final static String ALBUM_PATH
+    public final static String ALBUM_PATH
             = Environment.getExternalStorageDirectory() + "/weather_icon/";
     private ImageView mBack;
     private ImageView mTurnPic1;
@@ -74,7 +78,7 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
-                    mSetIconSimLeDraweeView.setImageBitmap(image_icon_bitmap);
+                    mSetIconSimLeDraweeView.setImageBitmap(x_To_Y(image_icon_bitmap));
                     break;
                 case 2:
                     mSetIconSimLeDraweeView.setImageBitmap(image_icon_bitmap2);
@@ -100,6 +104,7 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
                         msg.what=2;
                         mhandler.sendMessage(msg);
                     }
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -131,6 +136,10 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         mUnbindSet.setOnClickListener(this);
         mChangePwd.setOnClickListener(this);
         mSetIconSimLeDraweeView = (RoundedImageView) findViewById(R.id.setIcon_SimLeDraweeView);
+
+        mSetName.setText(((String) SPUtils.get(MyApp.getContext(), "name", "")));
+        mSetSex.setText((String)SPUtils.get(MyApp.getContext(),"sex",""));
+        mSetNumber.setText((String)SPUtils.get(MyApp.getContext(),"phone",""));
     }
 
     @Override
@@ -215,6 +224,11 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
                     msg.what=2;
                     mhandler.sendMessage(msg);
                 }
+                Intent intent = new Intent();
+                intent.setAction(Keyparameter.ACTTION_UPDATAUI);
+                intent.putExtra("UPDATA","success");
+                Log.i("info","--------==============发送ui广播===========-------");
+                sendBroadcast(intent);
             } catch (IOException e) {
                 mSaveMessage = "图片保存失败！";
                 e.printStackTrace();
@@ -227,6 +241,7 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         public void handleMessage(Message msg) {
             Log.d("info", mSaveMessage);
             Toast.makeText(MyHomeSettingActivity.this, mSaveMessage, Toast.LENGTH_SHORT).show();
+
         }
     };
     /**
@@ -242,18 +257,37 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         }
         File myCaptureFile = new File(ALBUM_PATH + fileName);
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
-        bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+        bm.compress(Bitmap.CompressFormat.JPEG, 10, bos);
         Uri uri = Uri.fromFile(myCaptureFile);
         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
         bos.flush();
         bos.close();
     }
     private Bitmap read() throws FileNotFoundException {
+        Bitmap bm=null;
+        Matrix matrix = new Matrix();
+        matrix.setScale(0.2f, 0.2f);
         Bitmap bitmap = BitmapFactory.decodeFile(ALBUM_PATH+"icon",null);
+        if (bitmap!=null){
+            bm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);
+        }
         Log.i("info","------------================================--------");
-        if (bitmap==null){
+        if (bm==null){
             Log.i("info","----------11111111111111--------");
         }
-        return bitmap;
+        return bm;
+    }
+    private Bitmap x_To_Y(Bitmap bitmap){
+        Matrix matrix = new Matrix();
+        matrix.setScale(0.5f, 0.5f);
+        Bitmap bm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                bitmap.getHeight(), matrix, true);
+        return bm;
+    }
+
+    public void exit_button(View view) {
+        SPUtils.clear(getApplicationContext());
+        finish();
     }
 }
