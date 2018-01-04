@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <string-array name="app_device_titles">
+        <item>Device info</item>
+        <item>File selection</item>
+        <item>Parameter settings</item>
+        <item>Uploading file</item>
+    </string-array>
+    <string-array name="gpio_values">
+        <item id="0x00">P0_0</item>
+        <item id="0x01">P0_1</item>
+        <item id="0x02">P0_2</item>
+        <item id="0x00">P0_3</item>
+        <item id="0x00">P0_4</item>
+        <item id="0x00">P0_5</item>
+        <item id="0x00">P0_6</item>
+        <item id="0x00">P0_7</item>
+        <item id="0x00">P1_0</item>
+        <item id="0x01">P1_1</item>
+        <item id="0x02">P1_2</item>
+        <item id="0x00">P1_3</item>
+        <item id="0x00">P2_0</item>
+        <item id="0x01">P2_1</item>
+        <item id="0x02">P2_2</item>
+        <item id="0x00">P2_3</item>
+        <item id="0x00">P2_4</item>
+        <item id="0x00">P2_5</item>
+        <item id="0x00">P2_6</item>
+        <item id="0x00">P2_7</item>
+        <item id="0x00">P2_8</item>
+        <item id="0x00">P2_9</item>
+        <item id="0x00">P3_0</item>
+        <item id="0x01">P3_1</item>
+        <item id="0x02">P3_2</item>
+        <item id="0x00">P3_3</item>
+        <item id="0x00">P3_4</item>
+        <item id="0x00">P3_5</item>
+        <item id="0x00">P3_6</item>
+        <item id="0x00">P3_7</item>
+    </string-array>
+    <string-array name="image_bank_addresses">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <attr format="reference" name="circularProgressBarStyle"/>
+    <declare-styleable name="HoloCircularProgressBar"><attr format="dimension" name="stroke_width"/><attr format="float" name="progress"/><attr format="float" name="marker_progress"/><attr format="color" name="progress_color"/><attr format="color" name="progress_background_color"/><attr format="boolean" name="thumb_visible"/><attr format="boolean" name="marker_visible"/><attr name="android:gravity"/></declare-styleable>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="radio_button_padding">7dp</dimen>
+    <string name="action_settings">Settings</string>
+    <string name="allowed_hex_chars">0123456789abcdefABCDEFx</string>
+    <string name="app_devices_title">Device selection</string>
+    <string name="app_name">Suota</string>
+    <string name="button_text_color">#00BCF3</string>
+    <string name="com.crashlytics.android.build_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">8454ad9b-9555-4d4c-aa43-c6a511a6f4c7</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_refresh">Refresh</string>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        
+    </style>
+    <style name="CircularProgressBar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="stroke_width">5dp</item>
+        <item format="float" name="progress">0.1</item>
+        <item name="progress_color">#ffff4444</item>
+        <item name="progress_background_color">#ffffffff</item>
+        <item name="marker_visible">true</item>
+        <item name="thumb_visible">true</item>
+    </style>
+    <style name="CircularProgressBarLight">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="stroke_width">5dp</item>
+        <item format="float" name="progress">0.1</item>
+        <item name="progress_color">#ffff4444</item>
+        <item name="progress_background_color">#aaa</item>
+        <item name="marker_visible">true</item>
+        <item name="thumb_visible">true</item>
+    </style>
+    <style name="button_text">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#00BCF3</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+</resources>

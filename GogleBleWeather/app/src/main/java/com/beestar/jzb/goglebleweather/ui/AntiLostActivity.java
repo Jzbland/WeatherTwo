@@ -1,11 +1,15 @@
 package com.beestar.jzb.goglebleweather.ui;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,9 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentEditBlueToothDialog;
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
-import com.beestar.jzb.goglebleweather.Service.BluetoothLeService;
+
+import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.adapter.MyDeviceListViewAdapter;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.bean.MyWeatherBean;
@@ -34,7 +40,7 @@ import com.zhy.android.percent.support.PercentRelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AntiLostActivity extends BaseActivity implements View.OnClickListener ,View.OnTouchListener{
+public class AntiLostActivity extends BaseActivity implements View.OnClickListener ,View.OnTouchListener,MyFragmentEditBlueToothDialog.OnEditBlueToothDialogListener{
 
     private ImageView mBack;
     private ImageButton mAdd;
@@ -92,15 +98,34 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
     private DeviceBeanDao deviceBeanDao;
     boolean flagcall=false;
     List<DeviceBean> list;
-
+    /**
+     * 修改名字弹出框
+     */
+    private MyFragmentEditBlueToothDialog myFragmentEditBlueToothDialog;
+    Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==200){
+                L.i("------antilost--修改成功-");
+            }else if (msg.what==100){
+                L.i("------antilost--更新电量-");
+            }
+        }
+    };
     BroadcastReceiver mReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(BluetoothLeService.MY_DATA)) {
-                final String data = intent.getStringExtra(BluetoothLeService.MY_DATA);
+            Message message=new Message();
+            if (intent.getAction().equals(MyServiceBlueTooth.UPDATTEMP)) {
+
+                final String data = intent.getStringExtra("data");
+                L.i("Antilost数据--"+data);
                 if (data == null) {
                     return;
                 }
+                message.what=100;
+                mHandler.sendMessage(message);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -114,10 +139,44 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
                         }
                         if (str.length() >= 10) {
                             MyWeatherBean myWeatherBean = getWeather(str);
-                            mBatteryStatus.setText(myWeatherBean.getPower().toString()+"%");
+                            mBatteryStatus.setText("电量："+myWeatherBean.getPower().toString()+"%");
                         }
                     }
                 });
+            }else if (intent.getAction().equals(MyServiceBlueTooth.UPDATA_NAMESUCCESS)){
+                message.what=200;
+                mHandler.sendMessage(message);
+            }else if (intent.getAction().equals(MyServiceBlueTooth.UPDATUI_BINGFAILD)){
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+                DeviceBean unique = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                if (unique!=null){
+                    if (device.getAddress().equals(unique.getMac())){
+                        mBlueStatus.setText("蓝牙未连接");
+                        mGoodsStatus.setText("已断开");
+                        List<DeviceBean> list = deviceBeanDao.queryBuilder().list();
+                        myDeviceListViewAdapter.cleardata();
+                        myDeviceListViewAdapter.adddata(list);
+                    }
+                }
+
+
+            }else if (intent.getAction().equals(MyServiceBlueTooth.UPDATUI_BINGSUCCESS)){
+                Log.d("info", "onReceive: 连接成功更新界面2");
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+                DeviceBean unique = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                if (unique!=null){
+                    if (device.getAddress().equals(unique.getMac())){
+                        mBlueStatus.setText("蓝牙已连接");
+                        mGoodsStatus.setText("已连接");
+                        unique.setSecondName("钱包");
+                        deviceBeanDao.update(unique);
+                        List<DeviceBean> list = deviceBeanDao.queryBuilder().list();
+                        myDeviceListViewAdapter.cleardata();
+                        myDeviceListViewAdapter.adddata(list);
+                    }
+                }else {
+                    Log.d("info", "onReceive: 连接成功更新界面2   kong");
+                }
             }
         }
     };
@@ -129,6 +188,7 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anti_lost);
         registerReceiver(mReceiver,getFilter());
+
         deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         initView();
         setAndCheckDevice();
@@ -150,7 +210,6 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
                     deviceBean.setIsChoose(true);
                     deviceBeanDao.update(deviceBean);
                 }
-
             }
         });
     }
@@ -159,6 +218,12 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
 
         myDeviceListViewAdapter = new MyDeviceListViewAdapter(getApplicationContext(),new ArrayList<DeviceBean>());
         mDeviceList.setAdapter(myDeviceListViewAdapter);
+//        myDeviceListViewAdapter.setOnItemDeleteClickListener(new MyDeviceListViewAdapter.onItemconnListener() {
+//            @Override
+//            public void onReconnClick(int i) {
+//                startActivity(new Intent(AntiLostActivity.this,BindingActivity.class));
+//            }
+//        });
 
     }
 
@@ -222,6 +287,11 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
 
                 break;
             case R.id.blue_edit_:
+                DeviceBean deviceBean2 = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                if (deviceBean2!=null){
+                    showDialogChangName();
+                }
+
                 break;
             case R.id.call_button:
                 DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
@@ -257,13 +327,12 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
         switch (view.getId()){
             case R.id.notdisturbme:
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    L.d("---------------抬起----------------");
                     mNotdisturbmeImage.setImageResource(R.mipmap.unlost_uncareme);
                     mNotdisturbmeText.setTextColor(getResources().getColor(R.color.bindtext));
                     mNotdisturbme.setBackgroundColor(Color.WHITE);
                 }
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    L.d("-----------------按下------------------");
+
                     mNotdisturbmeImage.setImageResource(R.mipmap.unlost_uncaremepress);
                     mNotdisturbmeText.setTextColor(Color.WHITE);
                     mNotdisturbme.setBackgroundColor(getResources().getColor(R.color.textcolor));
@@ -271,13 +340,11 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ring_:
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    L.d("---------------抬起----------------");
                     mRingImage.setImageResource(R.mipmap.unlost_music);
                     mRingText.setTextColor(getResources().getColor(R.color.bindtext));
                     mRing.setBackgroundColor(Color.WHITE);
                 }
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    L.d("-----------------按下------------------");
                     mRingImage.setImageResource(R.mipmap.unlost_musicpress);
                     mRingText.setTextColor(Color.WHITE);
                     mRing.setBackgroundColor(getResources().getColor(R.color.textcolor));
@@ -285,13 +352,11 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.unbind_:
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    L.d("---------------抬起----------------");
                     mUnbindImage.setImageResource(R.mipmap.unlost_cc);
                     mUnbindText.setTextColor(getResources().getColor(R.color.bindtext));
                     mUnbind.setBackgroundColor(Color.WHITE);
                 }
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    L.d("-----------------按下------------------");
                     mUnbindImage.setImageResource(R.mipmap.unlost_ccpress);
                     mUnbindText.setTextColor(Color.WHITE);
                     mUnbind.setBackgroundColor(getResources().getColor(R.color.textcolor));
@@ -300,13 +365,11 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.blue_edit_:
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    L.d("---------------抬起----------------");
                     mBlueEditImage.setImageResource(R.mipmap.unlost_edit);
                     mBlueEditText.setTextColor(getResources().getColor(R.color.bindtext));
                     mBlueEdit.setBackgroundColor(Color.WHITE);
                 }
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    L.d("-----------------按下------------------");
                     mBlueEditImage.setImageResource(R.mipmap.unlost_editpress);
                     mBlueEditText.setTextColor(Color.WHITE);
                     mBlueEdit.setBackgroundColor(getResources().getColor(R.color.textcolor));
@@ -319,9 +382,17 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
 
     public void sendData(String address,String data){
         Intent intent=new Intent();
-        intent.setAction(BluetoothLeService.SEND_DATA);
+        intent.setAction(MyServiceBlueTooth.SEND_DATA);
         intent.putExtra("address",address);
         intent.putExtra("data",data);
+        sendBroadcast(intent);
+    }
+    public void updataName(String address,String name){
+        Intent intent=new Intent();
+        intent.setAction(MyServiceBlueTooth.UPDATA_NAME);
+//        intent.setAction(MyServiceBlueTooth.UPDATA_NAMESUCCESS);
+        intent.putExtra("address",address);
+        intent.putExtra("data",name);
         sendBroadcast(intent);
 
     }
@@ -330,11 +401,18 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
     protected void onResume() {
         super.onResume();
         L.i("onResumeAntiLost");
-        list = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsConn.eq(true)).build().list();
+        list = deviceBeanDao.queryBuilder().list();
         DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
         if (deviceBean!=null){
-            mGoodsName.setText(deviceBean.getSecondName());
-            mGoodsStatus.setText("看管中");
+            if (deviceBean.getIsConn()){
+                mGoodsName.setText(deviceBean.getSecondName());
+                mGoodsStatus.setText("看管中");
+                sendData(deviceBean.getMac(),"01");
+            }else {
+                mGoodsName.setText(deviceBean.getSecondName());
+                mGoodsStatus.setText("已断开");
+            }
+
         }else {
             mGoodsName.setText("");
             mGoodsStatus.setText("");
@@ -360,7 +438,12 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
 
     private IntentFilter getFilter() {
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.MY_DATA);
+        intentFilter.addAction(MyServiceBlueTooth.MY_DATA);
+        intentFilter.addAction(MyServiceBlueTooth.UPDATA_NAMESUCCESS);
+
+        intentFilter.addAction(MyServiceBlueTooth.UPDATUI_BINGFAILD);
+        intentFilter.addAction(MyServiceBlueTooth.UPDATUI_BINGSUCCESS);
+        intentFilter.addAction(MyServiceBlueTooth.UPDATTEMP);
         return intentFilter;
     }
     private MyWeatherBean getWeather(String str) {
@@ -368,7 +451,6 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
         MyWeatherBean myweather = new MyWeatherBean();
         //温度
         //温度+28 65 098 98
-
         if (temp.charAt(0) == '-') {
             if (temp.charAt(1) == '0') {
                 myweather.setTem("-" + temp.substring(2, 3));
@@ -408,5 +490,31 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
             myweather.setPower(s_power);
         }
         return myweather;
+    }
+    public void showDialogChangName(){
+        myFragmentEditBlueToothDialog=new MyFragmentEditBlueToothDialog();
+        myFragmentEditBlueToothDialog.show(getFragmentManager(),"changeName");
+    }
+
+    /**
+     * 修改BlueName
+     * @param blueName
+     * @param goodName
+     */
+    @Override
+    public void onEditBlueTooThDialogNext(String blueName, String goodName) {
+        DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+        if (!(deviceBean.getName().equals(blueName))){
+            sendData(deviceBean.getMac(),"F4");
+            updataName(deviceBean.getMac(),blueName);
+        }
+        if (goodName!=null){
+            deviceBean.setSecondName(goodName);
+            deviceBean.setName(blueName);
+            deviceBeanDao.update(deviceBean);
+            list=deviceBeanDao.queryBuilder().list();
+            myDeviceListViewAdapter.cleardata();
+            myDeviceListViewAdapter.adddata(list);
+        }
     }
 }

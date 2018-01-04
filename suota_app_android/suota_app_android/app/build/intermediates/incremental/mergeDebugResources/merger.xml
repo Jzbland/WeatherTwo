@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3" xmlns:ns1="http://schemas.android.com/tools"><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\027d4a3a912af43526271cad3a0aa877be6a6d46\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\8e15d4bb03a4ff274a6ac0c878139c71c31498ea\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\666cd6a8ba5b6bcb0f98710b7374aa709ea014b4\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\8db3f4822b565bb999d17926dd4b9fb632f37cd7\output\res"/></dataSet><dataSet config="default$Generated" generated="true"><source path="D:\downloadgoogle\suota_app_android\suota_app_android\library\build\intermediates\bundles\default\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\695a4d685556a6581d4cc62f71fc4c1353caba89\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\9ddebb929de6d7c27d84c6f9ac4036af3daca9c5\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\c0c3069b915c20c9977b009ea85bd5fce8de7c69\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\61d1a78325bfecf9f0660dfaef2816a85c41ebc1\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\f59f1cdecf142ce4d6a2a7d227622c0ff36f7303\output\res"/></dataSet><dataSet config="output$Generated" generated="true"><source path="C:\Users\guzhen\.android\build-cache\e693d7b1d4216dc52282c9a16b395b11923cfd98\output\res"/></dataSet><dataSet config="main$Generated" generated="true"><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res"/><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\generated\res\rs\debug"/><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\generated\res\resValues\debug"/><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\generated\fabric\res\debug"/></dataSet><dataSet config="debug$Generated" generated="true"><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\debug\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\027d4a3a912af43526271cad3a0aa877be6a6d46\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\8e15d4bb03a4ff274a6ac0c878139c71c31498ea\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\666cd6a8ba5b6bcb0f98710b7374aa709ea014b4\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\8db3f4822b565bb999d17926dd4b9fb632f37cd7\output\res"/></dataSet><dataSet config="default" from-dependency="true" generated-set="default$Generated"><source path="D:\downloadgoogle\suota_app_android\suota_app_android\library\build\intermediates\bundles\default\res"><file path="D:\downloadgoogle\suota_app_android\suota_app_android\library\build\intermediates\bundles\default\res\values\values.xml" qualifiers=""><style name="CircularProgressBarLight">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="stroke_width">5dp</item>
+        <item format="float" name="progress">0.1</item>
+        <item name="progress_color">#ffff4444</item>
+        <item name="progress_background_color">#aaa</item>
+        <item name="marker_visible">true</item>
+        <item name="thumb_visible">true</item>
+    </style><declare-styleable name="HoloCircularProgressBar"><attr format="dimension" name="stroke_width"/><attr format="float" name="progress"/><attr format="float" name="marker_progress"/><attr format="color" name="progress_color"/><attr format="color" name="progress_background_color"/><attr format="boolean" name="thumb_visible"/><attr format="boolean" name="marker_visible"/><attr name="android:gravity"/></declare-styleable><attr format="reference" name="circularProgressBarStyle"/><style name="CircularProgressBar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="stroke_width">5dp</item>
+        <item format="float" name="progress">0.1</item>
+        <item name="progress_color">#ffff4444</item>
+        <item name="progress_background_color">#ffffffff</item>
+        <item name="marker_visible">true</item>
+        <item name="thumb_visible">true</item>
+    </style></file></source></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\695a4d685556a6581d4cc62f71fc4c1353caba89\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\9ddebb929de6d7c27d84c6f9ac4036af3daca9c5\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\c0c3069b915c20c9977b009ea85bd5fce8de7c69\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\61d1a78325bfecf9f0660dfaef2816a85c41ebc1\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\f59f1cdecf142ce4d6a2a7d227622c0ff36f7303\output\res"/></dataSet><dataSet config="output" from-dependency="true" generated-set="output$Generated"><source path="C:\Users\guzhen\.android\build-cache\e693d7b1d4216dc52282c9a16b395b11923cfd98\output\res"/></dataSet><dataSet config="main" generated-set="main$Generated"><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res"><file name="button" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable\button.xml" qualifiers="" type="drawable"/><file name="button_a" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable\button_a.xml" qualifiers="" type="drawable"/><file name="button_b" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable\button_b.xml" qualifiers="" type="drawable"/><file name="button_text_color" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable\button_text_color.xml" qualifiers="" type="drawable"/><file name="circle_shape" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable\circle_shape.xml" qualifiers="" type="drawable"/><file name="radio_button" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable\radio_button.xml" qualifiers="" type="drawable"/><file name="radio_button_text_color" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable\radio_button_text_color.xml" qualifiers="" type="drawable"/><file name="ic_launcher" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable-hdpi\ic_launcher.png" qualifiers="hdpi-v4" type="drawable"/><file name="ic_menu_refresh" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable-hdpi\ic_menu_refresh.png" qualifiers="hdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable-mdpi\ic_launcher.png" qualifiers="mdpi-v4" type="drawable"/><file name="ic_menu_refresh" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable-mdpi\ic_menu_refresh.png" qualifiers="mdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable-xhdpi\ic_launcher.png" qualifiers="xhdpi-v4" type="drawable"/><file name="ic_menu_refresh" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable-xhdpi\ic_menu_refresh.png" qualifiers="xhdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\drawable-xxhdpi\ic_launcher.png" qualifiers="xxhdpi-v4" type="drawable"/><file name="activity_scan" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\layout\activity_scan.xml" qualifiers="" type="layout"/><file name="device_container" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\layout\device_container.xml" qualifiers="" type="layout"/><file name="device_file_list" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\layout\device_file_list.xml" qualifiers="" type="layout"/><file name="device_info_item" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\layout\device_info_item.xml" qualifiers="" type="layout"/><file name="device_main" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\layout\device_main.xml" qualifiers="" type="layout"/><file name="device_parameter_settings" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\layout\device_parameter_settings.xml" qualifiers="" type="layout"/><file name="progress" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\layout\progress.xml" qualifiers="" type="layout"/><file name="main" path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\menu\main.xml" qualifiers="" type="menu"/><file path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\values\dimens.xml" qualifiers=""><dimen name="radio_button_padding">7dp</dimen><dimen name="activity_vertical_margin">16dp</dimen><dimen name="activity_horizontal_margin">16dp</dimen></file><file path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\values\strings.xml" qualifiers=""><string name="hello_world">Hello world!</string><string name="button_text_color">#00BCF3</string><string name="app_devices_title">Device selection</string><string name="menu_disconnect">Disconnect</string><string name="action_settings">Settings</string><string name="app_name">Suota</string><string-array name="gpio_values">
+        <item id="0x00">P0_0</item>
+        <item id="0x01">P0_1</item>
+        <item id="0x02">P0_2</item>
+        <item id="0x00">P0_3</item>
+        <item id="0x00">P0_4</item>
+        <item id="0x00">P0_5</item>
+        <item id="0x00">P0_6</item>
+        <item id="0x00">P0_7</item>
+        <item id="0x00">P1_0</item>
+        <item id="0x01">P1_1</item>
+        <item id="0x02">P1_2</item>
+        <item id="0x00">P1_3</item>
+        <item id="0x00">P2_0</item>
+        <item id="0x01">P2_1</item>
+        <item id="0x02">P2_2</item>
+        <item id="0x00">P2_3</item>
+        <item id="0x00">P2_4</item>
+        <item id="0x00">P2_5</item>
+        <item id="0x00">P2_6</item>
+        <item id="0x00">P2_7</item>
+        <item id="0x00">P2_8</item>
+        <item id="0x00">P2_9</item>
+        <item id="0x00">P3_0</item>
+        <item id="0x01">P3_1</item>
+        <item id="0x02">P3_2</item>
+        <item id="0x00">P3_3</item>
+        <item id="0x00">P3_4</item>
+        <item id="0x00">P3_5</item>
+        <item id="0x00">P3_6</item>
+        <item id="0x00">P3_7</item>
+    </string-array><string name="allowed_hex_chars">0123456789abcdefABCDEFx</string><string-array name="image_bank_addresses">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array><string name="menu_refresh">Refresh</string><string-array name="app_device_titles">
+        <item>Device info</item>
+        <item>File selection</item>
+        <item>Parameter settings</item>
+        <item>Uploading file</item>
+    </string-array></file><file path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\values\styles.xml" qualifiers=""><style name="button_text">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#00BCF3</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">18dp</item>
+    </style><style name="AppTheme" parent="AppBaseTheme">
+        
+    </style><style name="AppBaseTheme" parent="android:Theme.Light">
+        
+    </style></file><file path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        
+    </style></file><file path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\values-v14\styles.xml" qualifiers="v14"><style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        
+    </style></file><file path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\main\res\values-w820dp\dimens.xml" qualifiers="w820dp-v13"><dimen name="activity_horizontal_margin">64dp</dimen></file></source><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\generated\res\rs\debug"/><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\generated\res\resValues\debug"/><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\generated\fabric\res\debug"><file path="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\generated\fabric\res\debug\values\com_crashlytics_build_id.xml" qualifiers=""><string name="com.crashlytics.android.build_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">8454ad9b-9555-4d4c-aa43-c6a511a6f4c7</string></file></source></dataSet><dataSet config="debug" generated-set="debug$Generated"><source path="D:\downloadgoogle\suota_app_android\suota_app_android\app\src\debug\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="HoloCircularProgressBar"><attr format="dimension" name="stroke_width"/><attr format="float" name="progress"/><attr format="float" name="marker_progress"/><attr format="color" name="progress_color"/><attr format="color" name="progress_background_color"/><attr format="boolean" name="thumb_visible"/><attr format="boolean" name="marker_visible"/><attr name="android:gravity"/></declare-styleable></configuration></mergedItems></merger>

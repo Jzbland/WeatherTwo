@@ -29,6 +29,8 @@ import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
 import com.beestar.jzb.goglebleweather.utils.Keyparameter;
 import com.beestar.jzb.goglebleweather.utils.SPUtils;
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.BufferedOutputStream;
@@ -93,7 +95,7 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_home_setting);
         initView();
-
+        requestLocation();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -111,6 +113,23 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
             }
         }).run();
 
+    }
+    private void requestLocation() {
+        if (PermissionsUtil.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//            Toast.makeText(this, "获取您的位置信息", Toast.LENGTH_LONG).show();
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+//                    Toast.makeText(getApplicationContext(), "用户授予获取位置信息的权限", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+//                    Toast.makeText(getApplicationContext(), "用户拒绝了获取位置信息的权限", Toast.LENGTH_LONG).show();
+                }
+            }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
+        }
     }
 
     private void initView() {
@@ -272,9 +291,8 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
             bm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                     bitmap.getHeight(), matrix, true);
         }
-        Log.i("info","------------================================--------");
         if (bm==null){
-            Log.i("info","----------11111111111111--------");
+            Log.i("info","------null-------");
         }
         return bm;
     }

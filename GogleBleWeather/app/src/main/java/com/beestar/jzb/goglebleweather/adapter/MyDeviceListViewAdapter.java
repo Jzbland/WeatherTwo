@@ -1,13 +1,13 @@
 package com.beestar.jzb.goglebleweather.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.beestar.jzb.goglebleweather.R;
@@ -26,7 +26,13 @@ public class MyDeviceListViewAdapter extends BaseAdapter {
     private List<DeviceBean> datas;
     private ViewHolder holder;
     private DeviceBean devicebean;
-
+    private onItemconnListener mOnItemconnListener;
+    public interface onItemconnListener {
+        void onReconnClick(int i);
+    }
+    public void setOnItemDeleteClickListener(onItemconnListener mOnItemconnListener) {
+        this.mOnItemconnListener = mOnItemconnListener;
+    }
     public MyDeviceListViewAdapter(Context context, List<DeviceBean> datas) {
         this.context = context;
         this.datas = datas;
@@ -48,11 +54,11 @@ public class MyDeviceListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             holder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.layout_item_listdevice, null);
-            holder.layout_linear=(LinearLayout)view.findViewById(R.id.layout_linear);
+            holder.layout_linear=(RelativeLayout) view.findViewById(R.id.layout_linear);
             holder.radioBtn = (RadioButton) view
                     .findViewById(R.id.radioButton);
             holder.radioBtn.setClickable(false);
@@ -60,6 +66,7 @@ public class MyDeviceListViewAdapter extends BaseAdapter {
                     .findViewById(R.id.textView);
             holder.nametext=(TextView)view.findViewById(R.id.name_textview);
             holder.isconntext=(TextView)view.findViewById(R.id.isconn_text) ;
+
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -68,16 +75,22 @@ public class MyDeviceListViewAdapter extends BaseAdapter {
         holder.radioBtn.setChecked(devicebean.getIsChoose());
         holder.textView.setText(devicebean.getName());
         holder.nametext.setText(devicebean.getSecondName());
-        holder.isconntext.setText("已连接");
-        holder.layout_linear.setBackgroundColor(Color.rgb(239,239,239));
+        if (devicebean.getIsConn()){
+            holder.isconntext.setText("已连接");
+        }else {
+            holder.isconntext.setText("已断开");
+        }
+//        holder.layout_linear.setBackgroundColor(Color.rgb(239,239,239));
         return view;
     }
     class ViewHolder {
-        LinearLayout layout_linear;
+        RelativeLayout layout_linear;
         RadioButton radioBtn;
         TextView textView,nametext,isconntext;
+        Button reconn;
     }
     public void adddata(List<DeviceBean> dd){
+        datas.clear();
         datas.addAll(dd);
         notifyDataSetChanged();
     }

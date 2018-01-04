@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_launcher.png",
+        "source": "D:\\downloadgoogle\\suota_app_android\\Boxing\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\icon_bar_huayandan.png",
+        "source": "D:\\downloadgoogle\\suota_app_android\\Boxing\\app\\src\\main\\res\\drawable-hdpi\\icon_bar_huayandan.png"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\icon_back.png",
+        "source": "D:\\downloadgoogle\\suota_app_android\\Boxing\\app\\src\\main\\res\\drawable-hdpi\\icon_back.png"
+    }
+]

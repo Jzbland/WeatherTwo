@@ -28,8 +28,15 @@ public interface MyBlueToothInterface {
     interface OnBlueToothConnectDeviceListener{
         void OnBluetoothConnectList(List<BluetoothDevice> bluetoothDeviceList);
     }
+    interface OnScanStopListener{
+        void OnBlueScanStopListener(boolean status);
+    }
     //获取蓝牙服务
     interface OnBlueToothServiceDiscoverLister{
         void OnBlueToothServicelist(BluetoothGatt gatt,int status);
+    }
+    //获取已连接设备gatt
+    interface OnBlueToothConnectGattListener{
+        void OnBlueToothGattList(List<BluetoothGatt> gattList);
     }
 }

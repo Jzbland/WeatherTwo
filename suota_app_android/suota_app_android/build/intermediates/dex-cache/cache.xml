@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\guzhen\.android\build-cache\027d4a3a912af43526271cad3a0aa877be6a6d46\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="0bb0df3bf333801406f32bdfba678bcbd38cb9ff">
+        <dex dex="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\intermediates\pre-dexed\debug\classes_3343b9581e37e64c0ea89b06ff9d391e5fab588b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\guzhen\.android\build-cache\8e15d4bb03a4ff274a6ac0c878139c71c31498ea\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="86a04f40b5e28f11d108171131bed57ae1443f35">
+        <dex dex="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\intermediates\pre-dexed\debug\classes_7034c0578d75d505707251b0cf54083c3feb7404.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\guzhen\.android\build-cache\666cd6a8ba5b6bcb0f98710b7374aa709ea014b4\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4d100f9e146f538d729d698a994c74c7b5fb886e">
+        <dex dex="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\intermediates\pre-dexed\debug\classes_97de3ebd31e00ebf6b18ffe6ea50fc417e2d88c8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\guzhen\.android\build-cache\8db3f4822b565bb999d17926dd4b9fb632f37cd7\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="9c91cd2b5773b33e4cfe8ababb6544b54ef40335">
+        <dex dex="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\intermediates\pre-dexed\debug\classes_ddc49bf831b695e2bbf51fc0ffb356548a68ceb6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\downloadgoogle\suota_app_android\suota_app_android\library\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b4cdfaf535350fae1e5ff7c5f79cc797c7041b2c">
+        <dex dex="D:\downloadgoogle\suota_app_android\suota_app_android\app\build\intermediates\pre-dexed\debug\classes_c8545c7b928a9568e92820ee711a34bd4d78b7f7.jar" />
+    </item>
+
+</items>

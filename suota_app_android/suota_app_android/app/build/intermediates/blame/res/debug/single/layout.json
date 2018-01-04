@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\progress.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\layout\\progress.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\device_parameter_settings.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\layout\\device_parameter_settings.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\device_main.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\layout\\device_main.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\device_container.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\layout\\device_container.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_scan.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\layout\\activity_scan.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\device_info_item.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\layout\\device_info_item.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\device_file_list.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\layout\\device_file_list.xml"
+    }
+]

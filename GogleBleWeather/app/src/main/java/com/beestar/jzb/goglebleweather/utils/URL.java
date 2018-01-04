@@ -9,6 +9,8 @@ public class URL {
     final public static String url_weather="https://way.jd.com/jisuapi/weather";
 
     final public static String url="http://123.207.173.111/PWS";
+    final public static String url_2="http://123.207.173.111";
+    final public static String url_updata="/update";
     /**
      * /获取短信验证码
      */

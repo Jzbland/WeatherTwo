@@ -9,7 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.beestar.jzb.goglebleweather.R;
-import com.beestar.jzb.goglebleweather.utils.L;
+import com.beestar.jzb.goglebleweather.utils.ActivityController;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
 
@@ -22,49 +22,26 @@ public class BaseActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_base);
-        requestLocation();
-        requestLocation2();
-        requestLocation3();
+        ActivityController.addActivity(this);
+
+
+       // requestLocation3();
+       // requestLocation4();
     }
 
-    private void requestLocation2() {
-        if (PermissionsUtil.hasPermission(this, Manifest.permission.READ_PHONE_STATE)) {
-//            Toast.makeText(this, "获取您的设备信息", Toast.LENGTH_LONG).show();
-            L.i("-----------111-----------------------------------------------");
-        } else {
-            PermissionsUtil.requestPermission(this, new PermissionListener() {
-                @Override
-                public void permissionGranted(@NonNull String[] permissions) {
-//                    Toast.makeText(getApplicationContext(), "用户授予获取设备信息的权限", Toast.LENGTH_LONG).show();
-                    L.i("--------------------------11--------------------------------");
-                }
-
-                @Override
-                public void permissionDenied(@NonNull String[] permissions) {
-//                    Toast.makeText(getApplicationContext(), "用户拒绝了获取设备信息的权限", Toast.LENGTH_LONG).show();
-                    L.i("-------------------1---------------------------------------");
-                }
-            }, new String[]{Manifest.permission.READ_PHONE_STATE});
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivityController.setCurrentActivity(this);
     }
 
-    private void requestLocation() {
-        if (PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-//            Toast.makeText(this, "获取您的位置信息", Toast.LENGTH_LONG).show();
-        } else {
-            PermissionsUtil.requestPermission(this, new PermissionListener() {
-                @Override
-                public void permissionGranted(@NonNull String[] permissions) {
-//                    Toast.makeText(getApplicationContext(), "用户授予获取位置信息的权限", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void permissionDenied(@NonNull String[] permissions) {
-//                    Toast.makeText(getApplicationContext(), "用户拒绝了获取位置信息的权限", Toast.LENGTH_LONG).show();
-                }
-            }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityController.removeActivity(this);
     }
+
+
     private void requestLocation3() {
         if (PermissionsUtil.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 //            Toast.makeText(this, "获取您的内存卡读权限", Toast.LENGTH_LONG).show();
@@ -82,4 +59,5 @@ public class BaseActivity extends AppCompatActivity {
             }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
         }
     }
+
 }

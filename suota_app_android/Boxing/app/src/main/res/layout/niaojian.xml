@@ -1,0 +1,108 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    
+    <LinearLayout 
+    	android:id="@+id/layout1"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	     >
+	
+	    <RelativeLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:gravity="center_vertical"
+		    android:background="#526AD4"
+		    android:paddingTop="10dp"
+		    android:paddingBottom="10dp"
+		    android:paddingLeft="18dp"
+		    android:paddingRight="18dp"
+		   	 >
+		    <ImageButton 
+		        android:id="@+id/backbut_niaojian"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:background="@drawable/icon_back"
+		        />
+		
+		    <TextView 
+		        android:id="@+id/titleview_niaojian"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerInParent="true"
+		        android:text="尿检化验单"
+		        android:textSize="30px"
+		        android:textColor="#ffffff"/>
+		    
+		    <ImageButton 
+		        android:id="@+id/right_niaojian"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        
+		        android:background="@drawable/icon_bar_huayandan"
+		        />
+		</RelativeLayout>
+	    
+	    <com.example.boxing.LineGraphicView
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_marginBottom="30dp"
+	        android:id="@+id/line_graphic"></com.example.boxing.LineGraphicView>
+	
+	</LinearLayout>
+    <LinearLayout 
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <RelativeLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:gravity="center_vertical"
+		    android:background="#526AD4"
+		    android:paddingTop="10dp"
+		    android:paddingBottom="10dp"
+		    android:paddingLeft="18dp"
+		    android:paddingRight="18dp"
+		   	 >
+		    <ImageButton 
+		        android:id="@+id/backbut2_niaojian"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:background="@drawable/icon_back"
+		        />
+		
+		    <TextView 
+		        android:id="@+id/titleview2_niaojian"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerInParent="true"
+		        android:text="尿检化验单"
+		        android:textSize="30px"
+		        android:textColor="#ffffff"/>
+		    
+		    <ImageButton 
+		        android:id="@+id/right2_niaojian"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        
+		        android:background="@drawable/icon_bar_huayandan"
+		        />
+		</RelativeLayout>
+        <ListView 
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            ></ListView>
+    </LinearLayout>
+</FrameLayout>
+
+

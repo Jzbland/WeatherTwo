@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layout_widthPercent="70%w"
-            android:text="注册"
+            android:text="忘记密码"
             android:gravity="center"
             />
     </com.zhy.android.percent.support.PercentLinearLayout>

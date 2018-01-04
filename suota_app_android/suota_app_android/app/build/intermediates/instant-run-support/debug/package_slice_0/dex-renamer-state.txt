@@ -1,0 +1,4 @@
+#Tue Dec 05 18:27:00 CST 2017
+base.0=D\:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_0
+renamed.0=classes.dex
+file.0=D\:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_0\\classes.dex

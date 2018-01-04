@@ -1,0 +1,274 @@
+[
+    {
+        "outputFile": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 100,
+                    "endLine": 7,
+                    "endColumn": 19,
+                    "endOffset": 304
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 309,
+                    "endLine": 39,
+                    "endColumn": 19,
+                    "endOffset": 1442
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 40,
+                    "startColumn": 4,
+                    "startOffset": 1447,
+                    "endLine": 44,
+                    "endColumn": 19,
+                    "endOffset": 1578
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 45,
+                    "startColumn": 4,
+                    "startOffset": 1583,
+                    "endColumn": 62,
+                    "endOffset": 1641
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\library\\build\\intermediates\\bundles\\default\\res\\values\\values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 47,
+                    "startColumn": 4,
+                    "startOffset": 2070,
+                    "endColumn": 57,
+                    "endOffset": 2123
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 48,
+                    "startColumn": 4,
+                    "startOffset": 2128,
+                    "endColumn": 55,
+                    "endOffset": 2179
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 49,
+                    "startColumn": 4,
+                    "startOffset": 2184,
+                    "endColumn": 50,
+                    "endOffset": 2230
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 50,
+                    "startColumn": 4,
+                    "startOffset": 2235,
+                    "endColumn": 52,
+                    "endOffset": 2283
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 51,
+                    "startColumn": 4,
+                    "startOffset": 2288,
+                    "endColumn": 69,
+                    "endOffset": 2353
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 52,
+                    "startColumn": 4,
+                    "startOffset": 2358,
+                    "endColumn": 62,
+                    "endOffset": 2416
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 53,
+                    "startColumn": 4,
+                    "startOffset": 2421,
+                    "endColumn": 42,
+                    "endOffset": 2459
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 54,
+                    "startColumn": 4,
+                    "startOffset": 2464,
+                    "endColumn": 53,
+                    "endOffset": 2513
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 55,
+                    "startColumn": 4,
+                    "startOffset": 2518,
+                    "endColumn": 164,
+                    "endOffset": 2678
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\generated\\fabric\\res\\debug\\values\\com_crashlytics_build_id.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 0,
+                        "startOffset": 311,
+                        "endColumn": 162,
+                        "endOffset": 473
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 56,
+                    "startColumn": 4,
+                    "startOffset": 2683,
+                    "endColumn": 52,
+                    "endOffset": 2731
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 57,
+                    "startColumn": 4,
+                    "startOffset": 2736,
+                    "endColumn": 54,
+                    "endOffset": 2786
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 58,
+                    "startColumn": 4,
+                    "startOffset": 2791,
+                    "endColumn": 48,
+                    "endOffset": 2835
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 59,
+                    "startColumn": 4,
+                    "startOffset": 2840,
+                    "endLine": 61,
+                    "endColumn": 12,
+                    "endOffset": 2918
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 62,
+                    "startColumn": 4,
+                    "startOffset": 2923,
+                    "endLine": 64,
+                    "endColumn": 12,
+                    "endOffset": 2990
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 65,
+                    "startColumn": 4,
+                    "startOffset": 2995,
+                    "endLine": 74,
+                    "endColumn": 12,
+                    "endOffset": 3480
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\library\\build\\intermediates\\bundles\\default\\res\\values\\values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 75,
+                    "startColumn": 4,
+                    "startOffset": 3485,
+                    "endLine": 84,
+                    "endColumn": 12,
+                    "endOffset": 3970
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\library\\build\\intermediates\\bundles\\default\\res\\values\\values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 85,
+                    "startColumn": 4,
+                    "startOffset": 3975,
+                    "endLine": 92,
+                    "endColumn": 12,
+                    "endOffset": 4347
+                },
+                "from": {
+                    "file": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\values\\styles.xml"
+                }
+            }
+        ]
+    }
+]

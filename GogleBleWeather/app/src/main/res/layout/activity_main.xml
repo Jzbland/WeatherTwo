@@ -31,14 +31,16 @@
             android:gravity="center"
             android:layout_toEndOf="@+id/imageView"
             android:layout_toStartOf="@+id/imageView2" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:clickable="true"
             android:layout_alignParentRight="true"
             android:layout_margin="5dp"
-            android:src="@drawable/homeedit_sel"
+
             android:id="@+id/imageView2" />
+        <!--android:src="@drawable/homeedit_sel"-->
     </RelativeLayout>
     <!--=========================================================================-->
     <RelativeLayout
@@ -47,7 +49,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.45"
+            android:alpha="0.55"
             android:id="@+id/imageView_bac1"
             android:scaleType="fitXY"
             android:src="@mipmap/homedefaultbg"
@@ -57,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
+            android:alpha="0.45"
             android:id="@+id/imageView_bac2"
             android:src="@mipmap/homebgcover" />
         <ScrollView
@@ -158,50 +161,30 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/qiuqiu"
                             android:orientation="horizontal"
-                            android:weightSum="2"
                             >
                             <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                >
-                                <com.beestar.jzb.goglebleweather.view.OptionCircle
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_margin="30dp"
-                                    android:background="@drawable/hometemp_sel"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <com.beestar.jzb.goglebleweather.view.BallView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:id="@+id/tem"
                                     />
-                                <com.beestar.jzb.goglebleweather.view.OptionCircle
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_margin="30dp"
-                                    android:layout_below="@+id/tem"
-                                    android:background="@drawable/homepm25_sel"
+                                <com.beestar.jzb.goglebleweather.view.BallView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:id="@+id/pm_2_5"
                                     />
-                            </RelativeLayout>
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                >
-                                <com.beestar.jzb.goglebleweather.view.OptionCircle
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_margin="30dp"
-                                    android:background="@drawable/hometemp_sel"
+                                <com.beestar.jzb.goglebleweather.view.BallView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:id="@+id/hum"
                                     />
-                                <com.beestar.jzb.goglebleweather.view.OptionCircle
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_margin="30dp"
-                                    android:layout_below="@+id/hum"
-                                    android:background="@drawable/homepress_sel"
+                                <com.beestar.jzb.goglebleweather.view.BallView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:id="@+id/airpress"
                                     />
-
                             </RelativeLayout>
                         </LinearLayout>
                         <!--球  球-->
@@ -386,7 +369,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorActionbar"
                     android:id="@+id/second_screen"
-                    android:alpha="0.45"
+                    android:alpha="0.55"
                     >
                     <ImageView
                         android:layout_width="match_parent"
@@ -604,6 +587,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1月1日 星期三"
+                            android:id="@+id/date"
                             android:layout_gravity="center_horizontal"
                             />
                         <View
@@ -620,15 +604,17 @@
 
                             >
                              <com.facebook.drawee.view.SimpleDraweeView
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="200dp"
                                  android:layout_weight="1"
+                                 android:layout_margin="20dp"
                                 android:id="@+id/card_1"
                                  android:src="@mipmap/ic_launcher"
                                 />
                             <com.facebook.drawee.view.SimpleDraweeView
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="200dp"
+                                android:layout_margin="20dp"
                                 android:layout_weight="1"
                                 android:id="@+id/card_2"
                                 android:src="@mipmap/ic_launcher"

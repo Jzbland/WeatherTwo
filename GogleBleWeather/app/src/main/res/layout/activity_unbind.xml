@@ -35,8 +35,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="确定要解绑设备吗？解绑后"
+        android:layout_marginTop="120dp"
+        android:text="确定要解绑设备吗？解绑后您将不"
         android:layout_gravity="center_horizontal"
         android:textColor="@android:color/black"
         android:textSize="14sp"
@@ -44,7 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="您将不能再接收随身气象站推送、"
+        android:text="能再接收随身气象站推送、"
         android:layout_gravity="center_horizontal"
         android:textColor="@android:color/black"
         android:textSize="14sp"

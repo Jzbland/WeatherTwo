@@ -79,6 +79,7 @@ public class RememberPwd extends BaseActivity implements View.OnClickListener {
                         ||TextUtils.isEmpty(mRememberNewPwd.getText())||TextUtils.isEmpty(mRememberConfimPwd.getText())){
                     Toast.makeText(getApplicationContext(),"请填写完整信息",Toast.LENGTH_SHORT).show();
                 }else {
+                    Toast.makeText(getApplicationContext(),"正在修改请稍候...",Toast.LENGTH_SHORT).show();
                    L.i(new Gson().toJson(new Registe_UserInfo(mRemenberTel.getText().toString().trim(),
                            mRememberConfimPwd.getText().toString().trim(),
                            mRememberNewPwd.getText().toString().trim(),
@@ -104,6 +105,7 @@ public class RememberPwd extends BaseActivity implements View.OnClickListener {
                                     }else {
                                         Toast.makeText(RememberPwd.this,returnBean.getMsg(),Toast.LENGTH_SHORT).show();
                                         L.i(returnBean.getMsg()+"---"+returnBean.getRtn_code());
+                                        Toast.makeText(RememberPwd.this,"密码修改失败，请重试...",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override

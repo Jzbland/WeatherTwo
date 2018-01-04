@@ -1,26 +1,27 @@
 package com.beestar.jzb.goglebleweather.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothProfile;
-import android.content.ComponentName;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragementDialog;
@@ -28,18 +29,17 @@ import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentAddInforDilog;
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentConnDialog_False;
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
-import com.beestar.jzb.goglebleweather.Service.BluetoothLeService;
-import com.beestar.jzb.goglebleweather.Service.MyBlueToothInterface;
 import com.beestar.jzb.goglebleweather.Service.MyBluetoothScan;
+import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.adapter.MyDeviceListAdapter;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
-import com.beestar.jzb.goglebleweather.utils.Keyparameter;
 import com.beestar.jzb.goglebleweather.utils.L;
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class BindingActivity extends BaseActivity implements MyFragementDialog.OnMyFragmentDialogLister,MyFragmentConnDialog_False.OnMyFragmentConnFalseLister
 ,MyFragmentAddInforDilog.OnMyFragmentAddInfroListener
@@ -56,8 +56,7 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     private MyDeviceListAdapter myDeviceListAdapter;
     private MyBluetoothScan myBluetoothScan= new MyBluetoothScan();
     private ServiceConnection connection;
-    private BluetoothLeService mService;
-
+    private MyServiceBlueTooth mService;
     //写数据
     private BluetoothGattCharacteristic writecharacteristic;
     private BluetoothGattService writenotyGattService;;
@@ -72,19 +71,98 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     private MyFragementDialog myFragementDialog;
     private MyFragmentAddInforDilog myFragmentAddInforDilog;
     private  MyFragmentConnDialog_False connDialog_false;
+    private TextView scanstastu;
+
+    private List<String > listAddress=new ArrayList<>();
+
+    BroadcastReceiver mReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(MyServiceBlueTooth.BING_SUCCESS)){
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+                if(myFragementDialog!=null &&  myFragementDialog.getDialog()!=null
+                        && myFragementDialog.getDialog().isShowing()) {
+                    Log.i("binding", "onReceive: BING_SUCCESS");
+                    myFragementDialog.close();
+                } else {
+
+                }
+                if (myFragmentAddInforDilog!=null&& myFragmentAddInforDilog.getDialog()!=null&&myFragmentAddInforDilog.getDialog().isShowing()){
+
+                }else {
+                    showAddInforDialog();
+                }
+
+            }else if (intent.getAction().equals(MyServiceBlueTooth.BING_FAILD)){
+                //绑定失败
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+                showDialog();
+                sendData(device.getAddress(),m_szImei);
+            }else if (intent.getAction().equals(MyServiceBlueTooth.HAVEBING_WITHOTHERS)){
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binding);
         deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         initTelphoneMga();
-        bindLocal();
+        registerReceiver(mReceiver,getFilter());
         initView();
+        requestLocation();
+
+        requestLocation3();
         initblebool();
         boolBluetooth();
-        OnSlcanDevice();
-        OnConnectAndService();
+        myScanDevice(true);
+        onConnectAndService();
         slcan_btn();
+    }
+    private BluetoothAdapter.LeScanCallback mLeScanCallback =
+            new BluetoothAdapter.LeScanCallback() {
+                @Override
+                public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+                    if (checkDecive(device.getAddress())!=null){
+                        if (device.getName()!=null){
+                            Log.i("info","---设备-"+device.getName()+"--"+device.getAddress());
+                            myDeviceListAdapter.addItem(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false,false));
+                            list.add(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false,false));
+                        }else {
+
+                        }
+                    }
+                }
+            };
+    public void myScanDevice(final boolean enable) {
+
+        if (enable) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mScanning = false;
+                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                }
+            }, SCAN_PERIOD);
+
+            mScanning = true;
+            mBluetoothAdapter.startLeScan(mLeScanCallback);
+        } else {
+            mScanning = false;
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+        }
+    }
+
+
+    private IntentFilter getFilter() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MyServiceBlueTooth.BING_SUCCESS);
+        intentFilter.addAction(MyServiceBlueTooth.BING_FAILD);
+        intentFilter.addAction(MyServiceBlueTooth.HAVEBING_WITHOTHERS);
+        return intentFilter;
     }
 
     private void initTelphoneMga() {
@@ -98,126 +176,23 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
         m_szImei="f1"+m_szImei+"1f";
     }
 
-    private void sendDataToBle(String address,String data){
-        if (writecharacteristic!=null&&readCharacteristic!=null){
-            final int charaProp = writecharacteristic.getProperties();
-            //发送读数据的通知
-            mService.setCharacteristicNotification(address,readCharacteristic, true);
-            //如果该char可写
-            if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
-                // If there is an active notification on a characteristic, clear
-                // it first so it doesn't update the data field on the user interface.
-                if (mNotifyCharacteristic != null) {
-                    mService.setCharacteristicNotification(address, mNotifyCharacteristic, false);
-                    mNotifyCharacteristic = null;
-                }
-                mService.readCharacteristic(address,writecharacteristic);
-                //发送数据
-                byte[] value = new byte[20];
-                value[0] = (byte) 0x00;
-                writecharacteristic.setValue(data.getBytes());
-                mService.writeCharacteristic(address,writecharacteristic);
-
-                if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
-                    mNotifyCharacteristic = writecharacteristic;
-                    mService.setCharacteristicNotification(address,writecharacteristic, true);
-                }
-                getBleData();
-          }
-        }
-    }
-    /**
-     * 获取Ble发送的数据
-     */
-    private void getBleData(){
-        mService.setmOnBleSendToPhoneDataListener(new MyBlueToothInterface.OnBleSendToPhoneDataListener() {
-            @Override
-            public void OnBleSendToPhoneData(BluetoothGatt gatt,String data) {
-                L.i(gatt.getDevice().getName()+"=======================================获得的数据是"+data);
-                if (data.contains("ff")||data.contains("FF")){
-                    sendData(gatt.getDevice().getAddress(),m_szImei);
-                }else if (data.contains("f2")||data.contains("F2")){
-                    sendData(gatt.getDevice().getAddress(),m_szImei);
-                }else if(data.contains("CD")||data.contains("cd")){
-                    showDialog();
-                }else if (data.contains("bb")||data.contains("BB")){
-                    mService.disconnect(mac);
-                }else if (data.contains("ef")||data.contains("EF")){
-                    //绑定成功
-                    sendData(gatt.getDevice().getAddress(),"01");
-                    DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.Mac.eq(gatt.getDevice().getAddress())).build().unique();
-                    DeviceBean deviceBean2 = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
-                    if (deviceBean2==null){
-
-                    }else {
-                        deviceBean2.setIsChoose(false);
-                        deviceBeanDao.update(deviceBean2);
-                    }
-                    if (deviceBean==null){
-                        L.i("没有符合条件的对象");
-                        deviceBeanDao.insert(new DeviceBean(gatt.getDevice().getName(),null,gatt.getDevice().getAddress(),true,true));
-                    }else {
-                        L.i("you符合条件的对象"+deviceBean.getName());
-                        deviceBean.setIsChoose(true);
-                        deviceBeanDao.update(deviceBean);
-                    }
-                    myFragementDialog.close();
-                    showDialog3();
-
-                }else if (data.length()>8){
-                    L.i("----------数据转换---------"+new String(hexStringToBytes(data)));
-                    //L.i("-------测试转换2b020306080100010909-----"+new String(hexStringToBytes("2b020306080100010909")));
-                    Intent intent = new Intent(BluetoothLeService.MY_DATA);
-                    intent.putExtra(BluetoothLeService.MY_DATA,new String(hexStringToBytes(data)));
-                    sendBroadcast(intent);
-                }
-            }
-        });
-    }
 
     /**
      * 连接并获取服务列表等
      */
-    private void OnConnectAndService() {
+    private void onConnectAndService() {
         myDeviceListAdapter.setOnItemClickListener(new MyDeviceListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                myScanDevice(false);
                 Log.i("info",list.get(position).getName()+"---点击的item---");
                 mac = list.get(position).getMac();
-                mService.connect(list.get(position).getMac());
-                mService.setOnDiscoverServiceListener(new MyBlueToothInterface.OnDiscoverServiceListener() {
-                    @Override
-                    public void OnDiscoverService(BluetoothGatt gatt,List<BluetoothGattService> gattServices) {
-                        L.i(gattServices.size()+"-------Main获取服务列表----------");
-                        for (BluetoothGattService service:gattServices){
-                            if (service.getUuid().toString().equals(Keyparameter.WRITEGATTSERVICEUUID)){
-                                //写需要的服务数据
-                                writenotyGattService=service;
-                                writecharacteristic=writenotyGattService.getCharacteristic(UUID.fromString(Keyparameter.WRITECHARACTERISTIC));
-                            }
-                            if (service.getUuid().toString().equals(Keyparameter.READATTSERVICEUUID)){
-                                //读需要的服务数据
-                                readMnotyGattService=service;
-                                readCharacteristic=readMnotyGattService.getCharacteristic(UUID.fromString(Keyparameter.READCHARACTERISTIC));
-                            }
-                        }
-                        if (readCharacteristic!=null){
-                            mService.setCharacteristicNotification(gatt.getDevice().getAddress(),readCharacteristic, true);
-
-                        }
-
-                        getBleData();
-                        binding();
-                    }
-                });
-                mService.setOnConnectionStateChange(new MyBlueToothInterface.OnConnectionStateChangeListener() {
-                    @Override  //状态信息发生改变
-                    public void OnConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                        if (newState == BluetoothProfile.STATE_CONNECTED){
-                                L.i("连接成功");
-                        }
-                    }
-                });
+                L.i("------mac----"+mac);
+                Intent intent=new Intent();
+                intent.setAction(MyServiceBlueTooth.RECCONECT);
+                intent.putExtra("address",mac);
+                sendBroadcast(intent);
+                showDialog2(list.get(position).getName());
             }
         });
     }
@@ -230,40 +205,28 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindLocal();
+        unregisterReceiver(mReceiver);
+        myScanDevice(false);
     }
 
     public void slcan_btn() {//点击开始扫描
         list.clear();
         myDeviceListAdapter.clear();
-        myBluetoothScan.scanLeDevice(true);
+        myScanDevice(true);
+        scanstastu.setText("正在搜索...");
     }
     public void Discon_btn(View view) {//断开连接
         L.i("点击断开");
         sendData(mac,"CC");
     }
-    //绑定
-    public void binding() {
-        //sendDataToBle(mac,m_szImei);
-        sendData(mac,"FF");
-        showDialog2();
-    }
-    //获取温湿度PM2.5
-    public void getTemAndHumi(){
-        L.i("---------获取温湿度");
-        sendData(mac,"01");
-    }
+    private String checkDecive(String addressflag) {
+        if (listAddress.contains(addressflag)){
+            return null;
+        }else {
+            listAddress.add(addressflag);
+            return addressflag;
+        }
 
-    //设备扫描
-    private void OnSlcanDevice(){
-        myBluetoothScan.setOnScanGetDeviceListener(new MyBlueToothInterface.OnScanGetDeviceListener() {
-            @Override
-            public void OnSlcanGetDeviceSuccess(BluetoothDevice device, int rssi, byte[] scanRecord) {
-                Log.i("info","------main--------设备名称-----------"+device.getName());
-                myDeviceListAdapter.addItem(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false,false));
-                list.add(new DeviceBean(device.getName().toString(),device.getAddress().toString(),false,false));
-            }
-        });
     }
     private void initView() {
         dev_list = ((RecyclerView) findViewById(R.id.dev_list));
@@ -271,6 +234,7 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
         dev_list.setLayoutManager(new LinearLayoutManager(this));
         dev_list.setAdapter(myDeviceListAdapter);
         dev_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        scanstastu = ((TextView) findViewById(R.id.scan_stastu));
     }
 
     /**
@@ -292,7 +256,6 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
             if (resultCode == Activity.RESULT_OK) {
                 //成功
                 Toast.makeText(this, "蓝牙开启成功...", Toast.LENGTH_SHORT).show();
-
             } else {
                 //失败
                 Toast.makeText(this, "蓝牙开启失败...", Toast.LENGTH_SHORT).show();
@@ -313,48 +276,6 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
             finish();
         }
     }
-    /**
-     *  绑定蓝牙服务
-     */
-    public void bindLocal() {
-        Intent bind = new Intent(this, BluetoothLeService.class);
-        connection = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                mService = ((BluetoothLeService.LocalBinder) iBinder).getService();
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName componentName) {
-             
-            }
-        };
-        bindService(bind,connection, Context.BIND_AUTO_CREATE);
-
-    }
-    /**
-     * 解绑蓝牙服务
-     */
-    public void unbindLocal(){
-        if (connection != null)
-            unbindService(connection);
-    }
-    public String bytesToHexString(byte[] src) {
-        StringBuilder stringBuilder = new StringBuilder("");
-        if (src == null || src.length <= 0) {
-            return null;
-        }
-        for (int i = 0; i < src.length; i++) {
-            int v = src[i] & 0xFF;
-            String hv = Integer.toHexString(v);
-            if (hv.length() < 2) {
-                stringBuilder.append(0);
-            }
-            stringBuilder.append(hv);
-        }
-        return stringBuilder.toString();
-    }
-
     /**
      * Convert hex string to byte[]
      *
@@ -387,45 +308,48 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     }
     public void sendData(String address,String data){
         Intent intent=new Intent();
-        intent.setAction(BluetoothLeService.SEND_DATA);
+        intent.setAction(MyServiceBlueTooth.SEND_DATA);
         intent.putExtra("address",address);
         intent.putExtra("data",data);
         sendBroadcast(intent);
-
     }
     //重新开始弹出框
     public void showDialog() {
-         connDialog_false=new MyFragmentConnDialog_False();
+        connDialog_false=new MyFragmentConnDialog_False();
         connDialog_false.show(getFragmentManager(),"conn_false");
     }
     //绑定弹出框
-    public void showDialog2(){
-        myFragementDialog = new MyFragementDialog();
+    public void showDialog2(String s){
+        myFragementDialog = MyFragementDialog.newInstance(s);
         myFragementDialog.show(getFragmentManager(),"bindingDialog");
     }
     //改名字弹出框
-    public void showDialog3(){
+    public void showAddInforDialog(){
         myFragmentAddInforDilog = new MyFragmentAddInforDilog();
         myFragmentAddInforDilog.show(getFragmentManager(),"addinfor");
     }
     @Override
     public void onFragmentDialogCancelLister(String s) {
         L.i("我点了取消1");
-        mService.disconnect(mac);
+        Intent in=new Intent();
+        in.setAction(MyServiceBlueTooth.DISCONNECTED);
+        in.putExtra("address",mac);
+        sendBroadcast(in);
     }
 
     @Override
     public void onFragmentConnFalseCancel(String s) {
         L.i("我点了取消2");
-        mService.disconnect(mac);
+        Intent in=new Intent();
+        in.setAction(MyServiceBlueTooth.DISCONNECTED);
+        in.putExtra("address",mac);
+        sendBroadcast(in);
     }
-
     @Override
     public void onFragmentConnFalseNext(String s) {
         L.i("重新开始");
         sendData(mac,m_szImei);
     }
-
     //添加信息取消
     @Override
     public void onMyFragmentAddInfroCancel() {
@@ -445,5 +369,38 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
 
     public void back(View view) {
         finish();
+    }
+    public void rescan(View view) {
+        listAddress.clear();
+        slcan_btn();
+    }
+
+
+    private void requestLocation() {
+        if (PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+                }
+
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+            }
+            }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+        }
+    }
+    private void requestLocation3() {
+        if (PermissionsUtil.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+                }
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+                }
+            }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+        }
     }
 }

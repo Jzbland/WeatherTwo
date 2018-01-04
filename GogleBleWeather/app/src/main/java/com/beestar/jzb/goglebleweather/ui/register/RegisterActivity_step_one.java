@@ -116,14 +116,16 @@ public class RegisterActivity_step_one extends BaseActivity implements View.OnCl
                         ReturnBean returnBean = new Gson().fromJson(response, ReturnBean.class);
                         if (returnBean.getRtn_code()==0){
                             L.i(returnBean.getMsg().toString());
+                            Toast.makeText(MyApp.getContext().getApplicationContext(),"短信发送成功",Toast.LENGTH_SHORT).show();
                         }else {
                             L.i(returnBean.getMsg().toString());
+                            Toast.makeText(MyApp.getContext().getApplicationContext(),"短信发送失败，请检查您的手机号...",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-
+                        Toast.makeText(MyApp.getContext().getApplicationContext(),"短信发送失败，请重试",Toast.LENGTH_SHORT).show();
                     }
                 });
     }

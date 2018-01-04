@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
-import com.beestar.jzb.goglebleweather.Service.BluetoothLeService;
+import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
@@ -194,7 +194,7 @@ public class NoDisturbActivity extends BaseActivity implements View.OnClickListe
     }
     public void sendData(String address,String data){
         Intent intent=new Intent();
-        intent.setAction(BluetoothLeService.SEND_DATA);
+        intent.setAction(MyServiceBlueTooth.SEND_DATA);
         intent.putExtra("address",address);
         intent.putExtra("data",data);
         sendBroadcast(intent);

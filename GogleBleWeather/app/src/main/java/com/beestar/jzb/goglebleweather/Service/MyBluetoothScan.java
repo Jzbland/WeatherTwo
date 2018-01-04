@@ -17,8 +17,10 @@ public class MyBluetoothScan {
     Handler mHandler=new Handler();
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     MyBlueToothInterface.OnScanGetDeviceListener mOnScanGetDeviceListener;
+    MyBlueToothInterface.OnScanStopListener mOnScanStopListener;
     private List<String> list=new ArrayList<>();
 
+    @SuppressWarnings("deprecation")
     public void scanLeDevice(final boolean enable) {
         if (enable) {
             mHandler.postDelayed(new Runnable() {
@@ -30,6 +32,7 @@ public class MyBluetoothScan {
             mBluetoothAdapter.startLeScan(mLeScanCallback); //开始搜索
         } else {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);//停止搜索
+            mOnScanStopListener.OnBlueScanStopListener(false);
         }
     }
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
@@ -39,8 +42,8 @@ public class MyBluetoothScan {
                 @Override
                 public void run() {
                     if (device.getName()!=null&&device.getName().length()!=0){
-                        if (checkDecive(device.getAddress())!=null){
-                            Log.i("info","--------------设备名称-----------"+device.getName()+device.getAddress());
+                        if (device.getAddress()!=null){
+                            Log.i("info","--------------设备名称-----------"+device.getName()+device.getAddress()+device.getUuids());
                             mOnScanGetDeviceListener.OnSlcanGetDeviceSuccess( device,rssi,scanRecord);
                         }
                     }
@@ -61,5 +64,7 @@ public class MyBluetoothScan {
     public void setOnScanGetDeviceListener(MyBlueToothInterface.OnScanGetDeviceListener l){
         mOnScanGetDeviceListener=l;
     }
-
+    public void setScanStopListener(MyBlueToothInterface.OnScanStopListener l){
+        mOnScanStopListener=l;
+    }
 }

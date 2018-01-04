@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\radio_button.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\drawable\\radio_button.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\circle_shape.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\drawable\\circle_shape.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\button_text_color.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\drawable\\button_text_color.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\button_b.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\drawable\\button_b.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\radio_button_text_color.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\drawable\\radio_button_text_color.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\button.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\drawable\\button.xml"
+    },
+    {
+        "merged": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\button_a.xml",
+        "source": "D:\\downloadgoogle\\suota_app_android\\suota_app_android\\app\\src\\main\\res\\drawable\\button_a.xml"
+    }
+]

@@ -284,6 +284,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:divider="#00000000"
+                android:dividerHeight="18dp"
                 android:id="@+id/device_list"
                 />
             <TextView

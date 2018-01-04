@@ -1,0 +1,30 @@
+#Internal package file, do not edit.
+#Wed Nov 08 16:36:14 CST 2017
+2.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+5.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\AndroidManifest.xml
+5.set=ANDROID_RESOURCE
+3.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
+6.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-hdpi-v4\\icon_back.png
+2.set=ANDROID_RESOURCE
+4.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+7.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-hdpi-v4\\icon_bar_huayandan.png
+7.set=ANDROID_RESOURCE
+count=9
+0.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-xhdpi-v4\\ic_launcher.png
+5.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+8.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\resources.arsc
+4.set=ANDROID_RESOURCE
+6.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+1.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\layout\\niaojian.xml
+1.set=ANDROID_RESOURCE
+7.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+2.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\layout\\top.xml
+6.set=ANDROID_RESOURCE
+0.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+8.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+3.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex
+3.set=DEX
+1.base=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_
+4.file=D\:\\downloadgoogle\\suota_app_android\\Boxing\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\menu\\main.xml
+8.set=ANDROID_RESOURCE
+0.set=ANDROID_RESOURCE

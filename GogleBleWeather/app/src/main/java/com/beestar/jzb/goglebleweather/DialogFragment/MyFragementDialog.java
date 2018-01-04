@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.beestar.jzb.goglebleweather.R;
 
@@ -18,10 +19,20 @@ import com.beestar.jzb.goglebleweather.R;
 public class MyFragementDialog extends DialogFragment{
 
 
+    private TextView name_fd;
+    public static MyFragementDialog newInstance(String title){
+        MyFragementDialog instance=new MyFragementDialog();
+        Bundle arg=new Bundle();
+        arg.putString("name",title);
+        instance.setArguments(arg);
+        return instance;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmentdialog_binding, container);
+        name_fd = ((TextView) view.findViewById(R.id.bluetooth_name_fd));
+        name_fd.setText(getArguments().getString("name"));
         view.findViewById(R.id.imageButton_cancle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,4 +61,5 @@ public class MyFragementDialog extends DialogFragment{
     public void close(){
         dismiss();
     }
+
 }

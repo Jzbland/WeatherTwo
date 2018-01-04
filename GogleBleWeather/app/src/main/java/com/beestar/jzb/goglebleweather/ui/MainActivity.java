@@ -22,19 +22,26 @@ package com.beestar.jzb.goglebleweather.ui;
  * ━━━━━━感觉萌萌哒━━━━━━
  */
 
+import android.Manifest;
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -54,7 +61,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
-import com.beestar.jzb.goglebleweather.Service.BluetoothLeService;
+import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.bean.LoginBean;
 import com.beestar.jzb.goglebleweather.bean.Login_Return;
@@ -74,7 +81,11 @@ import com.beestar.jzb.goglebleweather.utils.Keyparameter;
 import com.beestar.jzb.goglebleweather.utils.L;
 import com.beestar.jzb.goglebleweather.utils.SPUtils;
 import com.beestar.jzb.goglebleweather.utils.URL;
+import com.beestar.jzb.goglebleweather.view.BallView;
 import com.beestar.jzb.goglebleweather.view.OptionCircle;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.google.gson.Gson;
@@ -84,7 +95,9 @@ import com.tsy.sdk.myokhttp.response.GsonResponseHandler;
 import com.zcw.togglebutton.ToggleButton;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.beestar.jzb.goglebleweather.ui.setting.MyHomeSettingActivity.ALBUM_PATH;
@@ -132,7 +145,6 @@ public class MainActivity extends BaseActivity {
                     Bitmap bit = BitmapFactory.decodeFile(ALBUM_PATH + "icon", null);
                     bitmap = Bitmap.createBitmap(bit, 0, 0, bit.getWidth(),
                             bit.getHeight(), matrix, true);
-                   ;
                     image_icoin.setImageBitmap(bitmap);
                     break;
             }
@@ -147,14 +159,13 @@ public class MainActivity extends BaseActivity {
                 L.i("--------------收到UI广播--------------");
                 message.what = 100;
                 mhandler.sendMessage(message);
-            } else if (action.equals(BluetoothLeService.MY_DATA)) {
-                final String data = intent.getStringExtra(BluetoothLeService.MY_DATA);
-                L.i("--------data-------"+data);
+            } else if (action.equals(MyServiceBlueTooth.UPDATTEMP)) {
+                final String data = intent.getStringExtra("data");
+                L.i("---Main-----data-------"+data);
                 L.i("解析温湿度信息");
                 if (data == null) {
                     return;
                 }
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -168,25 +179,46 @@ public class MainActivity extends BaseActivity {
                         }
                         if (str.length() >= 10) {
                             MyWeatherBean myWeatherBean = getWeather(str);
-                            mtem.setText("温度:" + myWeatherBean.getTem() + "℃");
-                            mhum.setText("湿度:" + myWeatherBean.getHum() + "％");
-                            mAirpress.setText("气压:" + myWeatherBean.getAirpress() + "Hkpa");
+                            mtem.setText( myWeatherBean.getTem() + "℃");
+                            mhum.setText( myWeatherBean.getHum() + "％");
+                            mAirpress.setText( myWeatherBean.getAirpress() + "Kpa");
                         }
                     }
                 });
+            }else if (action.equals(MyServiceBlueTooth.BING_SUCCESS)){
+                BluetoothDevice device=(BluetoothDevice) intent.getParcelableExtra("device");
+                bluetoothStatusText.setText("蓝牙已连接");
+                if (device!=null){
+                    if (device.getName()!=null){
+                        addBluetoothText.setText(device.getName().toString());
+                    }
+                }
+            }else if (action.equals(MyServiceBlueTooth.UPDATUI_BINGFAILD)){
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+                DeviceBean unique = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                if (unique!=null){
+                    if (unique.getMac().equals(device.getAddress())){
+                        addBluetoothText.setText(unique.getName()+"已断开连接");
+                    }
+                }
+            }else if (action.equals(MyServiceBlueTooth.UPDATUI_BINGSUCCESS)){
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+                DeviceBean unique = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
+                if (unique!=null){
+                    if (unique.getMac().equals(device.getAddress())){
+                        addBluetoothText.setText(unique.getName()+"");
+                    }
+                }
             }
-
         }
     };
-
-
     //063660
     private View rememberPwd;
     private OptionCircle mTem;
-    private OptionCircle mtem;
-    private OptionCircle mPM25;
-    private OptionCircle mhum;
-    private OptionCircle mAirpress;
+    private BallView mtem;
+    private BallView mPM25;
+    private BallView mhum;
+    private BallView mAirpress;
     private TextView mUserNameText;
     /** 24℃ */
     private TextView mDataTemp,mDataTemp2;
@@ -202,23 +234,28 @@ public class MainActivity extends BaseActivity {
     private TextView addBluetoothText;
     private ToggleButton switch_nodisturb;
     private LineChart lineChart;
-
+    private TextView date;
+    private SimpleDraweeView card_1  ,card_2;
+    private static String filesDir = Environment.getExternalStorageDirectory() + "//AMyWeather";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        requestLocation();
+       checkWritePermission();
         setLayoutHeight(getScreenHeight(this));
+        registerReceiver(mReceiver, getFilter());
         deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         initView();
-        startService(new Intent(MainActivity.this, BluetoothLeService.class));
+        startService(new Intent(MainActivity.this, MyServiceBlueTooth.class));
         mSlidingMenu = new SlidingMenu(MyApp.getContext());
         mSlidingMenu.setMode(SlidingMenu.LEFT);     //设置从左弹出/滑出SlidingMenu
         mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);   //设置占满屏幕
         mSlidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);    //绑定到哪一个Activity对象
         mSlidingMenu.setMenu(R.layout.slidingmenulayout);                   //设置弹出的SlidingMenu的布局文件
         mSlidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);       //设置SlidingMenu所占的偏移
-        mSlidingMenu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
+        mSlidingMenu.setOnOpenListener(new SlidingMenu.OnOpenListener() {//滑动打开监听
             @Override
             public void onOpen() {
                 if (SPUtils.contains(MyApp.getContext(), "isLogin")) {
@@ -229,7 +266,6 @@ public class MainActivity extends BaseActivity {
                         if (!(( (String)SPUtils.get(getApplicationContext(), "name", "")) ==null)){
                             userNameText.setText(((String) SPUtils.get(getApplicationContext(), "name", "")));
                         }
-
                     } else {
                         isLogin_layout.setVisibility(View.GONE);
                         isNoLogin_layout.setVisibility(View.VISIBLE);
@@ -280,15 +316,25 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(mReceiver, getFilter());
+
         L.i("onResume------MainActivuty");
         if (deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique()==null){
             bluetoothStatusText.setText("蓝牙未连接");
         }else {
             DeviceBean deviceBean = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
-            bluetoothStatusText.setText("蓝牙已连接");
-            addBluetoothText.setText(deviceBean.getName().toString());
-            sendData(deviceBean.getMac(),"01");
+            if (deviceBean.getIsConn()){
+                bluetoothStatusText.setText("蓝牙已连接");
+                addBluetoothText.setText(deviceBean.getName().toString());
+                sendData(deviceBean.getMac(),"01");
+            }else {
+                bluetoothStatusText.setText("蓝牙未连接");
+                addBluetoothText.setText(deviceBean.getName().toString()+"已断开连接");
+                Intent intent=new Intent();
+                intent.setAction(MyServiceBlueTooth.RECCONECT);
+                intent.putExtra("address",deviceBean.getMac());
+                sendBroadcast(intent);
+            }
+
         }
 
         switch_nodisturb.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
@@ -321,10 +367,51 @@ public class MainActivity extends BaseActivity {
         scrollView_my = ((ScrollView) findViewById(R.id.scrollView_my));
         bluetoothStatusText = ((TextView) findViewById(R.id.blue_status_text));
         addBluetoothText = ((TextView) findViewById(R.id.addBluetooth_text));
-        mtem = ((OptionCircle) findViewById(R.id.tem));
-        mPM25 = ((OptionCircle) findViewById(R.id.pm_2_5));
-        mhum = ((OptionCircle) findViewById(R.id.hum));
-        mAirpress = ((OptionCircle) findViewById(R.id.airpress));
+        mtem = ((BallView) findViewById(R.id.tem));
+        mPM25 = ((BallView) findViewById(R.id.pm_2_5));
+        mhum = ((BallView) findViewById(R.id.hum));
+        mAirpress = ((BallView) findViewById(R.id.airpress));
+
+        mtem.setTextName("温度：");
+        mPM25.setTextName("PM2.5:");
+        mhum.setTextName("湿度：");
+        mAirpress.setTextName("大气压：");
+
+
+        mtem.setaddBackground(((BitmapDrawable) this.getResources().getDrawable(R.drawable.hometemp)).getBitmap());
+        mPM25.setaddBackground(((BitmapDrawable) this.getResources().getDrawable(R.drawable.homepm25)).getBitmap());
+        mhum.setaddBackground(((BitmapDrawable) this.getResources().getDrawable(R.drawable.homehumi)).getBitmap());
+        mAirpress.setaddBackground(((BitmapDrawable) this.getResources().getDrawable(R.drawable.homepressure)).getBitmap());
+
+        mtem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("info", "onClick: 点击事件");
+                startActivity(new Intent(MainActivity.this,DataLineActivity.class));
+            }
+        });
+
+        date = (TextView)findViewById(R.id.date);
+        card_1 = ((SimpleDraweeView) findViewById(R.id.card_1));
+        card_2 = ((SimpleDraweeView) findViewById(R.id.card_2));
+        card_1.setImageURI(getPic(1));
+        card_2.setImageURI(getPic(0));
+        card_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it=new Intent(MainActivity.this,ImageActivity.class);
+                it.putExtra("url",getPic(1));
+                startActivity(it);
+            }
+        });
+        card_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it=new Intent(MainActivity.this,ImageActivity.class);
+                it.putExtra("url",getPic(0));
+                startActivity(it);
+            }
+        });
         scrollView_my.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -342,10 +429,6 @@ public class MainActivity extends BaseActivity {
                     case MotionEvent.ACTION_UP:
                         if (y2 - y1 > 0
                                 && (Math.abs(y2 - y1) > 25)) {
-                            //向下滑動
-                            L.i("------------------向下-------");
-                            //sanjiao.setVisibility(View.VISIBLE);
-
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -354,10 +437,6 @@ public class MainActivity extends BaseActivity {
                             });
                         } else if (y2 - y1 < 0
                                 && (Math.abs(y2 - y1) > 25)) {
-                            //向上滑动
-                            L.i("--------------向上-----------");
-                            //sanjiao.setVisibility(View.GONE);
-
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -387,9 +466,6 @@ public class MainActivity extends BaseActivity {
         ChartUtils.initChart(lineChart);
         ChartUtils.notifyDataSetChanged(lineChart,getData(),ChartUtils.weekValue);
     }
-
-
-
     private void onClickView() {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,7 +534,6 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
     private void initSlidingMenuView() {
         login = mSlidingMenu.findViewById(R.id.login);
         register = mSlidingMenu.findViewById(R.id.register);
@@ -478,7 +553,6 @@ public class MainActivity extends BaseActivity {
         image_icoin = ((RoundedImageView) findViewById(R.id.image_icoin));//头像
         userNameText = ((TextView) findViewById(R.id.usernametext));
         setIconSliding = ((PercentRelativeLayout) findViewById(R.id.set_icon_sliding));
-
     }
 
     //点击弹出侧滑菜单
@@ -507,32 +581,24 @@ public class MainActivity extends BaseActivity {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
         int span = 1000;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-
         option.setIsNeedAddress(true);
         //可选，设置是否需要地址信息，默认不需要
-
         option.setOpenGps(true);
         //可选，默认false,设置是否使用gps
-
         option.setLocationNotify(true);
         //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-
         option.setIsNeedLocationDescribe(true);
         //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-
         option.setIsNeedLocationPoiList(true);
         //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-
         option.setIgnoreKillProcess(false);
         //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-
 //        option.setIgnoreCacheException(false);
 //        //可选，默认false，设置是否收集CRASH信息，默认收集
 
@@ -562,7 +628,6 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
     private class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
@@ -579,9 +644,6 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
-
-
-
     //设置各位置高度
     private void setLayoutHeight(int i) {
         main_relative_title = ((RelativeLayout) findViewById(R.id.main_relative_title));
@@ -616,11 +678,10 @@ public class MainActivity extends BaseActivity {
                         public void onFailure(int statusCode, String error_msg) {
                             L.i("获取PM25---");
                         }
-
                         @Override
                         public void onSuccess(int statusCode, PM response) {
                             L.i("获取PM25");
-                            mPM25.setText("PM2.5:"+response.getData().get(0).get_$PM25231());
+                            mPM25.setText(""+response.getData().get(0).get_$PM25231());
                         }
                     });
         }
@@ -673,9 +734,14 @@ public class MainActivity extends BaseActivity {
                 .enqueue(new GsonResponseHandler<Login_Return>() {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        Toast.makeText(getApplication(), error_msg, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplication(), error_msg, Toast.LENGTH_SHORT).show();
+//                            SPUtils.put(MyApp.getContext(), "isLogin", true);
+//                            SPUtils.put(MyApp.getContext(),"phone",mUsernameView.getText().toString().trim());
+//                            SPUtils.put(MyApp.getContext(),"sex","男");
+//                            SPUtils.put(MyApp.getContext(),"name","测试");
+//                            mUserNameText.setText("测试");
+//                            mSlidingMenu.toggle(true);
                     }
-
                     @Override
                     public void onSuccess(int statusCode, Login_Return response) {
                         if (response.getRtn_code() == 0) {
@@ -685,9 +751,9 @@ public class MainActivity extends BaseActivity {
                             SPUtils.put(MyApp.getContext(),"name",response.getAdditions().getName());
                             mUserNameText.setText(response.getAdditions().getName());
                             mSlidingMenu.toggle(true);
-                            Toast.makeText(getApplication(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplication(), "登录成功", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getApplication(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplication(), "登陆失败，请检查您的账号密码", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -722,7 +788,7 @@ public class MainActivity extends BaseActivity {
                         mWeatherText2.setText( response.getResult().getResult().getWeather());
                         mWeatherWindpower2.setText("风力"+ result.getResult().getWindpower());
 
-                        mPM25.setText("PM2.5:"+response.getResult().getResult().getAqi().getIpm2_5());
+                        mPM25.setText(""+response.getResult().getResult().getAqi().getIpm2_5());
                     }
                 });
 
@@ -732,7 +798,11 @@ public class MainActivity extends BaseActivity {
     private IntentFilter getFilter() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Keyparameter.ACTTION_UPDATAUI);
-        intentFilter.addAction(BluetoothLeService.MY_DATA);
+        intentFilter.addAction(MyServiceBlueTooth.BING_SUCCESS);
+        intentFilter.addAction(MyServiceBlueTooth.UPDATTEMP);
+
+        intentFilter.addAction(MyServiceBlueTooth.UPDATUI_BINGSUCCESS);
+        intentFilter.addAction(MyServiceBlueTooth.UPDATUI_BINGFAILD);
         return intentFilter;
     }
 
@@ -796,7 +866,7 @@ public class MainActivity extends BaseActivity {
 
     public void sendData(String address,String data){
         Intent intent=new Intent();
-        intent.setAction(BluetoothLeService.SEND_DATA);
+        intent.setAction(MyServiceBlueTooth.SEND_DATA);
         intent.putExtra("address",address);
         intent.putExtra("data",data);
         sendBroadcast(intent);
@@ -812,5 +882,88 @@ public class MainActivity extends BaseActivity {
         values.add(new Entry(5, 20));
         values.add(new Entry(6, 20));
         return values;
+    }
+    private String getPic(int i){
+        String url = "http://123.207.173.111/PWS/images/calendar/";
+        if (i == 0)
+            return url+getDate()+"L.jpg";
+        else
+            return url+getDate()+"R.jpg";
+    }
+    private String getDate(){
+        String[] weeks = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+        Calendar c = Calendar.getInstance();
+//        Date date = c.getTime();
+        String m = "", d = "";
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        if (month <= 9){
+            m = "0" + month;
+        }else{
+            m = month + "";
+        }
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        if (day <= 9){
+            d = "0" + day;
+        }else{
+            d = day + "";
+        }
+        int week_index = c.get(Calendar.DAY_OF_WEEK) - 1;
+        if(week_index<0){
+            week_index = 0;
+        }
+//        return weeks[week_index];
+        date.setText(month+"月"+day+"日" + "  " + weeks[week_index]);
+        return year+"-"+m+"-"+d;
+    }
+
+
+    private void requestLocation() {
+        if (PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+//            Toast.makeText(this, "获取您的位置信息", Toast.LENGTH_LONG).show();
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+//                    Toast.makeText(getApplicationContext(), "用户授予获取位置信息的权限", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+//                    Toast.makeText(getApplicationContext(), "用户拒绝了获取位置信息的权限", Toast.LENGTH_LONG).show();
+                }
+            }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101) {
+            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0]
+                    == PackageManager.PERMISSION_GRANTED) {
+                //用户同意
+                checkWritePermission();
+            } else {
+                //用户不同意
+                Toast.makeText(getApplicationContext(),"你未授予读写权限，某些功能将无法实现",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void checkWritePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            int checkSelfPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            Log.i("main", "checkWritePermission: 读写权限申请"+checkSelfPermission+"--"+PackageManager.PERMISSION_DENIED);
+             if (checkSelfPermission == PackageManager.PERMISSION_DENIED) {
+                 Log.i("main", "checkWritePermission: 读写权限申请");
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+            }
+        }
+        File appDir = new File(filesDir);
+        if (!appDir.exists()) {
+            boolean isSuccess = appDir.mkdirs();
+            Log.d("isSuccess:" ,"----------0------------------"+isSuccess);
+        }
     }
 }
