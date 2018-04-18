@@ -1,18 +1,25 @@
 package com.beestar.jzb.goglebleweather;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
+import com.beestar.jzb.goglebleweather.Service.MyBroadCastReciver;
+import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.gen.DaoMaster;
 import com.beestar.jzb.goglebleweather.gen.DaoSession;
 
+import com.beestar.jzb.goglebleweather.utils.CrashHandler;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tsy.sdk.myokhttp.MyOkHttp;
 
 /**
  * Created by jzb on 2017/6/28.
  */
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class MyApp extends Application {
     private static MyApp mContext;
     private DaoMaster.DevOpenHelper mHelper;
@@ -25,13 +32,33 @@ public class MyApp extends Application {
         return myOkHttp;
     }
 
+    private IntentFilter mIntentFilter = null;
+
+    private MyBroadCastReciver mMyBroadcastRecvier = null;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
         setDataBase();
+
         Fresco.initialize(getContext());
         myOkHttp = new MyOkHttp();
+
+        initFliter();
+    }
+
+
+    private void initFliter() {
+        mIntentFilter=new IntentFilter();
+        mIntentFilter.addAction(MyServiceBlueTooth.MYSENDDATA);
+        mIntentFilter.addAction(MyServiceBlueTooth.BLUETOOTHCONNECTED);
+        mIntentFilter.addAction(MyServiceBlueTooth.BLUETOOTHDISCONNECT);
+        mIntentFilter.addAction(MyServiceBlueTooth.HAVEFINDSERVICE);
+        mIntentFilter.addAction("com.example.UPDATASTEP");
+        mMyBroadcastRecvier=new MyBroadCastReciver();
+        registerReceiver(mMyBroadcastRecvier,mIntentFilter);
     }
 
     private void setDataBase() {

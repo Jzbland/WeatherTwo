@@ -13,9 +13,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragementDialog;
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentAddInforDilog;
 import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentConnDialog_False;
+import com.beestar.jzb.goglebleweather.DialogFragment.MyFragmentHaveBind;
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.Service.MyBluetoothScan;
@@ -41,8 +44,9 @@ import com.github.dfqin.grantor.PermissionsUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BindingActivity extends BaseActivity implements MyFragementDialog.OnMyFragmentDialogLister,MyFragmentConnDialog_False.OnMyFragmentConnFalseLister
-,MyFragmentAddInforDilog.OnMyFragmentAddInfroListener
+,MyFragmentAddInforDilog.OnMyFragmentAddInfroListener,MyFragmentHaveBind.OnMyFragmentHaveBindListener
 {
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -100,11 +104,26 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
                 sendData(device.getAddress(),m_szImei);
             }else if (intent.getAction().equals(MyServiceBlueTooth.HAVEBING_WITHOTHERS)){
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
+                if(myFragementDialog!=null &&  myFragementDialog.getDialog()!=null
+                        && myFragementDialog.getDialog().isShowing()) {
+                    Log.i("binding", "onReceive: BING_SUCCESS");
+                    myFragementDialog.close();
+                } else {
+
+                }
+                if (myFragmentHaveBind!=null&& myFragmentHaveBind.getDialog()!=null&&myFragmentHaveBind.getDialog().isShowing()){
+
+                }else {
+                    showHaveBindDialog();
+                }
+
 
             }
         }
     };
+    private MyFragmentHaveBind myFragmentHaveBind;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,10 +156,12 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
                     }
                 }
             };
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void myScanDevice(final boolean enable) {
 
         if (enable) {
             new Handler().postDelayed(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void run() {
                     mScanning = false;
@@ -157,6 +178,7 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private IntentFilter getFilter() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(MyServiceBlueTooth.BING_SUCCESS);
@@ -180,8 +202,10 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
     /**
      * 连接并获取服务列表等
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void onConnectAndService() {
         myDeviceListAdapter.setOnItemClickListener(new MyDeviceListAdapter.OnItemClickListener() {
+
             @Override
             public void onItemClick(View view, int position) {
                 myScanDevice(false);
@@ -202,6 +226,7 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
         super.onResume();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -328,6 +353,11 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
         myFragmentAddInforDilog = new MyFragmentAddInforDilog();
         myFragmentAddInforDilog.show(getFragmentManager(),"addinfor");
     }
+    //已经被绑定
+    public void showHaveBindDialog(){
+        myFragmentHaveBind = new MyFragmentHaveBind();
+        myFragmentHaveBind.show(getSupportFragmentManager(),"havebind");
+    }
     @Override
     public void onFragmentDialogCancelLister(String s) {
         L.i("我点了取消1");
@@ -375,7 +405,6 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
         slcan_btn();
     }
 
-
     private void requestLocation() {
         if (PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
         } else {
@@ -402,5 +431,10 @@ public class BindingActivity extends BaseActivity implements MyFragementDialog.O
                 }
             }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
         }
+    }
+
+    @Override
+    public void onMyFragmentHaveBindCancle() {
+        myFragmentHaveBind.close();
     }
 }

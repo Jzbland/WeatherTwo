@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="168dp"
     android:orientation="horizontal"
     android:background="@color/colorActionbar"
     >
@@ -14,22 +14,28 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/white"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#6495ED"
+            android:alpha="0.3"
             android:layout_alignParentBottom="true"
             />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/white"
-            android:layout_alignParentTop="true"
-            />
+
         <RadioButton
             android:id="@+id/radioButton"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:button="@null"
             android:focusable="false" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/radiobtn_alost"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,22 +48,25 @@
                 android:id="@+id/textView"
                 android:layout_width="131dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
+                android:gravity="bottom"
                 android:text="我的蓝牙名字"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textColor="#6495ED"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/name_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_weight="1"
+                android:gravity="top"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:text="设备名字"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textColor="#6495ED"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -67,7 +76,9 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="50dp"
             android:text="已连接"
-            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:layout_marginRight="30dp"
+            android:textColor="#6495ED"
             android:layout_alignBaseline="@+id/radioButton"
             android:layout_alignBottom="@+id/radioButton"
             android:layout_alignParentEnd="true" />

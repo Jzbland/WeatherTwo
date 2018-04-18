@@ -49,9 +49,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:text="定时勿扰"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="24sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 />
             <com.zcw.togglebutton.ToggleButton
@@ -75,7 +75,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
                 >
                 <TextView
@@ -85,7 +86,7 @@
                     android:gravity="center"
                     android:textSize="18sp"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#007aff"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,7 +97,7 @@
                     android:layout_marginLeft="20dp"
                     android:textSize="18sp"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#007aff"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -106,24 +107,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/end_time"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:background="@android:color/white"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="到"
+                    android:text="至"
                     android:textSize="18sp"
                     android:gravity="center"
-                    android:layout_marginBottom="5dp"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#007aff"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -132,10 +133,10 @@
                     android:id="@+id/end_time_text"
                     android:gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="5dp"
+
                     android:textSize="18sp"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#007aff"
                     />
             </LinearLayout>
         </LinearLayout>

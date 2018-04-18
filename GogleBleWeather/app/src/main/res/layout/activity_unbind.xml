@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="80dp"
         android:text="确定要解绑设备吗？解绑后您将不"
         android:layout_gravity="center_horizontal"
         android:textColor="@android:color/black"
@@ -62,7 +62,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1aad19"
+        android:background="@drawable/btn_most"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="50dp"
@@ -75,7 +75,7 @@
         android:background="@drawable/button"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="取消"
         android:textColor="#898989"
         android:id="@+id/unbind_no_button"

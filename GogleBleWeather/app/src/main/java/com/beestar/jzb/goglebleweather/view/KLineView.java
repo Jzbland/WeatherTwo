@@ -44,7 +44,7 @@ public class KLineView extends View {
     private void initView() {
         width = 2440;
         height = 280;
-        paint = new Paint();
+
         textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(32);
@@ -57,6 +57,7 @@ public class KLineView extends View {
         textPaint2.setAlpha(100);
         textPaint2.setAntiAlias(true);
 
+        paint = new Paint();
         paint.setStrokeWidth(0.5f);
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);

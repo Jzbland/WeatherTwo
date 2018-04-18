@@ -2,25 +2,36 @@ package com.beestar.jzb.goglebleweather.Service;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.beestar.jzb.goglebleweather.MyApp;
+import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
+import com.beestar.jzb.goglebleweather.ui.AntiLostActivity;
+import com.beestar.jzb.goglebleweather.ui.MainActivity;
 import com.beestar.jzb.goglebleweather.utils.ActivityController;
 import com.beestar.jzb.goglebleweather.utils.L;
 
 /**
  * Created by jzb on 2017/11/28.
  */
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class MyBroadCastReciver extends BroadcastReceiver {
 
+    private NotificationManager mNotificationManager;
+    private Notification notification;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -93,10 +104,11 @@ public class MyBroadCastReciver extends BroadcastReceiver {
             }else if (data.contains("aa")||data.contains("AA")){
                 Log.i("jzb", "onReceive:收到AA ");
                 final Activity activity = ActivityController.getCurrentActivity();
-                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dialog.setTitle("提醒")
                         .setMessage("设备正在呼叫手机")
                         .setCancelable(false)
+
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -105,9 +117,21 @@ public class MyBroadCastReciver extends BroadcastReceiver {
                             }
                         });
                 dialog.create().show();
+                Intent it = new Intent(context,
+                        AntiLostActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, it, 0);
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("收到蓝牙消息")
+                        .setContentText(device.getName()+"正在呼叫手机")
+                        .setDefaults(Notification.DEFAULT_SOUND)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0, mBuilder.build());
             }else if (data.contains("f9")||data.contains("F9")){
                 final Activity activity = ActivityController.getCurrentActivity();
-                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dialog.setTitle("提醒")
                         .setMessage("蓝牙修改名称成功")
                         .setCancelable(false)
@@ -126,12 +150,6 @@ public class MyBroadCastReciver extends BroadcastReceiver {
             final BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("device");
 
             sendData(device.getAddress(),"FF");
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                }
-//            },2000);
 
         }else if (intent.getAction().equals(MyServiceBlueTooth.UPDATSTEP)){
             //固件升级 刷新更新步骤 step
@@ -183,4 +201,5 @@ public class MyBroadCastReciver extends BroadcastReceiver {
     private byte charToByte(char c) {
         return (byte) "0123456789ABCDEF".indexOf(c);
     }
+
 }

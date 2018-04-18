@@ -15,6 +15,7 @@ import com.beestar.jzb.goglebleweather.bean.Registe_UserInfo;
 import com.beestar.jzb.goglebleweather.bean.ReturnBean;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
 import com.beestar.jzb.goglebleweather.ui.MainActivity;
+import com.beestar.jzb.goglebleweather.utils.CountDownButtonHelper;
 import com.beestar.jzb.goglebleweather.utils.L;
 import com.beestar.jzb.goglebleweather.utils.URL;
 import com.google.gson.Gson;
@@ -72,6 +73,17 @@ public class RememberPwd extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.get_sms_code_remember:
+                CountDownButtonHelper helper = new CountDownButtonHelper(mGetSmsCodeRemember ,
+                        "发送验证码", 60, 1);
+                helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
+
+                    @Override
+                    public void finish() {
+                        Toast.makeText(RememberPwd.this, "倒计时结束",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+                helper.start();
                 getSms();
                 break;
             case R.id.remember_button:

@@ -41,80 +41,83 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="旧密码"
-            android:textColor="#898989"
-            android:textSize="20sp"
+            android:text="旧密码:"
+            android:textColor="#000000"
+            android:textSize="18sp"
             android:layout_marginLeft="25dp"
             />
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:background="@drawable/edit_text3"
             android:layout_marginLeft="10dp"
             android:hint="请输入旧密码"
             android:textColor="#898989"
             android:textColorHint="#898989"
             android:textSize="16sp"
+            android:paddingLeft="20dp"
             android:id="@+id/old_pwd"
             android:inputType="textPassword"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="新密码"
+            android:text="新密码:"
 
-            android:textColor="#898989"
-            android:textSize="20sp"
+            android:textColor="#000000"
+            android:textSize="18sp"
             android:layout_marginLeft="25dp"
             />
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:background="@drawable/edit_text3"
             android:layout_marginLeft="10dp"
             android:hint="请输入密码"
+            android:paddingLeft="20dp"
             android:id="@+id/new_pwd"
             android:textColor="#898989"
             android:textColorHint="#898989"
             android:textSize="16sp"
             android:inputType="textPassword"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请确认"
-            android:textColor="#898989"
-            android:textSize="20sp"
+            android:text="请确认:"
+            android:textColor="#000000"
+            android:textSize="18sp"
             android:layout_marginLeft="25dp"
             />
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:background="@drawable/edit_text3"
             android:layout_marginLeft="10dp"
             android:hint="请确认密码"
+            android:paddingLeft="20dp"
             android:id="@+id/new_pwd_next"
             android:textColor="#898989"
             android:textColorHint="#898989"
             android:textSize="16sp"
             android:inputType="textPassword"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             />
     </LinearLayout>
     <Button
@@ -123,7 +126,7 @@
         android:layout_margin="50dp"
         android:text="保存"
         android:id="@+id/submit_pwd"
-        android:background="#1aad19"
+        android:background="@drawable/btn_most"
         />
 
 </com.zhy.android.percent.support.PercentLinearLayout>

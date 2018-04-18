@@ -2,6 +2,7 @@ package com.beestar.jzb.goglebleweather.ui.setting;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -9,14 +10,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,22 +28,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beestar.jzb.goglebleweather.DialogFragment.MyChangeInfoDialog;
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
+import com.beestar.jzb.goglebleweather.bean.ChangePwd;
+import com.beestar.jzb.goglebleweather.bean.ChangeSex;
+import com.beestar.jzb.goglebleweather.bean.ReturnBean;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
+import com.beestar.jzb.goglebleweather.utils.ImageUtil;
 import com.beestar.jzb.goglebleweather.utils.Keyparameter;
 import com.beestar.jzb.goglebleweather.utils.SPUtils;
+import com.beestar.jzb.goglebleweather.utils.URL;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
+import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.tsy.sdk.myokhttp.response.GsonResponseHandler;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-public class MyHomeSettingActivity extends BaseActivity implements View.OnClickListener {
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+public class MyHomeSettingActivity extends BaseActivity implements View.OnClickListener,MyChangeInfoDialog.OnChangeInfoDialogListener,ImageUtil.CropHandler{
     //调用系统相册-选择图片
     private static final int IMAGE = 1;
     public final static String ALBUM_PATH
@@ -80,15 +92,16 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
-                    mSetIconSimLeDraweeView.setImageBitmap(x_To_Y(image_icon_bitmap));
+                    mSetIconSimLeDraweeView.setImageBitmap(image_icon_bitmap);
                     break;
                 case 2:
                     mSetIconSimLeDraweeView.setImageBitmap(image_icon_bitmap2);
-                    Log.i("info","----------55555555555--------");
+
                     break;
             }
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +119,6 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
                         msg.what=2;
                         mhandler.sendMessage(msg);
                     }
-
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -116,17 +128,15 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
     }
     private void requestLocation() {
         if (PermissionsUtil.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//            Toast.makeText(this, "获取您的位置信息", Toast.LENGTH_LONG).show();
+
         } else {
             PermissionsUtil.requestPermission(this, new PermissionListener() {
                 @Override
                 public void permissionGranted(@NonNull String[] permissions) {
-//                    Toast.makeText(getApplicationContext(), "用户授予获取位置信息的权限", Toast.LENGTH_LONG).show();
-                }
 
+                }
                 @Override
                 public void permissionDenied(@NonNull String[] permissions) {
-//                    Toast.makeText(getApplicationContext(), "用户拒绝了获取位置信息的权限", Toast.LENGTH_LONG).show();
                 }
             }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
         }
@@ -157,7 +167,12 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         mSetIconSimLeDraweeView = (RoundedImageView) findViewById(R.id.setIcon_SimLeDraweeView);
 
         mSetName.setText(((String) SPUtils.get(MyApp.getContext(), "name", "")));
-        mSetSex.setText((String)SPUtils.get(MyApp.getContext(),"sex",""));
+        if (((String)SPUtils.get(MyApp.getContext(),"sex","")).equals("0")){
+            mSetSex.setText("男");
+        }else if (((String)SPUtils.get(MyApp.getContext(),"sex","")).equals("1")){
+            mSetSex.setText("女");
+        }
+
         mSetNumber.setText((String)SPUtils.get(MyApp.getContext(),"phone",""));
     }
 
@@ -171,8 +186,12 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
                 checkPermission();
                 break;
             case R.id.setting_Name:
+                MyChangeInfoDialog myChangeInfoDialog = new MyChangeInfoDialog();
+                myChangeInfoDialog.show(getFragmentManager(),"MyInfoChange");
+
                 break;
             case R.id.setting_Sex:
+                change_sex();
                 break;
             case R.id.setting_Number:
                 break;
@@ -184,6 +203,92 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
                 break;
         }
     }
+    /**
+     * 修改名字回调
+     * @param infoName
+     */
+    @Override
+    public void onChangeInfoDialogNext(String infoName) {
+       changeName(infoName);
+    }
+    /**
+     * 修改男女
+     */
+    public void change_sex(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this); //定义一个AlertDialog
+        String[] strarr = {"男","女"};
+
+        builder.setItems(strarr, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+                String sexinfo ;
+                String sex = "0";
+                // 自动生成的方法存根
+                if (arg1 == 0) {//男
+                    sex = "0";
+                    sexinfo ="男";
+                }else {//女
+                    sex = "1";
+                    sexinfo ="女";
+                }
+                changeSex(sex,sexinfo);
+            }
+        });
+        builder.show();
+    }
+    /**
+     * 修改性别
+     */
+    public void changeSex(final String sex, final String sexinfo){
+        MyApp.getContext().getMyOkHttp().post()
+                .url(URL.url+URL.url_change)
+                .tag(this)
+                .jsonParams(new Gson().toJson(new ChangeSex((String) SPUtils.get(MyApp.getContext(),"phone",""),sex)))
+                .enqueue(new GsonResponseHandler<ReturnBean>() {
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, ReturnBean response) {
+                        if (response.getRtn_code()==0){
+                            Toast.makeText(MyApp.getContext(),"性别修改成功",Toast.LENGTH_SHORT).show();
+                            SPUtils.put(MyApp.getContext(),"name",sex);
+                            mSetSex.setText(sexinfo);
+                        }else {
+                            Toast.makeText(MyApp.getContext(),"性别修改失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+    /**
+     * 修改名字
+     */
+    public void changeName(final String name){
+        MyApp.getContext().getMyOkHttp().post()
+                .url(URL.url+URL.url_change)
+                .tag(this)
+                .jsonParams(new Gson().toJson(new ChangePwd((String) SPUtils.get(MyApp.getContext(),"phone",""),name)))
+                .enqueue(new GsonResponseHandler<ReturnBean>() {
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, ReturnBean response) {
+                        if (response.getRtn_code()==0){
+                            Toast.makeText(MyApp.getContext(),"名字修改成功",Toast.LENGTH_SHORT).show();
+                            SPUtils.put(MyApp.getContext(),"name",name);
+                            mSetName.setText(name);
+                        }else {
+                            Toast.makeText(MyApp.getContext(),"名字修改失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
     public void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -192,12 +297,19 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
             Intent intent = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, IMAGE);
+
+            //选择相册
+//            Intent galleryIntent = ImageUtil
+//                    .getCropHelperInstance()
+//                    .buildGalleryIntent();
+//            startActivityForResult(galleryIntent,
+//                    ImageUtil.REQUEST_GALLERY);
         }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //获取图片路径
+//        //获取图片路径
         if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
@@ -206,7 +318,6 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             String imagePath = c.getString(columnIndex);
             showImage(imagePath);
-
             c.close();
         }
     }
@@ -217,7 +328,7 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
             case 1 :
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 }else {
-//                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+
                 }
                 break;
             default:
@@ -308,4 +419,40 @@ public class MyHomeSettingActivity extends BaseActivity implements View.OnClickL
         SPUtils.clear(getApplicationContext());
         finish();
     }
+
+    @Override
+    public void onPhotoCropped(Bitmap photo, int requesCode) {
+        switch (requesCode){
+            case ImageUtil.RE_GALLERY:
+                try {
+                    saveFile(photo,"icon");
+                    mSetIconSimLeDraweeView.setImageBitmap(photo);
+                    Intent intent = new Intent();
+                    intent.setAction(Keyparameter.ACTTION_UPDATAUI);
+                    intent.putExtra("UPDATA","success");
+                    Log.i("info","--------==============发送ui广播===========-------");
+                    sendBroadcast(intent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+        }
+    }
+
+    @Override
+    public void onCropCancel() {
+
+    }
+
+    @Override
+    public void onCropFailed(String message) {
+
+    }
+
+    @Override
+    public Activity getContext() {
+        return MyHomeSettingActivity.this;
+    }
+
 }

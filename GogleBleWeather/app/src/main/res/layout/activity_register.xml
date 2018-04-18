@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_heightPercent="92%h"
-        android:background="#efefef"
+        android:background="#ffffff"
         android:orientation="vertical"
         >
         <EditText
@@ -44,8 +44,10 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/edit_text3"
-            android:layout_marginTop="73dp"
+            android:layout_marginTop="55dp"
+            android:digits="0123456789"
             android:hint="请输入您的手机号码"
+            android:paddingLeft="20dp"
             android:id="@+id/tel_register"
             android:textColor="@android:color/black"
             android:textColorHint="#898989"
@@ -56,9 +58,10 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/edit_text3"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/black"
             android:hint="请输入密码"
+            android:paddingLeft="20dp"
             android:inputType="textPassword"
             android:id="@+id/pwd"
             android:textColorHint="#898989"
@@ -69,9 +72,10 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/edit_text3"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/black"
             android:hint="再次输入密码"
+            android:paddingLeft="20dp"
             android:inputType="textPassword"
             android:id="@+id/pwd_next"
             android:textColorHint="#898989"
@@ -85,9 +89,11 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/edit_text3"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@android:color/black"
                 android:hint="验证码"
+                android:paddingLeft="20dp"
+                android:digits="0123456789"
                 android:id="@+id/sms_code"
                 android:textColorHint="#898989"
                 />
@@ -95,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="获取验证码"
+                android:text="发送验证码"
                 android:id="@+id/get_sms_code"
                 android:layout_alignBaseline="@id/sms_code"
                 android:layout_marginRight="40dp"
@@ -113,16 +119,53 @@
             android:text="注册"
             android:id="@+id/register_button"
             />
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注册即同意《用户协议》和《版权声明》"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            />
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册即同意"
+
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《用户协议》"
+                android:id="@+id/showWeb1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:textColor="@android:color/holo_blue_dark"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="和"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《版权说明》"
+                android:id="@+id/showWeb2"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:textColor="@android:color/holo_blue_dark"
+                />
+        </LinearLayout>
+
     </com.zhy.android.percent.support.PercentLinearLayout>
-
-
 </com.zhy.android.percent.support.PercentLinearLayout>

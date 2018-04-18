@@ -1,14 +1,17 @@
 package com.beestar.jzb.goglebleweather.ui.haveLogin;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.beestar.jzb.goglebleweather.MyApp;
 import com.beestar.jzb.goglebleweather.R;
@@ -16,19 +19,15 @@ import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
-import com.beestar.jzb.goglebleweather.utils.L;
 import com.beestar.jzb.goglebleweather.utils.SPUtils;
 import com.zcw.togglebutton.ToggleButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.qqtheme.framework.picker.LinkagePicker;
-import cn.qqtheme.framework.util.DateUtils;
+import java.util.Calendar;
 
 /**
  * 勿扰设置
  */
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NoDisturbActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mBack;
     /**
@@ -45,12 +44,47 @@ public class NoDisturbActivity extends BaseActivity implements View.OnClickListe
 
     private DeviceBeanDao deviceBeanDao;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_disturb);
         deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         initView();
+        mBeginTimeText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.i("textchange", "afterTextChanged: startTime"+mBeginTimeText.getText());
+                mBeginTime.setBackgroundColor(Color.rgb(255,255,255));
+            }
+        });
+        mEndTimeText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.i("textchange", "afterTextChanged: startTime"+mEndTimeText.getText());
+                mEndTime.setBackgroundColor(Color.rgb(255,255,255));
+            }
+        });
     }
 
     private void initView() {
@@ -74,6 +108,12 @@ public class NoDisturbActivity extends BaseActivity implements View.OnClickListe
             }else {
                 switch_nodisturb.setToggleOff();
             }
+        }
+        if (SPUtils.contains(MyApp.getContext(),"StarTimeHour")&&SPUtils.contains(MyApp.getContext(),"StarTimeMinute")){
+            mBeginTimeText.setText((Integer) SPUtils.get(MyApp.getContext(),"StarTimeHour",-1)+":"+(Integer) SPUtils.get(MyApp.getContext(),"StarTimeMinute",-1));
+        }
+        if (SPUtils.contains(MyApp.getContext(),"EndTimeHour")&&SPUtils.contains(MyApp.getContext(),"EndTimeMinute")){
+            mEndTimeText.setText((Integer) SPUtils.get(MyApp.getContext(),"EndTimeHour",-1)+":"+(Integer) SPUtils.get(MyApp.getContext(),"EndTimeMinute",-1));
         }
         switch_nodisturb.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
@@ -99,100 +139,56 @@ public class NoDisturbActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.begin_time:
+                mBeginTime.setBackgroundColor(Color.rgb(226,227,228));
                 time_picker1();
                 break;
             case R.id.end_time:
+                mEndTime.setBackgroundColor(Color.rgb(226,227,228));
                 time_picker2();
                 break;
         }
     }
+    public void time_picker1() {
 
-    public void setData(View view) {
-        LinkagePicker.DataProvider provider = new LinkagePicker.DataProvider() {
+        cn.qqtheme.framework.picker.TimePicker picker = new cn.qqtheme.framework.picker.TimePicker(this, cn.qqtheme.framework.picker.TimePicker.HOUR_24);
+        picker.setCycleDisable(false);
+        picker.setRangeStart(0, 0);//00:00
+        picker.setRangeEnd(23, 59);//23:59
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
+        picker.setSelectedItem(currentHour, currentMinute);
+        picker.setTopLineVisible(false);
+        picker.setOnTimePickListener(new cn.qqtheme.framework.picker.TimePicker.OnTimePickListener() {
             @Override
-            public boolean isOnlyTwo() {
-                return false;
-            }
-
-            @Override
-            public List<String> provideFirstData() {
-                ArrayList<String> firstList = new ArrayList<>();
-                firstList.add("上午");
-                firstList.add("下午");
-                return firstList;
-            }
-
-            @Override
-            public List<String> provideSecondData(int firstIndex) {
-                ArrayList<String> secondList = new ArrayList<>();
-                for (int i = 1; i <= 12; i++) {
-                    String str = DateUtils.fillZero(i);
-                    secondList.add(str);
-                }
-                return secondList;
-            }
-
-            @Override
-            public List<String> provideThirdData(int firstIndex, int secondIndex) {
-                ArrayList<String> thredList = new ArrayList<>();
-                for (int i = 1; i <= 59; i++) {
-                    String str = DateUtils.fillZero(i);
-                    thredList.add(str);
-                }
-                return thredList;
-            }
-        };
-        LinkagePicker picker = new LinkagePicker(this, provider);
-        picker.setCycleDisable(true);
-        picker.setSelectedItem("上午", "1", "01");
-        picker.setLabel("", "点", "分");
-        picker.setSelectedIndex(0, 0, 0);
-        picker.setColumnWeight(0.2, 0.3, 0.2);
-
-        picker.setOnWheelListener(new LinkagePicker.OnWheelListener() {
-            @Override
-            public void onFirstWheeled(int i, String s) {
-                L.i(i + "---------------first-----------" + s);
-            }
-
-            @Override
-            public void onSecondWheeled(int i, String s) {
-                L.i(i + "---------------second-----------" + s);
-            }
-
-            @Override
-            public void onThirdWheeled(int i, String s) {
-                L.i(i + "---------------Third-----------" + s);
-            }
-        });
-        picker.setOnLinkageListener(new LinkagePicker.OnLinkageListener() {
-            @Override
-            public void onPicked(String s, String s1, String s2) {
-                Toast.makeText(MyApp.getContext(), s + "--" + s1 + "--" + s2, Toast.LENGTH_SHORT).show();
+            public void onTimePicked(String hour, String minute) {
+                mBeginTimeText.setText(hour+":"+minute);
+                SPUtils.put(MyApp.getContext(),"StarTimeHour",Integer.parseInt(hour));
+                SPUtils.put(MyApp.getContext(),"StarTimeMinute",Integer.parseInt(minute));
             }
         });
         picker.show();
     }
-
-    public void time_picker1() {
-        new TimePickerDialog(NoDisturbActivity.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mBeginTimeText.setText(hourOfDay+":"+minute);
-            }
-            //0,0指的是时间，true表示是否为24小时，true为24小时制
-        }, 0, 0, true).show();
-    }
     public void time_picker2() {
-        new TimePickerDialog(NoDisturbActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        cn.qqtheme.framework.picker.TimePicker picker = new cn.qqtheme.framework.picker.TimePicker(this, cn.qqtheme.framework.picker.TimePicker.HOUR_24);
+        picker.setCycleDisable(false);
+        picker.setRangeStart(0, 0);//00:00
+        picker.setRangeEnd(23, 59);//23:59
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
+        picker.setSelectedItem(currentHour, currentMinute);
+        picker.setTopLineVisible(false);
+        picker.setOnTimePickListener(new cn.qqtheme.framework.picker.TimePicker.OnTimePickListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mEndTimeText.setText(hourOfDay+":"+minute);
+            public void onTimePicked(String hour, String minute) {
+                mEndTimeText.setText(hour+":"+minute);
+                SPUtils.put(MyApp.getContext(),"EndTimeHour",Integer.parseInt(hour));
+                SPUtils.put(MyApp.getContext(),"EndTimeMinute",Integer.parseInt(minute));
             }
-            //0,0指的是时间，true表示是否为24小时，true为24小时制
-        }, 0, 0, true).show();
+        });
+        picker.show();
     }
-    public void sendData(String address,String data){
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void sendData(String address, String data){
         Intent intent=new Intent();
         intent.setAction(MyServiceBlueTooth.SEND_DATA);
         intent.putExtra("address",address);

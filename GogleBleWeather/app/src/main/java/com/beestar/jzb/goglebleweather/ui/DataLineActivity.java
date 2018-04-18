@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +32,7 @@ import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
 import com.beestar.jzb.goglebleweather.utils.L;
+import com.beestar.jzb.goglebleweather.view.KLine;
 import com.beestar.jzb.goglebleweather.view.KLineView;
 import com.beestar.jzb.goglebleweather.view.KLineView2;
 import com.beestar.jzb.goglebleweather.view.KLineView_AirPress;
@@ -38,7 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class DataLineActivity extends BaseActivity implements View.OnClickListener {
 
 
@@ -60,10 +65,10 @@ public class DataLineActivity extends BaseActivity implements View.OnClickListen
      * PM2.5
      */
     private RadioButton mRadioPm;
-    private KLineView mKLine1;
-    private KLineView2 mKLine2;
-    private KLineView_AirPress mKLine3;
-    private KLineView2 mKLine4;
+    private KLine mKLine1;
+    private KLine mKLine2;
+    private KLine mKLine3;
+    private KLine mKLine4;
     private RadioGroup rp;
     private List<Point> temdata;
     private List<Point> humdata;
@@ -71,6 +76,8 @@ public class DataLineActivity extends BaseActivity implements View.OnClickListen
     private List<Point> pmdata=new ArrayList<>();
     private int count=0;
     public LocationClient mLocationClient = null;
+
+
     public BDAbstractLocationListener myListener = new MyLocationListener();
     private class MyLocationListener extends BDAbstractLocationListener {
         @Override
@@ -85,12 +92,33 @@ public class DataLineActivity extends BaseActivity implements View.OnClickListen
             }
         }
     }
-
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 100:
+                    mKLine1.setShape(1);
+                    mKLine2.setShape(2);
+                    mKLine3.setShape(3);
+                    mKLine4.setShape(4);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_line);
+        String pm25 = getIntent().getStringExtra("PM25");
+        Log.i("dataline", "onCreate: pM25:"+pm25);
+        if (pm25.equals("-1")){
+
+        }else {
+            int i = Integer.parseInt(pm25);
+            mPMData(i);
+        }
         requestLocation();
         //requestLocation2();
         initView();
@@ -103,19 +131,35 @@ public class DataLineActivity extends BaseActivity implements View.OnClickListen
             airPressdata=new ArrayList<>();
             count=0;
         }
-        mKLine1.setTitle(titleData());
-        mKLine1.setColorLine(Color.RED);
-//        mKLine1.setDatas(ceshi());
 
-        mKLine2.setColorLine(Color.GRAY);
-//        mKLine2.setDatas(ceshi());
+        mKLine1.setColorLine(Color.rgb(236,103,153));
+        mKLine2.setColorLine(Color.rgb(55,190,240));
+        mKLine3.setColorLine(Color.rgb(242,159,62));
+        mKLine4.setColorLine(Color.rgb(153,71,255));
 
-        mKLine3.setColorLine(Color.GREEN);
-//        mKLine3.setDatas(ceshi2());
+        mKLine1.setBcAlpha(150);
+        mKLine2.setBcAlpha(80);
+        mKLine3.setBcAlpha(80);
+        mKLine4.setBcAlpha(80);
 
-        mKLine4.setColorLine(Color.YELLOW);
-//        mKLine4.setDatas(ceshi());
+        mKLine1.setWidthLine(5);
+        mKLine2.setWidthLine(2);
+        mKLine3.setWidthLine(2);
+        mKLine4.setWidthLine(2);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(500);
+                    Message msg=new Message();
+                    msg.what=100;
+                    handler.sendMessage(msg);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
         /**
          * 定位
          */
@@ -176,69 +220,69 @@ public class DataLineActivity extends BaseActivity implements View.OnClickListen
         mRadioPress.setOnClickListener(this);
         mRadioPm = (RadioButton) findViewById(R.id.radio_pm);
         mRadioPm.setOnClickListener(this);
-        mKLine1 = (KLineView) findViewById(R.id.k_line1);
-        mKLine2 = (KLineView2) findViewById(R.id.k_line2);
-        mKLine3 = (KLineView_AirPress) findViewById(R.id.k_line3);
-        mKLine4 = (KLineView2) findViewById(R.id.k_line4);
-        mKLine1.setPaintWidth(6);
-        mKLine1.setAlpha(0.8f);
+        mKLine1 = (KLine) findViewById(R.id.k_line1);
+        mKLine2 = (KLine) findViewById(R.id.k_line2);
+        mKLine3 = (KLine) findViewById(R.id.k_line3);
+        mKLine4 = (KLine) findViewById(R.id.k_line4);
+
+
+
+//            mKLine1.setAlpha();
+//            mKLine2.setAlpha();
+//            mKLine3.setAlpha();
+//            mKLine4.setAlpha();
+
+
+
+
         rp = ((RadioGroup) findViewById(R.id.rp));
         rp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (i) {
                     case R.id.radio_temp:
-                        mKLine1.setPaintWidth(6);
-                        mKLine1.setAlpha(0.8f);
+                        mKLine1.setBcAlpha(150);
+                        mKLine2.setBcAlpha(80);
+                        mKLine3.setBcAlpha(80);
+                        mKLine4.setBcAlpha(80);
 
-                        mKLine2.setPaintWidth(-1);
-                        mKLine2.setAlpha(0.5f);
-
-                        mKLine3.setPaintWidth(-1);
-                        mKLine3.setAlpha(0.5f);
-
-                        mKLine4.setPaintWidth(-1);
-                        mKLine4.setAlpha(0.5f);
+                        mKLine1.setWidthLine(5);
+                        mKLine2.setWidthLine(2);
+                        mKLine3.setWidthLine(2);
+                        mKLine4.setWidthLine(2);
                         break;
                     case R.id.radio_hum:
-                        mKLine1.setPaintWidth(-1);
-                        mKLine1.setAlpha(0.5f);
+                        mKLine1.setBcAlpha(80);
+                        mKLine2.setBcAlpha(150);
+                        mKLine3.setBcAlpha(80);
+                        mKLine4.setBcAlpha(80);
 
-                        mKLine2.setPaintWidth(6);
-                        mKLine2.setAlpha(0.8f);
-
-                        mKLine3.setPaintWidth(-1);
-                        mKLine3.setAlpha(0.5f);
-
-                        mKLine4.setPaintWidth(-1);
-                        mKLine4.setAlpha(0.5f);
+                        mKLine1.setWidthLine(2);
+                        mKLine2.setWidthLine(5);
+                        mKLine3.setWidthLine(2);
+                        mKLine4.setWidthLine(2);
                         break;
                     case R.id.radio_press:
-                        mKLine1.setPaintWidth(-1);
-                        mKLine1.setAlpha(0.5f);
+                        mKLine1.setBcAlpha(80);
+                        mKLine2.setBcAlpha(80);
+                        mKLine3.setBcAlpha(150);
+                        mKLine4.setBcAlpha(80);
 
-                        mKLine2.setPaintWidth(-1);
-                        mKLine2.setAlpha(0.5f);
-
-                        mKLine3.setPaintWidth(6);
-                        mKLine3.setAlpha(0.8f);
-
-                        mKLine4.setPaintWidth(-1);
-                        mKLine4.setAlpha(0.5f);
-
+                        mKLine1.setWidthLine(2);
+                        mKLine2.setWidthLine(2);
+                        mKLine3.setWidthLine(5);
+                        mKLine4.setWidthLine(2);
                         break;
                     case R.id.radio_pm:
-                        mKLine1.setPaintWidth(-1);
-                        mKLine1.setAlpha(0.5f);
+                        mKLine1.setBcAlpha(80);
+                        mKLine2.setBcAlpha(80);
+                        mKLine3.setBcAlpha(80);
+                        mKLine4.setBcAlpha(150);
 
-                        mKLine2.setPaintWidth(-1);
-                        mKLine2.setAlpha(0.5f);
-
-                        mKLine3.setPaintWidth(-1);
-                        mKLine3.setAlpha(0.5f);
-
-                        mKLine4.setPaintWidth(6);
-                        mKLine4.setAlpha(0.8f);
+                        mKLine1.setWidthLine(2);
+                        mKLine2.setWidthLine(2);
+                        mKLine3.setWidthLine(2);
+                        mKLine4.setWidthLine(5);
                         break;
                 }
             }
@@ -278,12 +322,14 @@ public class DataLineActivity extends BaseActivity implements View.OnClickListen
                         mKLine1.setDatas(temdata);
                         mKLine2.setDatas(humdata);
                         mKLine3.setDatas(airPressdata);
+                        mKLine4.setDatas(pmdata);
                     }
                 }
             }
         }
     };
     //更新数据广播
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private IntentFilter getFilter() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(MyServiceBlueTooth.LINEDATA);
@@ -373,37 +419,16 @@ public class DataLineActivity extends BaseActivity implements View.OnClickListen
         }
         return data;
     }
-    public List<Point> ceshi(){
-        List<Point> data=new ArrayList<>();
-        for (int i=0;i<=24;i++){
-            data.add(new Point(i*100,textData()));
-        }
-        return data;
-    }
-    public List<Point> ceshi2(){
-        List<Point> data=new ArrayList<>();
-        for (int i=0;i<=24;i++){
-            data.add(new Point(i*100,textData2()));
-        }
-        return data;
-    }
-    public  int textData(){
-        int max=40;
-        int min=20;
-        Random random = new Random();
 
-        int s = random.nextInt(max)%(max-min+1) + min;
-        return s;
-    }
-    public  int textData2(){
-        int max=110;
-        int min=90;
-        Random random = new Random();
+    public void mPMData(int mPm){
 
-        int s = random.nextInt(max)%(max-min+1) + min;
-        return s;
+        for (int i=0;i<=24;i++){
+            pmdata.add(new Point(i*100,mPm));
+        }
     }
-    public void sendData(String address,String data){
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void sendData(String address, String data){
         Intent intent=new Intent();
         intent.setAction(MyServiceBlueTooth.SEND_DATA);
         intent.putExtra("address",address);

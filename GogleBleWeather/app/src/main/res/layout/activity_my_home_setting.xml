@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#efefef"
+    android:background="#e2e3e4"
     tools:context="com.beestar.jzb.goglebleweather.ui.setting.MyHomeSettingActivity">
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="0dp"
@@ -62,7 +62,7 @@
                 />
             <com.makeramen.roundedimageview.RoundedImageView
                 android:layout_width="60dp"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_toLeftOf="@+id/turn_pic_1"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
@@ -268,8 +268,10 @@
                 android:layout_height="wrap_content"
                 android:text="退出当前账号"
                 android:onClick="exit_button"
-                android:background="@android:color/holo_red_dark"
-                android:textColor="#000000"
+                android:background="@drawable/btn_most"
+                android:textColor="#ffffff"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:textSize="18sp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"

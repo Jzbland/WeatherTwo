@@ -61,8 +61,8 @@
             android:id="@+id/notdisturbme"
             >
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/notdisturbme_image"
                 android:src="@mipmap/unlost_uncareme"
                 android:layout_gravity="center_horizontal"
@@ -76,15 +76,11 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:textColor="#708dd3"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:layout_marginTop="5dp"
                 />
         </LinearLayout>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#efefef"
-            />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -95,8 +91,8 @@
             android:id="@+id/ring_"
             >
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/ring_image"
                 android:src="@mipmap/unlost_music"
                 android:layout_gravity="center_horizontal"
@@ -110,15 +106,11 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:textColor="#708dd3"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:layout_marginTop="5dp"
                 />
         </LinearLayout>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#efefef"
-            />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -129,8 +121,8 @@
             android:id="@+id/unbind_"
             >
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/unlost_cc"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
@@ -143,16 +135,12 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:textColor="#708dd3"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/unbind_text"
                 />
         </LinearLayout>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#efefef"
-            />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -163,8 +151,8 @@
             android:id="@+id/blue_edit_"
             >
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/unlost_edit"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
@@ -178,7 +166,7 @@
                 android:gravity="center"
                 android:id="@+id/blue_edit_text"
                 android:textColor="#708dd3"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:layout_marginTop="5dp"
                 />
         </LinearLayout>
@@ -200,6 +188,14 @@
             android:id="@+id/unlost_infor"
             android:background="@drawable/unlost_bakground"
             >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/antilost_call_img"
+                android:visibility="gone"
+                android:id="@+id/antilost_call_img"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -260,6 +256,7 @@
                 android:id="@+id/goods_status"
                 />
         </com.zhy.android.percent.support.PercentRelativeLayout>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

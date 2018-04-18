@@ -13,10 +13,23 @@ public class ChangePwd {
      * confirm : 654321
      */
 
+
     private String uid;
     private String pwd;
     private String newpwd;
     private String confirm;
+    /**
+     * name : 熊大
+     * sex : 男
+     */
+
+    private String name;
+    private String sex;
+
+    public ChangePwd(String uid, String name) {
+        this.uid = uid;
+        this.name = name;
+    }
 
     public ChangePwd(String uid, String pwd, String newpwd, String confirm) {
         this.uid = uid;
@@ -55,5 +68,21 @@ public class ChangePwd {
 
     public void setConfirm(String confirm) {
         this.confirm = confirm;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

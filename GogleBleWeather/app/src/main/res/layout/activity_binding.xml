@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#efefef"
+    android:background="#e2e3e4"
     tools:context="com.beestar.jzb.goglebleweather.ui.BindingActivity">
 
     <com.zhy.android.percent.support.PercentRelativeLayout
@@ -63,7 +63,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="正在搜索..."
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="#898989"
                 />
         </LinearLayout>
 
@@ -74,12 +74,13 @@
             android:layout_gravity="center_horizontal"
             android:text="请确认随身气象站的编码"
             android:gravity="center"
-            android:textColor="@android:color/black"
+            android:textColor="#898989"
             />
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/dev_list"
+            android:layout_marginTop="10dp"
             android:background="@android:color/white"
             >
         </android.support.v7.widget.RecyclerView>

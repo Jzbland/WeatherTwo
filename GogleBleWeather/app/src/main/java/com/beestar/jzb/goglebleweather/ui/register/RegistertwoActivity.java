@@ -1,8 +1,11 @@
 package com.beestar.jzb.goglebleweather.ui.register;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,10 +19,11 @@ import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.bean.Registe_UserInfo;
 import com.beestar.jzb.goglebleweather.bean.ReturnBean;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
+import com.beestar.jzb.goglebleweather.utils.Keyparameter;
 import com.beestar.jzb.goglebleweather.utils.URL;
 import com.google.gson.Gson;
 import com.tsy.sdk.myokhttp.response.RawResponseHandler;
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class RegistertwoActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView mBackRegistTwo;
@@ -40,7 +44,7 @@ public class RegistertwoActivity extends BaseActivity implements View.OnClickLis
      */
     private Button mSubmitData;
     private Intent getintent;
-    private String sex="female";
+    private String  sex="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,7 @@ public class RegistertwoActivity extends BaseActivity implements View.OnClickLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (mCheckboxMen.isChecked()){
                     mCheckboxWomen.setChecked(false);
-                    sex="male";
+                    sex="0";
                 }
             }
         });
@@ -75,7 +79,7 @@ public class RegistertwoActivity extends BaseActivity implements View.OnClickLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (mCheckboxWomen.isChecked()){
                     mCheckboxMen.setChecked(false);
-                    sex="female";
+                    sex="1";
                 }
             }
         });
@@ -102,10 +106,17 @@ public class RegistertwoActivity extends BaseActivity implements View.OnClickLis
                                                                         sex,
                                                                         getintent.getStringExtra("code")
                             )));
+                    Log.i("info", "注册数据 "+getintent.getStringExtra("phone")+""+
+                            mRegisterName.getText().toString().trim()+""+
+                            getintent.getStringExtra("pwd")+""+
+                            getintent.getStringExtra("confirm")+""+
+                            sex+""+
+                            getintent.getStringExtra("code"));
                 }
                 break;
         }
     }
+
     private void sendRegister(String s){
         MyApp.getContext().getMyOkHttp().post()
                 .url(URL.url+URL.url_register)
@@ -118,14 +129,26 @@ public class RegistertwoActivity extends BaseActivity implements View.OnClickLis
                         if (returnBean.getRtn_code()==0){
                             startActivity(new Intent(RegistertwoActivity.this,RegisterThreeActivity.class));
                             Toast.makeText(RegistertwoActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                        }else if(returnBean.getRtn_code()== Keyparameter.CODE_HAVE_REGISTE) {
+                            Toast.makeText(RegistertwoActivity.this,Keyparameter.CODE_HAVE_REGISTE_STR,Toast.LENGTH_SHORT).show();
+                        }else if(returnBean.getRtn_code()== Keyparameter.CODE_PWD_PADERNOSAME) {
+                            Toast.makeText(RegistertwoActivity.this,Keyparameter.CODE_PWD_PADERNOSAME_STR,Toast.LENGTH_SHORT).show();
+                        }else if(returnBean.getRtn_code()== Keyparameter.CODE_USER_ERROR) {
+                            Toast.makeText(RegistertwoActivity.this,Keyparameter.CODE_USER_ERROR_STR,Toast.LENGTH_SHORT).show();
+                        }else if(returnBean.getRtn_code()== Keyparameter.CODE_MSG_ERROR) {
+                            Toast.makeText(RegistertwoActivity.this,Keyparameter.CODE_MSG_ERROR_STR,Toast.LENGTH_SHORT).show();
+                        }else if(returnBean.getRtn_code()== Keyparameter.CODE_HAVE_REGISTE) {
+                            Toast.makeText(RegistertwoActivity.this,Keyparameter.CODE_HAVE_REGISTE_STR,Toast.LENGTH_SHORT).show();
+                        }else if(returnBean.getRtn_code()== Keyparameter.CODE_ERROR_SERVICE) {
+                            Toast.makeText(RegistertwoActivity.this,Keyparameter.CODE_ERROR_SERVICE_STR,Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(RegistertwoActivity.this,returnBean.getMsg(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistertwoActivity.this,"数据请求发生错误，请稍后重试...",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-
+                        Log.i("jzb", "onFailure:注册接口 ");
                     }
                 });
     }

@@ -75,4 +75,5 @@ public class MyDeviceListAdapter extends RecyclerView.Adapter<MyDeviceListAdapte
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
+
 }

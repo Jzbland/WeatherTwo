@@ -2,7 +2,9 @@ package com.beestar.jzb.goglebleweather.Service;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * Created by jzb on 2017/6/29.
  */
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class MyBluetoothScan {
     private static final long SCAN_PERIOD = 1000;
     Handler mHandler=new Handler();
@@ -20,10 +22,12 @@ public class MyBluetoothScan {
     MyBlueToothInterface.OnScanStopListener mOnScanStopListener;
     private List<String> list=new ArrayList<>();
 
+
     @SuppressWarnings("deprecation")
     public void scanLeDevice(final boolean enable) {
         if (enable) {
             mHandler.postDelayed(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void run() {
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);

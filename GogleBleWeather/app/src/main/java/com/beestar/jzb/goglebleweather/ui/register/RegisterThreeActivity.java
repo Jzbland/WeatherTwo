@@ -1,7 +1,9 @@
 package com.beestar.jzb.goglebleweather.ui.register;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,7 +11,7 @@ import android.widget.ImageView;
 import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.ui.BaseActivity;
 import com.beestar.jzb.goglebleweather.ui.MainActivity;
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class RegisterThreeActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView mBackRegistTwo;
@@ -17,6 +19,7 @@ public class RegisterThreeActivity extends BaseActivity implements View.OnClickL
      * 立即登录
      */
     private Button mTurnLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

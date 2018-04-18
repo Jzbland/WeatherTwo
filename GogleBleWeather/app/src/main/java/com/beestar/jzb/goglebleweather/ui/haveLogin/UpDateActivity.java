@@ -26,14 +26,14 @@ import com.beestar.jzb.goglebleweather.Service.MyServiceBlueTooth;
 import com.beestar.jzb.goglebleweather.bean.BleVersionBean;
 import com.beestar.jzb.goglebleweather.bean.DeviceBean;
 import com.beestar.jzb.goglebleweather.gen.DeviceBeanDao;
-import com.beestar.jzb.goglebleweather.utils.RestartAPPTool;
+import com.beestar.jzb.goglebleweather.ui.BaseActivity;
 import com.beestar.jzb.goglebleweather.utils.URL;
 import com.tsy.sdk.myokhttp.response.DownloadResponseHandler;
 import com.tsy.sdk.myokhttp.response.GsonResponseHandler;
 
 import java.io.File;
-
-public class UpDateActivity extends AppCompatActivity implements View.OnClickListener{
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+public class UpDateActivity extends BaseActivity implements View.OnClickListener{
     private static String filesDir = Environment.getExternalStorageDirectory() + "/AMyWeather";
     private static String TAG="UpDateActivity";
     private final int REQUESTCODE = 101;
@@ -49,7 +49,7 @@ public class UpDateActivity extends AppCompatActivity implements View.OnClickLis
             if (intent.getAction().equals(MyServiceBlueTooth.HAVEGETVISION)){
                 vison = intent.getStringExtra("vison");
                 vison_view.setText("当前版本号为："+vison);
-                Log.i("jzb", "onReceive: 获取下载地址_____");
+                Log.i("jzb", "onReceive: 获取下载地址---");
                 getVisonOfService();
 
             }else if (intent.getAction().equals(MyServiceBlueTooth.HAVEERROR)){
@@ -76,7 +76,6 @@ public class UpDateActivity extends AppCompatActivity implements View.OnClickLis
                 }else {
                     progress_text.setText("请勿进行其他操作正在升级固件请稍候..."+progress_int+"%");
                 }
-
             }
         }
     };
@@ -93,7 +92,6 @@ public class UpDateActivity extends AppCompatActivity implements View.OnClickLis
         registerReceiver(mReceiver,getInFilter());
         initView();
         creatFile();
-
         deviceBeanDao = MyApp.getContext().getDaoSession().getDeviceBeanDao();
         unique = deviceBeanDao.queryBuilder().where(DeviceBeanDao.Properties.IsChoose.eq(true)).build().unique();
 
@@ -115,7 +113,6 @@ public class UpDateActivity extends AppCompatActivity implements View.OnClickLis
                 creatFile();
             } else {
                 //用户不同意
-
             }
         }
     }
@@ -152,7 +149,7 @@ public class UpDateActivity extends AppCompatActivity implements View.OnClickLis
                         if (response.getRtn_code()==0){
                             Log.i("jzb", "onSuccess: 获取版本号onSuccess");
                             if (vison!=null){
-                                if (response.getVersion().equals(vison)){
+                                if (("v_"+response.getVersion()).equals(vison)){
                                     vison_view.setText("当前为最新版本");
                                     update_button.setClickable(false);
                                 } else {
@@ -161,6 +158,8 @@ public class UpDateActivity extends AppCompatActivity implements View.OnClickLis
                                     drownloadUrl = response.getDownloadUrl();
                                     Log.i("jzb", "onSuccess: 下载地址"+drownloadUrl);
                                 }
+                            }else {
+                                vison_view.setText("当前设备不支持升级操作");
                             }
                         }
                     }
@@ -191,6 +190,7 @@ public class UpDateActivity extends AppCompatActivity implements View.OnClickLis
         super.onDestroy();
         unregisterReceiver(mReceiver);
     }
+
 
     private IntentFilter getInFilter(){
         IntentFilter intentFilter = new IntentFilter();

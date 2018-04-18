@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:id="@+id/cancel_conn_havebind"
+            android:src="@mipmap/close_cot"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/connect_false"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/icon"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="配对失败"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/icon" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="该设备已经被绑定，请重置设备"
+            android:textColor="@color/textcolor2"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+    <!--<Button-->
+    <!--android:id="@+id/button_conn_false_next"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="42dp"-->
+    <!--android:layout_marginBottom="40dp"-->
+    <!--android:background="@android:color/holo_blue_dark"-->
+    <!--android:text="重新搜索设备"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--/>-->
+
+</LinearLayout>
+

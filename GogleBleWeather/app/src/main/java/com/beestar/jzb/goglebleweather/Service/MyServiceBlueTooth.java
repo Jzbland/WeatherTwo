@@ -188,7 +188,6 @@ public class MyServiceBlueTooth extends Service {
                     startService(it);
                 }
                 broadcastUpdate2(intentAction, gatt);
-                //sendData(gatt.getDevice().getAddress(),"FF");
             } else if (newState == BluetoothProfile.STATE_DISCONNECTING) {//3
                 L.d("Ble正在断开连接");
                 intentAction = ACTION_GATT_DISCONNECTING;
@@ -380,7 +379,7 @@ public class MyServiceBlueTooth extends Service {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
                 for(byte byteChar : data)
                     stringBuilder.append(String.format("%02X ", byteChar));
-                Log.i("info","------------------------------------------"+bytesToHexString(data));
+                Log.i("Service","------收到硬件发来的信息------"+bytesToHexString(data));
                 intent.putExtra(EXTRA_DATA, bytesToHexString(data) + "\n" + stringBuilder.toString());
                 Intent intent1=new Intent();
                 intent1.setAction(MYSENDDATA);
@@ -393,6 +392,9 @@ public class MyServiceBlueTooth extends Service {
 
                 }else if (bytesToHexString(data).contains("FF")|| bytesToHexString(data).contains("ff")){
                     sendData(gatt.getDevice().getAddress(),m_szImei);
+                }else if (bytesToHexString(data).contains("ef")||bytesToHexString(data).contains("EF")){
+                    Log.i("service", "broadcastUpdate:  ========ef=========");
+//                    broadcastUpdate2(BING_SUCCESS,gatt);
                 }
             }
         }
@@ -509,11 +511,7 @@ public class MyServiceBlueTooth extends Service {
         connectBlueGatt.add(mBluetoothGatt);
         return true;
     }
-    private void broadcastUpdate(final String action, final String address) {
-        final Intent intent = new Intent(action);
-        intent.putExtra("address", address);
-        sendBroadcast(intent);
-    }
+
     private void broadcastUpdate2(final String action, final BluetoothGatt gatt) {
         final Intent intent = new Intent(action);
         intent.putExtra("device",gatt.getDevice());
@@ -526,24 +524,8 @@ public class MyServiceBlueTooth extends Service {
         sendBroadcast(intent);
     }
 
-    /**
-     * 获取已连接的蓝牙设备列表
-     * @return
-     */
-    public List<BluetoothDevice> getConnectDevices() {
-        if (mBluetoothManager == null) return null;
-        return mBluetoothManager.getConnectedDevices(BluetoothProfile.GATT);
-    }
-    public List<BluetoothDevice> getConnectDevice(){
-        if (mBluetoothManager == null) return null;
-        return mBluetoothManager.getConnectedDevices(BluetoothProfile.GATT);
-    }
-    public void getConnectedDevice(){
-        mOnBlueToothConnectDeviceListener.OnBluetoothConnectList(getConnectDevice());
-    }
-    public void getGattList(){
-        mOnBlueToothConnectGattListener.OnBlueToothGattList(connectBlueGatt);
-    }
+
+
     /**
      * Disconnects an existing connection or cancel a pending connection. The disconnection result
      * is reported asynchronously through the
@@ -568,8 +550,7 @@ public class MyServiceBlueTooth extends Service {
             Log.e(TAG, "BluetoothAdapter not initialized.2");
             return;
         }
-
-       blg_temp.disconnect();
+        blg_temp.disconnect();
     }
     /**
      * 写入数据
@@ -612,21 +593,31 @@ public class MyServiceBlueTooth extends Service {
                     bluetoothGattCharacteristic.setValue(bs[0],
                             BluetoothGattCharacteristic.FORMAT_UINT8, 0);
                     bluetoothGattCharacteristic.setValue(value);
-//                    bluetoothGattCharacteristic.setWriteType(BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE);
                     bool=blg_temp.writeCharacteristic(bluetoothGattCharacteristic);
                     Log.i("bool","bool："+bool);
-//                    if (!bool){
-//                        if (s.equals("FF")||s.equals("ff")){
+                    if (!bool){
+                        if (s.equals("FF")||s.equals("ff")){
 //                            new Handler().postDelayed(new Runnable() {
 //                                @Override
 //                                public void run() {
-//                                    writeValue(address,serviceUUID,characteristicUUID,hexStringToBytes("FF"));
+////                                    writeValue(address,serviceUUID,characteristicUUID,hexStringToBytes("FF"));
 //                                }
 //                            },2000);
-//                            Log.i(TAG, "writeValue: 发送value"+bytesToHexString(value));
-//                            writeValue(address,serviceUUID,characteristicUUID,hexStringToBytes("FF"));
-//                        }
-//                    }
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(2000);
+                                        writeValue(address,serviceUUID,characteristicUUID,hexStringToBytes("FF"));
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
+                            Log.i(TAG, "writeValue: 发送value"+bytesToHexString(value));
+
+                        }
+                    }
                 }
             }
         }
@@ -700,11 +691,13 @@ public class MyServiceBlueTooth extends Service {
             if (readCharacteristic!=null){
                 L.i("------已发送读通知---"+readCharacteristic.getUuid().toString());
                 setCharacteristicNotification(gatt.getDevice().getAddress(),readCharacteristic,true);
+
                 sendBroadcast(intent);
                 writeValue(gatt.getDevice().getAddress(),"ffe5", "ffe9", hexStringToBytes("FF"));
             }
         }
     }
+
     /**
      * Retrieves a list of supported GATT services on the connected device. This should be
      * invoked only after {@code BluetoothGatt#discoverServices()} completes successfully.
@@ -776,24 +769,7 @@ public class MyServiceBlueTooth extends Service {
 
     }
 
-    public void setOnConnectionStateChange(MyBlueToothInterface.OnConnectionStateChangeListener l){
-        mOnConnectionStateChange=l;
-    }
-    public void setOnDiscoverServiceListener(MyBlueToothInterface.OnDiscoverServiceListener l){
-        mOnDiscoverServiceListener=l;
-    }
-    public void setmOnBleSendToPhoneDataListener(MyBlueToothInterface.OnBleSendToPhoneDataListener l){
-        mOnBleSendToPhoneDataListener=l;
-    }
-    public void setmOnBlueToothConnectDeviceListener(MyBlueToothInterface.OnBlueToothConnectDeviceListener l){
-        mOnBlueToothConnectDeviceListener=l;
-    }
-    public void setmOnBlueToothServiceDiscoverLister(MyBlueToothInterface.OnBlueToothServiceDiscoverLister l){
-        mOnBlueToothServiceDiscoverLister=l;
-    }
-    public void setmOnBlueToothConnectGattListener(MyBlueToothInterface.OnBlueToothConnectGattListener l){
-        mOnBlueToothConnectGattListener=l;
-    }
+
     public String bytesToHexString(byte[] src) {
         StringBuilder stringBuilder = new StringBuilder("");
         if (src == null || src.length <= 0) {
@@ -852,6 +828,7 @@ public class MyServiceBlueTooth extends Service {
                 }
 
             }else if (intent.getAction().equals(RECCONECT)){
+                Log.i(TAG, "onReceive: 重连");
                 String address = intent.getStringExtra("address");
                 connect(address);
             }else if (intent.getAction().equals(DISCONNECTED)){

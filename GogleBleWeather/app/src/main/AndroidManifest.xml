@@ -5,10 +5,12 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -57,10 +59,10 @@
             android:name=".Service.MyServiceBlueTooth"
             android:enabled="true"
             android:exported="true" />
-        <service android:name=".Service.KillSelfService"
+        <service
+            android:name=".Service.KillSelfService"
             android:enabled="true"
-            android:exported="true"
-            />
+            android:exported="true" />
 
         <receiver android:name=".Service.MyBroadCastReciver">
             <intent-filter>
@@ -70,11 +72,12 @@
                 <action android:name="com.weather.HAVEFINDSERVICE" />
                 <action android:name="com.example.UPDATASTEP" />
             </intent-filter>
+
         </receiver>
 
         <activity
             android:name=".ui.MainActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
 
         <service
             android:name="com.baidu.location.f"
@@ -83,7 +86,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="KSW8zmOC4N9KkRv1hKn3EeDGGHME9N2G" /> <!-- //key:开发者申请的Key -->
+            android:value="aIG0xx4fLTrSRazEZdG5yL0VYR1xxXlG" /> <!-- //key:开发者申请的Key -->
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.register.RegisterActivity_step_one" />
         <activity android:name=".ui.haveLogin.NoDisturbActivity" />
@@ -108,7 +111,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.DataLineActivity"></activity>
+        <activity android:name=".ui.DataLineActivity" />
+        <activity android:name=".ui.register.WebActivity"></activity>
     </application>
 
 </manifest>

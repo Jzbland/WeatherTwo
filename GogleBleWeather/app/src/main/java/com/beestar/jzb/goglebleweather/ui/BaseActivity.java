@@ -2,8 +2,10 @@ package com.beestar.jzb.goglebleweather.ui;
 
 import android.Manifest;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,7 +14,7 @@ import com.beestar.jzb.goglebleweather.R;
 import com.beestar.jzb.goglebleweather.utils.ActivityController;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BaseActivity extends AppCompatActivity {
 
     @Override

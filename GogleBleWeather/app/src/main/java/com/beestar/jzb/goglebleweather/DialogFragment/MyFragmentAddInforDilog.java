@@ -116,7 +116,7 @@ public class MyFragmentAddInforDilog extends DialogFragment implements View.OnCl
                 mInformation.setText("雨伞");
                 break;
             case R.id.pack:
-                mInformation.setText("书包");
+                mInformation.setText("背包");
                 break;
             case R.id.other:
                 mInformation.setText("其他");

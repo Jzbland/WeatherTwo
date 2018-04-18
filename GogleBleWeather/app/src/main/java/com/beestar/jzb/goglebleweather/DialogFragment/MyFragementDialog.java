@@ -23,7 +23,7 @@ public class MyFragementDialog extends DialogFragment{
     public static MyFragementDialog newInstance(String title){
         MyFragementDialog instance=new MyFragementDialog();
         Bundle arg=new Bundle();
-        arg.putString("name",title);
+        arg.putString("name_fd",title);
         instance.setArguments(arg);
         return instance;
     }
@@ -32,7 +32,7 @@ public class MyFragementDialog extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmentdialog_binding, container);
         name_fd = ((TextView) view.findViewById(R.id.bluetooth_name_fd));
-        name_fd.setText(getArguments().getString("name"));
+        name_fd.setText(getArguments().getString("name_fd"));
         view.findViewById(R.id.imageButton_cancle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

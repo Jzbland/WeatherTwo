@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +41,7 @@ import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class AntiLostActivity extends BaseActivity implements View.OnClickListener ,View.OnTouchListener,MyFragmentEditBlueToothDialog.OnEditBlueToothDialogListener{
 
     private ImageView mBack;
@@ -114,6 +116,7 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
         }
     };
     BroadcastReceiver mReceiver=new BroadcastReceiver() {
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
         @Override
         public void onReceive(Context context, Intent intent) {
             Message message=new Message();
@@ -181,8 +184,10 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
         }
     };
     private TextView eemptyView;
+    private ImageView antilost_call_img;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,6 +230,7 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
 //            }
 //        });
 
+
     }
 
     private void initView() {
@@ -263,8 +269,10 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
         mAdd.setOnClickListener(this);
         eemptyView = ((TextView) findViewById(R.id.emptyView));
         mDeviceList.setEmptyView(eemptyView);
+        antilost_call_img = ((ImageView) findViewById(R.id.antilost_call_img));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -301,10 +309,12 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
                     if (!flagcall){
                         sendData(deviceBean.getMac(),"AA");
                         mCallButton.setText("取消");
+                        antilost_call_img.setVisibility(View.VISIBLE);
                         flagcall=true ;
                     }else {
                         sendData(deviceBean.getMac(),"AB");
                         mCallButton.setText("呼叫");
+                        antilost_call_img.setVisibility(View.GONE);
                         flagcall=false ;
                     }
 
@@ -380,14 +390,16 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    public void sendData(String address,String data){
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void sendData(String address, String data){
         Intent intent=new Intent();
         intent.setAction(MyServiceBlueTooth.SEND_DATA);
         intent.putExtra("address",address);
         intent.putExtra("data",data);
         sendBroadcast(intent);
     }
-    public void updataName(String address,String name){
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void updataName(String address, String name){
         Intent intent=new Intent();
         intent.setAction(MyServiceBlueTooth.UPDATA_NAME);
 //        intent.setAction(MyServiceBlueTooth.UPDATA_NAMESUCCESS);
@@ -397,6 +409,7 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onResume() {
         super.onResume();
@@ -436,6 +449,7 @@ public class AntiLostActivity extends BaseActivity implements View.OnClickListen
         unregisterReceiver(mReceiver);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private IntentFilter getFilter() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(MyServiceBlueTooth.MY_DATA);

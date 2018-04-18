@@ -1,6 +1,12 @@
 package com.beestar.jzb.goglebleweather.ui.setting;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +22,7 @@ import com.beestar.jzb.goglebleweather.utils.SPUtils;
 import com.beestar.jzb.goglebleweather.utils.URL;
 import com.google.gson.Gson;
 import com.tsy.sdk.myokhttp.response.GsonResponseHandler;
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class ChangePwdActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView mBack;
@@ -37,6 +43,7 @@ public class ChangePwdActivity extends BaseActivity implements View.OnClickListe
      */
     private Button mSubmitPwd;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,76 @@ public class ChangePwdActivity extends BaseActivity implements View.OnClickListe
         mNewPwdNext = (EditText) findViewById(R.id.new_pwd_next);
         mSubmitPwd = (Button) findViewById(R.id.submit_pwd);
         mSubmitPwd.setOnClickListener(this);
+
+        mSubmitPwd.setClickable(false);
+        mSubmitPwd.setBackgroundColor(Color.rgb(137,137,137));
+
+        mNewPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!TextUtils.isEmpty(mOldPwd.getText())&&!TextUtils.isEmpty(mNewPwd.getText())&& !TextUtils.isEmpty(mNewPwdNext.getText())){
+                    mSubmitPwd.setClickable(true);
+
+                }else {
+                    mSubmitPwd.setClickable(false);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        mOldPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!TextUtils.isEmpty(mOldPwd.getText())&&!TextUtils.isEmpty(mNewPwd.getText())&& !TextUtils.isEmpty(mNewPwdNext.getText())){
+                    mSubmitPwd.setClickable(true);
+
+                }else {
+                    mSubmitPwd.setClickable(false);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        mNewPwdNext.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!TextUtils.isEmpty(mOldPwd.getText())&&!TextUtils.isEmpty(mNewPwd.getText())&& !TextUtils.isEmpty(mNewPwdNext.getText())){
+                    mSubmitPwd.setClickable(true);
+
+                }else {
+                    mSubmitPwd.setClickable(false);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
@@ -61,25 +138,33 @@ public class ChangePwdActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.submit_pwd:
-                MyApp.getContext().getMyOkHttp().post()
-                        .url(URL.url+URL.url_change)
-                        .jsonParams(new Gson().toJson(new ChangePwd((String)SPUtils.get(MyApp.getContext(),"iphone",""),mOldPwd.getText().toString().trim(),
-                                mNewPwd.getText().toString().trim(),mSubmitPwd.getText().toString().trim()) ))
-                        .tag(this)
-                        .enqueue(new GsonResponseHandler<ReturnBean>() {
-                            @Override
-                            public void onFailure(int statusCode, String error_msg) {
-                                Toast.makeText(getApplicationContext(),error_msg,Toast.LENGTH_SHORT).show();
-                            }
+                if (!TextUtils.isEmpty(mNewPwd.getText())&&!TextUtils.isEmpty(mNewPwdNext.getText())){
+                    if (mNewPwd.getText().toString().trim().equals(mNewPwdNext.getText().toString().trim())){
+                        MyApp.getContext().getMyOkHttp().post()
+                                .url(URL.url+URL.url_change)
+                                .jsonParams(new Gson().toJson(new ChangePwd((String)SPUtils.get(MyApp.getContext(),"iphone",""),mOldPwd.getText().toString().trim(),
+                                        mNewPwd.getText().toString().trim(),mNewPwdNext.getText().toString().trim()) ))
+                                .tag(this)
+                                .enqueue(new GsonResponseHandler<ReturnBean>() {
+                                    @Override
+                                    public void onFailure(int statusCode, String error_msg) {
+                                        Toast.makeText(getApplicationContext(),error_msg,Toast.LENGTH_SHORT).show();
+                                    }
 
-                            @Override
-                            public void onSuccess(int statusCode, ReturnBean response) {
-                                if (response.getRtn_code()==0){
-                                    Toast.makeText(getApplicationContext(),response.getMsg(),Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                finish();
+                                    @Override
+                                    public void onSuccess(int statusCode, ReturnBean response) {
+                                        if (response.getRtn_code()==0){
+                                            Toast.makeText(getApplicationContext(),response.getMsg(),Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                        finish();
+                    }else {
+                        Toast.makeText(ChangePwdActivity.this,"两次密码不一致",Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
                 break;
         }
     }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    >
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="18sp"
+        android:maxLength="5"
+        android:hint="姓名"
+        android:textColor="@android:color/black"
+        android:textColorHint="#efefef"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text3"
+        android:id="@+id/change_BlueName"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="确定"
+                android:id="@+id/submit"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:background="@android:color/holo_green_dark"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:id="@+id/cancle"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="20dp"
+                android:background="@android:color/holo_green_dark"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
